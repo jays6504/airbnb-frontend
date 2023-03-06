@@ -5,23 +5,29 @@ import { storageService } from './async-storage.service'
 import { utilService } from './util.service'
 
 const STAY_DB_KEY = 'stayDB'
-var gStays = require('../../assets/data/minified-stays.json') || null
+var gStays = require('../../assets/data/minified-stays.json')
+
+console.log('gStays:', gStays)
 
 _createStays()
 
-export const stayService = { query }
+export const stayService = { query, getDefaultFilter }
 
-function query(filterBy = getDefaultFilter(), staysToDisplay = 60) {
+function query(filterBy: IFilterBy = getDefaultFilter(), staysToDisplay: number = 60) {
     return storageService.query(STAY_DB_KEY, staysToDisplay)
 }
 
-function getDefaultFilter() {
+function getDefaultFilter(): IFilterBy {
     return {
+        destination: '',
+        adults: 0,
+        children: 0,
+        infants: 0,
+        pets: 0,
+        startDate: null,
+        endDate: null,
         labels: [],
-        whereTo: '',
-        checkIn: null,
-        checkOut: null,
-        guests: { adults: null, children: null, infants: null, pets: null },
+        guests: 0,
     }
 }
 

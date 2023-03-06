@@ -13,6 +13,7 @@ export const StayList: React.FC<IListProps> = ({ stays, onAddToWishlist }) => {
     const childProps = (stay: IStayPreview) => {
         return { stay, onAddToWishlist }
     }
+    if (!stays || !stays.length) return <div>loading list...</div>
     return (
         <section className='stay-list'>
             {stays.map(stay => (

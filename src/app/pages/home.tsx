@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { StayList } from './cmps/stay-list'
 import { StayMap } from './cmps/stay-map'
 import { IStayPreview } from '../interfaces/stay'
 import { FaMap } from 'react-icons/fa'
 import { FaListUl } from 'react-icons/fa'
-import { stayService } from '../services/stay.service'
-
-const stays: IStayPreview[] = []
+import { loadStays } from '../store/stay/stay.actions'
+import { RootState } from '../store/store'
 
 interface ChildProps {
     stays: IStayPreview[]
@@ -14,13 +14,15 @@ interface ChildProps {
 }
 
 export function Home() {
-    const [stays, setStays] = useState([])
-    // const stays = useSelector(storeState => storeState.stayModule.stays)
+    // const [stays, setStays] = useState([])
+    const stays = useSelector((storeState: RootState) => storeState.stayModule.stays)
     // const isLoading = useSelector(storeState => storeState.stayModule.isLoading)
     // const filterBy = useSelector(storeState => storeState.stayModule.filterBy)
     const [isMapView, setIsMapView] = useState(false)
 
-    useEffect(() => {}, [])
+    useEffect(() => {
+        loadStays()
+    }, [])
 
     function onAddToWishlist(): void {
         console.log('Todo:add to wishlist')
