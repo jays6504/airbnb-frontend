@@ -5,7 +5,6 @@ export interface IFilter {
 }
 export interface IFilterBy {
     [key: string]: string | number | Date | null | string[]
-
     destination: string
     adults: number
     children: number

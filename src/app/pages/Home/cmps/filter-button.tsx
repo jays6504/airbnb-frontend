@@ -1,3 +1,17 @@
+import { useState } from 'react'
+import { BiSliderAlt } from 'react-icons/bi'
+import { OverlayScreen } from '../../../cmps/overlay-screen'
+
 export function FilterButton() {
-    return <button className='filter-button btn medium rounded'>Filters</button>
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    console.log('isModalOpen:', isModalOpen)
+    return (
+        <>
+            <OverlayScreen isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
+            <button onClick={() => setIsModalOpen(true)} className='filter-button'>
+                <BiSliderAlt />
+                Filters
+            </button>
+        </>
+    )
 }

@@ -4,7 +4,7 @@ import { IFilterBy } from '../interfaces/filter'
 import { RootState } from '../store/store'
 import { AppLogo } from './app-logo'
 import { OverlayScreen } from './overlay-screen'
-import { SearchExpanded } from './search-expanded'
+import { SearchForm } from './search-form'
 import { SearchTeaser } from './search-teaser'
 import { UserMenu } from './user-menu'
 
@@ -54,7 +54,7 @@ export function AppHeader() {
                     <SearchTeaser {...searchProps} />
                     <UserMenu />
                 </div>
-                <SearchExpanded {...searchProps} />
+                <SearchForm {...searchProps} />
             </header>
         </div>
     )
