@@ -18,7 +18,7 @@ export function Home() {
     const stays = useSelector((storeState: RootState) => storeState.stayModule.stays)
     const isLoading = useSelector((storeState: RootState) => storeState.stayModule.isLoading)
     const filterBy = useSelector((storeState: RootState) => storeState.stayModule.filterBy)
-    const [isMapView, setIsMapView] = useState(false)
+    const [isMapView, setIsMapView] = useState<boolean>(false)
 
     useEffect(() => {
         loadStays(filterBy, 20)
