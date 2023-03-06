@@ -5,7 +5,7 @@ import { RootState } from '../store/store'
 import { AppLogo } from './app-logo'
 import { OverlayScreen } from './overlay-screen'
 import { SearchExpanded } from './search-expanded'
-import { SearchTeaser } from './search-tease'
+import { SearchTeaser } from './search-teaser'
 import { UserMenu } from './user-menu'
 
 export interface ISearchProps {
@@ -13,6 +13,7 @@ export interface ISearchProps {
     onChangeModule: (module: string) => void
     filterBy: IFilterBy
     isExpandedClass: string
+    onChangeIsExpanded: (value: boolean) => void
 }
 
 export function AppHeader() {
@@ -31,6 +32,7 @@ export function AppHeader() {
 
     function onChangeIsExpanded(value: boolean) {
         setIsExpanded(value)
+        if (!value) setActiveModule(null)
     }
     // Props
     const searchProps = {
@@ -38,13 +40,14 @@ export function AppHeader() {
         onChangeModule,
         filterBy,
         isExpandedClass,
+        onChangeIsExpanded,
     }
     // Template
     return (
-        <>
+        <div className='app-header'>
             <OverlayScreen isOpen={isExpanded} setIsOpen={onChangeIsExpanded} />
-            <header className={`app-header ${isExpandedClass}`}>
-                <div className='wrapper main-layout'>
+            <header className={`${isExpandedClass} main-layout`}>
+                <div className='wrapper flex align-center justify-between'>
                     <div className='logo'>
                         <AppLogo />
                     </div>
@@ -53,6 +56,6 @@ export function AppHeader() {
                 </div>
                 <SearchExpanded {...searchProps} />
             </header>
-        </>
+        </div>
     )
 }

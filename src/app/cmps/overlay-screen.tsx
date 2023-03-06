@@ -4,5 +4,5 @@ interface IOverlayProps {
 }
 
 export function OverlayScreen({ isOpen, setIsOpen }: IOverlayProps) {
-    return <div onClick={() => setIsOpen(!isOpen)} className={`overlay-screen ${isOpen ? 'open' : ''}`}></div>
+    return <div onClick={() => setIsOpen(false)} className={`overlay-screen ${isOpen ? 'open' : ''}`}></div>
 }
