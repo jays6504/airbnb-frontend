@@ -11,8 +11,15 @@ _initStays()
 
 export const stayService = { query, getDefaultFilter }
 
-function query(filterBy: IFilterBy = getDefaultFilter(), staysToDisplay: number = AMOUNT_TO_DISPLAY) {
-    return storageService.query(STAY_DB_KEY, staysToDisplay)
+async function query(filterBy: IFilterBy = getDefaultFilter(), staysToDisplay: number = AMOUNT_TO_DISPLAY) {
+    try {
+        let stays = (await storageService.query(STAY_DB_KEY, staysToDisplay)) as IStay[]
+        let filteredStays = _filter(stays, filterBy)
+        let stayPreviews: IStayPreview[] = filteredStays.map((stay: IStay) => _arrangePreviewData(stay))
+        return stayPreviews
+    } catch (err) {
+        console.log('err:', err)
+    }
 }
 
 function getDefaultFilter(): IFilterBy {
@@ -43,7 +50,7 @@ function _initStays() {
     let storeStays = localStorage.getItem(STAY_DB_KEY)
     stays = storeStays ? JSON.parse(storeStays) : []
     if (!stays || !stays.length) {
-        stays = gStays.map((s: IStay) => <IStayPreview>_arrangePreviewData(s))
+        stays = gStays
         localStorage.setItem(STAY_DB_KEY, JSON.stringify(stays))
     }
 }

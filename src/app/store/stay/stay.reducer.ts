@@ -1,6 +1,5 @@
 import { IFilterBy } from '../../interfaces/filter'
 import { IStayPreview } from '../../interfaces/stay'
-import { IAction } from '../../interfaces/store'
 import { stayService } from '../../services/stay.service'
 
 // Stay state:
