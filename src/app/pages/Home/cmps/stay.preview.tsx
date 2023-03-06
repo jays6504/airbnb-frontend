@@ -1,5 +1,5 @@
 import React from 'react'
-import { IStayPreview } from '../../interfaces/stay'
+import { IStayPreview } from '../../../interfaces/stay'
 import { ImgCarousel } from './img-carousel'
 import { FaStar } from 'react-icons/fa'
 interface IPreviewProps {

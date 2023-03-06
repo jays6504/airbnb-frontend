@@ -3,7 +3,7 @@ import React from 'react'
 import { Route } from 'react-router'
 import { Routes } from 'react-router-dom'
 import { AppHeader } from './cmps/app-header'
-import { Home } from './pages/home'
+import { Home } from './pages/Home/home'
 
 function App() {
     return (

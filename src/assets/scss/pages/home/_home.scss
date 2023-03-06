@@ -1,6 +1,17 @@
 .home {
     grid-column: 1/-1;
     position: relative;
+
+    .filters {
+        padding-top: 0.5rem;
+        position: sticky;
+        top: $header-height-desktop;
+        background-color: #fff;
+        z-index: 1;
+    }
+    .stay-index {
+        padding: 1.5rem 0;
+    }
     .view-toggle-btn {
         cursor: pointer;
         position: fixed;

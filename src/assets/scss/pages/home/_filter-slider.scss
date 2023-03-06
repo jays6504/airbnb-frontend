@@ -1,0 +1,91 @@
+.filter-slider {
+    flex: 1;
+    display: flex;
+    gap: 3rem;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    position: relative;
+    padding-inline-end: 3rem;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    &::after {
+        content: '';
+        position: absolute;
+        z-index: 2;
+        right: 0;
+        background: linear-gradient(to right, #ffffff00, rgb(255, 255, 255));
+        height: 100%;
+        width: 12rem;
+        pointer-events: none;
+    }
+    .filter-widget {
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        transition: 0.2s all cubic-bezier(0.075, 0.82, 0.165, 1);
+        position: relative;
+        padding: 1rem 0;
+        &::after {
+            content: '';
+            width: 100%;
+            position: absolute;
+            bottom: 0rem;
+            z-index: 2;
+            height: 2px;
+            opacity: 0;
+            transition: 0.2s all cubic-bezier(0.075, 0.82, 0.165, 1);
+        }
+        &:hover::after {
+            opacity: 1;
+            background-color: $gray-D;
+        }
+        img {
+            margin-bottom: 0.5rem;
+            max-width: 22px;
+        }
+        p {
+            margin-top: 0.25rem;
+            min-width: max-content;
+            color: $gray-700;
+            font-size: 0.85em;
+            line-height: 1;
+        }
+        &:hover {
+            p {
+                color: $base-text-color;
+            }
+            &::before {
+            }
+        }
+        &:active {
+            transform: scale(0.95);
+        }
+        &.active::after {
+            opacity: 1;
+            background-color: $gray-500;
+        }
+    }
+    img {
+        max-height: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    p {
+        color: $gray-600;
+        width: max-content;
+    }
+}
+.filters {
+    max-width: 100%;
+    .wrapper {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 1.5rem;
+        align-items: center;
+    }
+    .filter-button {
+        flex: 1;
+    }
+}

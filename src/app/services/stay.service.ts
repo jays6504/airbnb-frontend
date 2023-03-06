@@ -1,4 +1,4 @@
-import { IFilterBy } from '../interfaces/filter'
+import { IFilter, IFilterBy } from '../interfaces/filter'
 import { IReview } from '../interfaces/review'
 import { IStayPreview, IStay } from '../interfaces/stay'
 import { storageService } from './async-storage.service'
@@ -7,9 +7,10 @@ import { utilService } from './util.service'
 const AMOUNT_TO_DISPLAY = 20
 const STAY_DB_KEY = 'stayDB'
 var gStays: IStay[] = require('../../assets/data/minified-stays.json')
+var gFilters: IFilter[] = require('../../assets/data/filters.json')
 _initStays()
 
-export const stayService = { query, getDefaultFilter }
+export const stayService = { query, getDefaultFilter, loadFilters }
 
 async function query(filterBy: IFilterBy = getDefaultFilter(), staysToDisplay: number = AMOUNT_TO_DISPLAY) {
     try {
@@ -34,6 +35,10 @@ function getDefaultFilter(): IFilterBy {
         labels: [],
         guests: 0,
     }
+}
+
+function loadFilters(): IFilter[] {
+    return [...gFilters]
 }
 
 function _filter(stays: IStay[], filterBy: IFilterBy) {

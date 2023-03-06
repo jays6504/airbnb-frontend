@@ -1,5 +1,5 @@
 import React from 'react'
-import { IStayPreview } from '../../interfaces/stay'
+import { IStayPreview } from '../../../interfaces/stay'
 import { StayPreview } from './stay.preview'
 
 interface IListProps {

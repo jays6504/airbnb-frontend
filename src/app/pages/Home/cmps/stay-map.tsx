@@ -1,4 +1,4 @@
-import { IStayPreview } from '../../interfaces/stay'
+import { IStayPreview } from '../../../interfaces/stay'
 
 interface Props {
     stays: IStayPreview[]
