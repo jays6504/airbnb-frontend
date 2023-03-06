@@ -1,6 +1,24 @@
 import { IFilterBy } from '../interfaces/filter'
 import { ISearchProps } from './app-header'
+import { FaSearch } from 'react-icons/fa'
 
 export function SearchTeaser({ activeModule, onChangeModule, filterBy, isExpandedClass }: ISearchProps) {
-    return <section className={`search-teaser ${isExpandedClass}`}>Hello from SearchTeaser</section>
+    let titles: { [key: string]: string } = {
+        'location': filterBy.destination ? filterBy.destination : 'Anywhere',
+        'start-date': filterBy.startDate ? filterBy.startDate.toString() : 'Any week',
+        'guests': filterBy.adults ? `${filterBy.adults} guests` : 'Add guests',
+    }
+
+    return (
+        <section className={`search-teaser ${isExpandedClass}`}>
+            {Object.keys(titles).map(title => (
+                <button onClick={() => onChangeModule(title)}>
+                    <span className={`${title !== 'guests' ? 'divider font-medium' : ''}`}> {titles[title]} </span>
+                </button>
+            ))}
+            <button className='search-btn small btn-icon primary circled'>
+                <FaSearch />
+            </button>
+        </section>
+    )
 }
