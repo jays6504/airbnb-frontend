@@ -12,6 +12,9 @@
         justify-content: space-between;
         .rate {
             grid-area: rate;
+            span.flex {
+                gap: 0.5rem;
+            }
         }
         .name {
             grid-area: row1;
@@ -21,6 +24,9 @@
             color: $gray-700;
         }
         .price {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
             grid-area: row3;
             margin-top: 0.5rem;
             .price-suffix {

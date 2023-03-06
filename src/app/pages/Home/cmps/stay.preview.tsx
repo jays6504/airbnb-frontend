@@ -19,8 +19,10 @@ export const StayPreview: React.FC<IPreviewProps> = ({ stay, isMapView, onAddToW
                 <ImgCarousel imgUrls={stay.imgUrls} />
                 <div className='meta'>
                     <p className='rate'>
-                        <FaStar />
-                        {stay.avgRate}
+                        <span className='flex align-center'>
+                            <FaStar />
+                            <span>{stay.avgRate}</span>
+                        </span>
                     </p>
                     <p className='name font-medium inline-clamp'>{stay.name}</p>
                     <p className='type'>{stay.type}</p>

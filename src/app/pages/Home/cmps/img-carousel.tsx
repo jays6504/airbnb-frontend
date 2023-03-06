@@ -81,10 +81,10 @@ export function ImgCarousel({ imgUrls }: { imgUrls: string[] }) {
                 className={`arrow-right ${currentImageIndex === imgUrls.length - 1 ? 'hidden' : ''}`}
                 onClick={handleNext}
             >
-                <BsChevronRight />
+                <BsChevronRight size={'.75rem'} />
             </div>
             <div className={`arrow-left ${currentImageIndex === 0 ? 'hidden' : ''}`} onClick={handlePrev}>
-                <BsChevronLeft />
+                <BsChevronLeft size={'.75rem'} />
             </div>
             <div className='dots-pagination'>
                 {imgUrls.map((_, idx) => (

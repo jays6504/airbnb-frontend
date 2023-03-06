@@ -1,3 +1,3 @@
 export function FilterButton() {
-    return <section className='filter-button'>Hello from FilterButton</section>
+    return <button className='filter-button btn medium rounded'>Filters</button>
 }

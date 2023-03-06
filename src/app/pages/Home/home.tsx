@@ -54,6 +54,7 @@ export function Home() {
     }
 
     function onFilterChange(label: string) {
+        //TODO : dispatch action to make store changes in filterBy
         console.log('label:', label)
     }
 

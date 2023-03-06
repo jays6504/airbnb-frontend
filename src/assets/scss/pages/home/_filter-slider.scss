@@ -19,6 +19,26 @@
         width: 12rem;
         pointer-events: none;
     }
+    .next-filters-btn {
+        cursor: pointer;
+        position: absolute;
+        z-index: 3;
+        right: 0.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 30px;
+        height: 30px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 55px;
+        border: 1px solid $gray-D;
+        background-color: #fff;
+        transition: transform 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+        &:hover {
+            transform: translateY(-50%) scale(1.1);
+        }
+    }
     .filter-widget {
         cursor: pointer;
         display: flex;
@@ -28,6 +48,7 @@
         transition: 0.2s all cubic-bezier(0.075, 0.82, 0.165, 1);
         position: relative;
         padding: 1rem 0;
+
         &::after {
             content: '';
             width: 100%;
@@ -67,14 +88,6 @@
             opacity: 1;
             background-color: $gray-500;
         }
-    }
-    img {
-        max-height: 1.5rem;
-        margin-bottom: 1rem;
-    }
-    p {
-        color: $gray-600;
-        width: max-content;
     }
 }
 .filters {
