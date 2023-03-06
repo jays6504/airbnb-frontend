@@ -1,30 +1,4 @@
 .img-carousel {
-    ul.carousel {
-        display: flex;
-        overflow-x: scroll;
-        scroll-snap-type: x mandatory;
-        scroll-behavior: smooth;
-        border-radius: 12px;
-        &::-webkit-scrollbar {
-            display: none;
-        }
-
-        li.carousel-item {
-            @include aspect-ratio($width: 20, $height: 19);
-            scroll-snap-align: start;
-            position: relative;
-            min-height: 100%;
-            min-width: 100%;
-
-            .carousel-image {
-                height: 100%;
-                width: 100%;
-                object-fit: cover;
-            }
-        }
-    }
-}
-.img-carousel {
     position: relative;
     z-index: 0;
 
@@ -91,36 +65,55 @@
     &:hover .arrow-right {
         opacity: 1;
     }
-}
 
-.img-carousel {
     .dots-pagination {
-        width: 100%;
         position: absolute;
-        bottom: 1rem;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 5px;
-        span {
-            width: 5px;
-            height: 5px;
-            background: #ffffff9c;
-            border-radius: 100px;
-            transition: transform 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+        gap: 4px;
+        z-index: 99;
+        > div {
+            display: inline-flex;
+            border-radius: 55px;
+            width: 6px;
+            height: 6px;
+            background-color: #ffffff7e;
             &.active {
-                animation: transformScale 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
-                background-color: #fff;
-                transform: scale(1.2);
-            }
-            @keyframes transformScale {
-                from {
-                    transform: scale(1);
-                }
-                to {
-                    transform: scale(1.3);
-                }
+                background-color: #ffffffe7;
             }
         }
+    }
+}
+.images-container {
+    z-index: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    background-color: #fff;
+    box-shadow: rgba(50, 50, 93, 0.023) 0px 6px 8px -2px, rgba(0, 0, 0, 0.1) 0px 3px 7px -3px;
+    overflow-x: scroll;
+    border-radius: px-to-rem(12px);
+    transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+    margin-bottom: 1.25rem;
+    position: relative;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    ::selection {
+        background-color: transparent;
+    }
+    .carousel-item-container {
+        @include aspect-ratio(20, 19);
+        min-height: 100%;
+        min-width: 100%;
+        scroll-snap-align: start;
+
+        overflow: hidden;
     }
 }
