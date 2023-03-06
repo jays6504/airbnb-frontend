@@ -8,9 +8,10 @@ import { FaListUl } from 'react-icons/fa'
 import { loadStays } from '../store/stay/stay.actions'
 import { RootState } from '../store/store'
 
-interface ChildProps {
+interface IChildProps {
     stays: IStayPreview[]
     onAddToWishlist: () => void
+    isMapView: boolean
 }
 
 export function Home() {
@@ -27,32 +28,37 @@ export function Home() {
         console.log('Todo:add to wishlist')
     }
 
-    const childProps: ChildProps = {
+    const childProps: IChildProps = {
         stays: stays,
         onAddToWishlist,
+        isMapView: isMapView,
     }
 
     function toggleMapView() {
         setIsMapView(prev => !prev)
     }
 
-    const btnToggleView = (): JSX.Element => {
+    const viewToggleBtn = (): JSX.Element => {
         let title = isMapView ? 'Show List' : 'Show Map'
         return (
-            <span className='flex align-center'>
-                {title}
+            <>
+                <span>{title}</span>
                 {isMapView ? <FaListUl /> : <FaMap />}
-            </span>
+            </>
         )
     }
 
     if (isLoading) return <div>Loading HOME...</div>
     return (
-        <section className='stay-index'>
-            {!isMapView ? <StayList {...childProps} /> : <StayMap {...childProps} />}
-            <button onClick={toggleMapView} className='btn-toggle-view'>
-                {btnToggleView()}
-            </button>
-        </section>
+        <div className='home'>
+            <section>Filters..</section>
+
+            <section className='stay-index main-layout'>
+                {!isMapView ? <StayList {...childProps} /> : <StayMap {...childProps} />}
+                <button onClick={toggleMapView} className='view-toggle-btn'>
+                    {viewToggleBtn()}
+                </button>
+            </section>
+        </div>
     )
 }

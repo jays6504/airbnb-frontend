@@ -5,15 +5,13 @@ import { StayPreview } from './stay.preview'
 interface IListProps {
     stays: IStayPreview[]
     onAddToWishlist: () => void
+    isMapView: boolean
 }
 
-export const StayList: React.FC<IListProps> = ({ stays, onAddToWishlist }) => {
-    console.log('stays:', stays)
-
+export const StayList: React.FC<IListProps> = ({ stays, onAddToWishlist, isMapView }) => {
     const childProps = (stay: IStayPreview) => {
-        return { stay, onAddToWishlist }
+        return { stay, onAddToWishlist, isMapView }
     }
-    if (!stays || !stays.length) return <div>loading list...</div>
     return (
         <section className='stay-list'>
             {stays.map(stay => (

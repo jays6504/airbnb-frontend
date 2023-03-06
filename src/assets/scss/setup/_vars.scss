@@ -48,3 +48,6 @@ $break-normal: 1120px;
 
 $padded-break-narrow: $break-narrow + $layoutPadding * 2;
 $padded-break-normal: $break-normal + $layoutPadding * 2;
+
+// easing
+$ease-in-out: cubic-bezier(0.22, 1, 0.36, 1);

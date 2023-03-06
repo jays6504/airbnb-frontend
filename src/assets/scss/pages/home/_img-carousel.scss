@@ -1,0 +1,126 @@
+.img-carousel {
+    ul.carousel {
+        display: flex;
+        overflow-x: scroll;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        border-radius: 12px;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        li.carousel-item {
+            @include aspect-ratio($width: 20, $height: 19);
+            scroll-snap-align: start;
+            position: relative;
+            min-height: 100%;
+            min-width: 100%;
+
+            .carousel-image {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+}
+.img-carousel {
+    position: relative;
+    z-index: 0;
+
+    .arrow-right {
+        right: 20px;
+    }
+    .arrow-left {
+        left: 20px;
+    }
+    .arrow-left,
+    .arrow-right {
+        transition: opacity 0.3s $ease-in-out;
+        opacity: 0;
+        z-index: 9;
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: max-content;
+        height: max-content;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        background-color: transparent;
+        border: 0;
+        outline: 0;
+
+        // Button bg definitions and states
+        &::before {
+            z-index: -1;
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin: auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            cursor: pointer;
+            width: 2rem;
+            height: 2rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 55px;
+            border: 0 0 0 1px transparent, 0 0 0 4px transparent, 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+            transition: transform 0.25s ease;
+            transform-origin: 0% 0%;
+        }
+
+        &:hover::before {
+            background-color: #fff;
+            transform: scale(1.05) translate(-50%, -50%);
+        }
+        &:active::before {
+            background-color: #fff;
+            transform: scale(0.95) translate(-50%, -50%);
+        }
+        &.disabled {
+            display: none;
+        }
+    }
+    &:hover .arrow-left,
+    &:hover .arrow-right {
+        opacity: 1;
+    }
+}
+
+.img-carousel {
+    .dots-pagination {
+        width: 100%;
+        position: absolute;
+        bottom: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        span {
+            width: 5px;
+            height: 5px;
+            background: #ffffff9c;
+            border-radius: 100px;
+            transition: transform 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+            &.active {
+                animation: transformScale 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+                background-color: #fff;
+                transform: scale(1.2);
+            }
+            @keyframes transformScale {
+                from {
+                    transform: scale(1);
+                }
+                to {
+                    transform: scale(1.3);
+                }
+            }
+        }
+    }
+}
