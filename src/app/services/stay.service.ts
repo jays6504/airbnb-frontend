@@ -4,16 +4,14 @@ import { IStayPreview, IStay } from '../interfaces/stay'
 import { storageService } from './async-storage.service'
 import { utilService } from './util.service'
 
+const AMOUNT_TO_DISPLAY = 20
 const STAY_DB_KEY = 'stayDB'
-var gStays = require('../../assets/data/minified-stays.json')
-
-console.log('gStays:', gStays)
-
-_createStays()
+var gStays: IStay[] = require('../../assets/data/minified-stays.json')
+_initStays()
 
 export const stayService = { query, getDefaultFilter }
 
-function query(filterBy: IFilterBy = getDefaultFilter(), staysToDisplay: number = 60) {
+function query(filterBy: IFilterBy = getDefaultFilter(), staysToDisplay: number = AMOUNT_TO_DISPLAY) {
     return storageService.query(STAY_DB_KEY, staysToDisplay)
 }
 
@@ -40,13 +38,13 @@ function _filter(stays: IStay[], filterBy: IFilterBy) {
     return filteredStays
 }
 
-function _createStays() {
+function _initStays() {
     let stays
     let storeStays = localStorage.getItem(STAY_DB_KEY)
     stays = storeStays ? JSON.parse(storeStays) : []
     if (!stays || !stays.length) {
         stays = gStays.map((s: IStay) => <IStayPreview>_arrangePreviewData(s))
-        localStorage.setItem(STAY_DB_KEY, JSON.stringify(gStays))
+        localStorage.setItem(STAY_DB_KEY, JSON.stringify(stays))
     }
 }
 

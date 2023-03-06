@@ -14,14 +14,13 @@ interface ChildProps {
 }
 
 export function Home() {
-    // const [stays, setStays] = useState([])
     const stays = useSelector((storeState: RootState) => storeState.stayModule.stays)
-    // const isLoading = useSelector(storeState => storeState.stayModule.isLoading)
-    // const filterBy = useSelector(storeState => storeState.stayModule.filterBy)
+    const isLoading = useSelector((storeState: RootState) => storeState.stayModule.isLoading)
+    const filterBy = useSelector((storeState: RootState) => storeState.stayModule.filterBy)
     const [isMapView, setIsMapView] = useState(false)
 
     useEffect(() => {
-        loadStays()
+        loadStays(filterBy, 20)
     }, [])
 
     function onAddToWishlist(): void {
@@ -47,7 +46,7 @@ export function Home() {
         )
     }
 
-    // if (!stays || !stays.length) return <div>Loading...</div>
+    if (isLoading) return <div>Loading HOME...</div>
     return (
         <section className='stay-index'>
             {!isMapView ? <StayList {...childProps} /> : <StayMap {...childProps} />}
