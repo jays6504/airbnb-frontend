@@ -1,0 +1,70 @@
+import { IFilterBy } from '../interfaces/filter'
+import { IReview } from '../interfaces/review'
+import { IStayPreview, IStay } from '../interfaces/stay'
+import { storageService } from './async-storage.service'
+import { utilService } from './util.service'
+
+const STAY_DB_KEY = 'stayDB'
+var gStays = require('../../assets/data/minified-stays.json') || null
+
+_createStays()
+
+export const stayService = { query }
+
+function query(filterBy = getDefaultFilter(), staysToDisplay = 60) {
+    return storageService.query(STAY_DB_KEY, staysToDisplay)
+}
+
+function getDefaultFilter() {
+    return {
+        labels: [],
+        whereTo: '',
+        checkIn: null,
+        checkOut: null,
+        guests: { adults: null, children: null, infants: null, pets: null },
+    }
+}
+
+function _filter(stays: IStay[], filterBy: IFilterBy) {
+    let filteredStays = stays
+    if (filterBy.labels.length) {
+        filteredStays = stays.filter(stay => stay.labels.some(label => filterBy.labels.includes(label)))
+    }
+
+    return filteredStays
+}
+
+function _createStays() {
+    let stays
+    let storeStays = localStorage.getItem(STAY_DB_KEY)
+    stays = storeStays ? JSON.parse(storeStays) : []
+    if (!stays || !stays.length) {
+        stays = gStays.map((s: IStay) => <IStayPreview>_arrangePreviewData(s))
+        localStorage.setItem(STAY_DB_KEY, JSON.stringify(gStays))
+    }
+}
+
+function _arrangePreviewData(stay: IStay): IStayPreview {
+    return {
+        _id: utilService.makeId(),
+        name: stay.name,
+        price: stay.price,
+        imgUrls: stay.imgUrls,
+        isSuperHost: stay.host.isSuperHost,
+        loc: stay.loc,
+        avgRate: _calcAvgRate(stay.reviews),
+        type: stay.type,
+    }
+}
+
+function _calcAvgRate(stayReviews: IReview[]): string {
+    if (!stayReviews.length) return '0'
+    let allRatesSum = stayReviews.reduce((acc, review) => {
+        const rates = Object.values(review.moreRate)
+        let ratesSum = 0
+        rates.forEach(r => (ratesSum += r))
+        acc += ratesSum / rates.length
+        return acc
+    }, 0)
+    return (allRatesSum / stayReviews.length).toFixed(2)
+}

@@ -1,0 +1,17 @@
+/* Setup */
+@import '../assets/scss/setup/_vars.scss';
+@import '../assets/scss/setup/_functions.scss';
+@import '../assets/scss/setup/_mixins.scss';
+@import '../assets/scss/setup/_typography.scss';
+
+/* Base */
+@import '../assets/scss/base/_reset.scss';
+@import '../assets/scss/base/_base.scss';
+@import '../assets/scss/base/_helpers.scss';
+@import '../assets/scss/base/_layout.scss';
+@import '../assets/scss/base/_buttons.scss';
+
+//**// COMPONENTS //**//
+// Common
+@import '../assets/scss/cmps/common/_app-header.scss';
+@import '../assets/scss/cmps/common/_search-expanded.scss';
