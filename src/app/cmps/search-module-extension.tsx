@@ -1,7 +1,16 @@
+import { DatePicker } from './date-picker'
+import { SearchRegions } from './search-regions'
+
 export function SearchModuleExtension({ activeModule }: { activeModule: string }) {
     const getModuleClass = () => {
-        if (activeModule === 'startDate' || activeModule === 'endDate') return 'datepicker'
-        return activeModule
+        if (activeModule === 'location') return 'pos-start'
+        else if (activeModule === 'guests') return 'pos-end'
+        else return ''
     }
-    return <section className={`search-module-extension ${getModuleClass()}`}>Hello from SearchModuleExtension</section>
+    const getModuleContent = () => {
+        if (activeModule === 'startDate' || activeModule === 'endDate') return <DatePicker />
+        else if (activeModule === 'location') return <SearchRegions />
+        else if (activeModule === 'guests') return <SearchRegions />
+    }
+    return <section className={`search-module-extension ${getModuleClass()}`}>{getModuleContent()}</section>
 }

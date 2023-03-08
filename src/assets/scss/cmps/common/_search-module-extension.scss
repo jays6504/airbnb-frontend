@@ -1,0 +1,18 @@
+.search-module-extension {
+    position: absolute;
+    min-width: 45%;
+    max-width: 60%;
+    display: flex;
+    bottom: -0.5rem;
+    background-color: #fff;
+    padding: 2.5rem;
+    transform: translateY(100%);
+    border-radius: 2rem;
+    z-index: 9;
+    &.pos-start {
+        left: 0;
+    }
+    &.pos-end {
+        right: 0;
+    }
+}
