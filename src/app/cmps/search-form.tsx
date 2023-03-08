@@ -1,6 +1,6 @@
 import { ISearchProps } from './app-header'
-import { FaSearch } from 'react-icons/fa'
 import React, { useEffect, useRef, useState } from 'react'
+import { Module } from './module'
 
 export function SearchForm({ activeModule, onChangeModule, filterBy, isExpandedClass }: ISearchProps) {
     const formRef = useRef<HTMLFormElement>(null)
@@ -22,23 +22,7 @@ export function SearchForm({ activeModule, onChangeModule, filterBy, isExpandedC
         { name: 'guests', label: 'Who', placeholder: 'Add guests' },
     ]
 
-    const getInputValues = (module: { name: string; placeholder: string }): string | number => {
-        const formatDate = (date: Date): string => {
-            // Shows like this: Mar 7
-            return date.toLocaleString('default', { month: 'short', day: 'numeric' })
-        }
-        if (module.name === 'startDate' && filterBy.startDate) return formatDate(filterBy.startDate)
-        else if (module.name === 'endDate' && filterBy.endDate) return formatDate(filterBy.endDate)
-        else if (module.name === 'location' && filterBy.destination) return filterBy.destination
-        else if (module.name === 'guests' && filterBy.guests) return filterBy.guests
-        else return ''
-    }
-
-    const handleClick = (ev: React.MouseEvent<HTMLLabelElement>, moduleName: string) => {
-        if (activeModule !== moduleName) onChangeModule(moduleName)
-    }
-
-    function handleBlur() {
+    function handleFormBlur() {
         if (!isMouseDown) {
             onChangeModule(null)
         }
@@ -58,7 +42,7 @@ export function SearchForm({ activeModule, onChangeModule, filterBy, isExpandedC
             onMouseUp={handleMouseUp}
             className={`search-form-container ${isExpandedClass} ${!activeModule ? 'blured' : ''}`}
         >
-            <form ref={formRef} onBlur={handleBlur} className='search-form'>
+            <form ref={formRef} onBlur={handleFormBlur} className='search-form'>
                 {modules.map(module => (
                     <div
                         className={`module-container ${module.name} ${
@@ -66,24 +50,14 @@ export function SearchForm({ activeModule, onChangeModule, filterBy, isExpandedC
                         }`}
                         key={`m-${module.name}`}
                     >
-                        <label className='module' onClick={ev => handleClick(ev, module.name)}>
-                            <span className='module-title'>{module.label}</span>
-                            <input
-                                type={'text'}
-                                name={module.name}
-                                readOnly={module.name !== 'location'}
-                                className={`module-selection`}
-                                defaultValue={getInputValues(module)}
-                                placeholder={module.placeholder}
-                            />
-                            <button className='module-reset-btn'>X</button>
-                        </label>
-                        {module.name === 'guests' && (
-                            <button className='form-search-btn' type='button'>
-                                <FaSearch />
-                                {activeModule && 'Search'}
-                            </button>
-                        )}
+                        <Module
+                            onChangeModule={onChangeModule}
+                            activeModule={activeModule}
+                            filterBy={filterBy}
+                            name={module.name}
+                            label={module.label}
+                            placeholder={module.placeholder}
+                        />
                     </div>
                 ))}
             </form>

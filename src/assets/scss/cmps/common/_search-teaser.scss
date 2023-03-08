@@ -1,6 +1,5 @@
 .search-teaser {
     border: 1px solid $gray-D;
-    // padding: 0.5rem 0.5rem 0.5rem 1rem;
     border-radius: 55px;
     box-shadow: 0 1px 2px rgb(0 0 0 / 8%), 0 4px 12px rgb(0 0 0 / 5%);
     cursor: pointer;
@@ -17,7 +16,6 @@
         .divider {
             padding: 0 1rem;
             box-shadow: 1px 0px 0px 0px $gray-E;
-            // padding-inline-end: 0.5rem;
         }
     }
 }
@@ -54,11 +52,11 @@
 }
 .search-teaser {
     opacity: 1;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.25s ease-in-out;
     transform: translateY(0%) scale(1);
     pointer-events: all;
     &.expanded {
-        transition: all 0.2s ease-in-out;
+        transition: all 0.25s ease-in-out;
         transform: translateY(calc(100% + 2rem)) scale(1.25);
         opacity: 0;
         pointer-events: none;

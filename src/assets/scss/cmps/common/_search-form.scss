@@ -4,11 +4,11 @@
     left: 50%;
     transform: translate(-50%, -2rem) scale(0.25);
     margin: 0 auto;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.25s ease-in-out;
     opacity: 0;
     pointer-events: none;
     &.expanded {
-        transition: all 0.2s ease-in-out;
+        transition: all 0.25s ease-in-out;
         transform: translate(-50%, 100%) scale(1);
         opacity: 1;
         pointer-events: all;
@@ -126,10 +126,6 @@
                 pointer-events: all;
             }
         }
-
-        // &:not(.filter-group) {
-        //     padding: 0 1rem 0 2rem;
-        // }
     }
 
     .sided-filter-extention {
