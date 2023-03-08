@@ -10,7 +10,7 @@ import { UserMenu } from './user-menu'
 
 export interface ISearchProps {
     activeModule: string | null
-    onChangeModule: (module: string) => void
+    onChangeModule: (module: string | null) => void
     filterBy: IFilterBy
     isExpandedClass: string
     onChangeIsExpanded: (value: boolean) => void
