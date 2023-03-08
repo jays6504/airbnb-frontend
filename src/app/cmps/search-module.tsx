@@ -10,7 +10,7 @@ interface IModuleProps {
     onChangeModule: (moduleName: string | null) => void
 }
 
-export function Module({ activeModule, name, label, placeholder, filterBy, onChangeModule }: IModuleProps) {
+export function SearchModule({ activeModule, name, label, placeholder, filterBy, onChangeModule }: IModuleProps) {
     const getInputValue = (): string | number => {
         const formatDate = (date: Date): string => {
             return date.toLocaleString('default', { month: 'short', day: 'numeric' })
@@ -32,9 +32,13 @@ export function Module({ activeModule, name, label, placeholder, filterBy, onCha
     const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = ev => {
         console.log('ev:', ev)
     }
+
+    const handleModuleClick: React.MouseEventHandler<HTMLLabelElement> = ev => {
+        onChangeModule(name)
+    }
     return (
         <>
-            <label className='module' onClick={() => onChangeModule(name)}>
+            <label className='module' onClick={handleModuleClick}>
                 <span className='module-title'>{label}</span>
                 <input
                     type={'text'}

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { IFilterBy } from '../interfaces/filter'
 import { RootState } from '../store/store'
@@ -22,7 +22,8 @@ export function AppHeader() {
     const filterBy = useSelector((storeState: RootState) => storeState.stayModule.filterBy)
     const [isExpanded, setIsExpanded] = useState<boolean>(false)
     const isExpandedClass: string = isExpanded ? 'expanded' : ''
-    // Lifecycles
+    // Refs
+    const searchFormContainerRef = useRef<HTMLDivElement>(null)
 
     // Methods
     function onChangeModule(module: string | null) {
@@ -34,6 +35,14 @@ export function AppHeader() {
         setIsExpanded(value)
         if (!value) setActiveModule(null)
     }
+    const handleFormBlur = (ev: React.MouseEvent<HTMLDivElement>) => {
+        if (!isExpanded) return
+        const container = searchFormContainerRef.current
+        const target = ev.target as Node
+        if (container && !container.contains(target)) {
+            setActiveModule(null)
+        }
+    }
     // Props
     const searchProps = {
         activeModule,
@@ -44,7 +53,7 @@ export function AppHeader() {
     }
     // Template
     return (
-        <div className='app-header'>
+        <div onClick={handleFormBlur} className='app-header'>
             <OverlayScreen isOpen={isExpanded} setIsOpen={onChangeIsExpanded} />
             <header className={`${isExpandedClass} main-layout`}>
                 <div className='wrapper flex align-center justify-between'>
@@ -54,7 +63,12 @@ export function AppHeader() {
                     <SearchTeaser {...searchProps} />
                     <UserMenu />
                 </div>
-                <SearchForm {...searchProps} />
+                <div
+                    ref={searchFormContainerRef}
+                    className={`search-form-container ${isExpandedClass} ${!activeModule ? 'blured' : ''}`}
+                >
+                    <SearchForm {...searchProps} />
+                </div>
             </header>
         </div>
     )
