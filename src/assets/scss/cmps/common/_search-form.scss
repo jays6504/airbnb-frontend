@@ -31,22 +31,14 @@
     border: 1px solid $gray-E;
     background-color: $gray-E;
     .module-container {
+        cursor: pointer;
         border-radius: 155px;
         display: flex;
         align-items: center;
-        &:hover:not(.active) {
-            background-color: #e0e0e0;
-        }
-        &.active {
-            background-color: #fff;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-        }
+
         &.location,
-        &.guests {
-            flex: 2;
-        }
         &.startDate,
-        &.endDate {
+        &.guests {
             flex: 1;
         }
     }

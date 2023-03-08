@@ -7,7 +7,7 @@ interface IModuleProps {
     placeholder: string
     activeModule: string | null
     filterBy: IFilterBy
-    onChangeModule: (moduleName: string | null) => void
+    onChangeModule: (module: string | null) => void
 }
 
 export function SearchModule({ activeModule, name, label, placeholder, filterBy, onChangeModule }: IModuleProps) {
@@ -33,12 +33,12 @@ export function SearchModule({ activeModule, name, label, placeholder, filterBy,
         console.log('ev:', ev)
     }
 
-    const handleModuleClick: React.MouseEventHandler<HTMLLabelElement> = ev => {
-        onChangeModule(name)
-    }
     return (
-        <>
-            <label className='module' onClick={handleModuleClick}>
+        <div
+            onClick={() => onChangeModule(name)}
+            className={`module ${activeModule && name === activeModule ? 'active' : ''}`}
+        >
+            <div>
                 <span className='module-title'>{label}</span>
                 <input
                     type={'text'}
@@ -50,13 +50,13 @@ export function SearchModule({ activeModule, name, label, placeholder, filterBy,
                     onChange={handleInputChange}
                 />
                 <button className='module-reset-btn'>X</button>
-            </label>
+            </div>
             {name === 'guests' && (
                 <button className='form-search-btn' type='button'>
                     <FaSearch />
                     {activeModule && 'Search'}
                 </button>
             )}
-        </>
+        </div>
     )
 }

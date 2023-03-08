@@ -1,20 +1,33 @@
 .module {
     cursor: pointer;
-    padding: 0 2rem;
+
     height: 66px;
     border-radius: 155px;
+    width: 100%;
     // flex: 1;
     white-space: nowrap;
-    display: grid;
+    display: flex;
     align-items: center;
-    place-content: center;
-    grid-template-columns: 1fr auto;
-    grid-template-areas:
-        'filterTitle resetBtn searchBtn'
-        'filterSelection resetBtn searchBtn';
-    &.guests {
-        padding: 0 0rem 0 2rem;
+    &:hover:not(.active) {
+        background-color: #e0e0e0;
     }
+    > div {
+        padding: 0 2rem;
+        display: grid;
+        align-items: center;
+        place-content: center;
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+            'filterTitle resetBtn'
+            'filterSelection resetBtn';
+    }
+    &.active {
+        background-color: #fff;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+    // &.guests {
+    //     padding: 0 0rem 0 2rem;
+    // }
     .module-title {
         grid-area: filterTitle;
         font-size: 12px;

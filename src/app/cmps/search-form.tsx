@@ -5,32 +5,30 @@ import { SearchModuleExtension } from './search-module-extension'
 
 export function SearchForm({ activeModule, onChangeModule, filterBy, isExpandedClass }: ISearchProps) {
     const modules = [
-        { name: 'location', label: 'Where', placeholder: 'Search destinations' },
-        { name: 'startDate', label: 'Check in', placeholder: 'Add dates' },
-        { name: 'endDate', label: 'Check out', placeholder: 'Add dates' },
-        { name: 'guests', label: 'Who', placeholder: 'Add guests' },
+        { name: 'location', extension: 'location', label: 'Where', placeholder: 'Search destinations' },
+        { name: 'startDate', extension: 'datepicker', label: 'Check in', placeholder: 'Add dates' },
+        { name: 'guests', extension: 'guests', label: 'guests', placeholder: 'Add guests' },
     ]
+    const searchModuleProps = (module: { name: string; label: string; placeholder: string }) => ({
+        onChangeModule: onChangeModule,
+        activeModule: activeModule,
+        filterBy: filterBy,
+        name: module.name,
+        label: module.label,
+        placeholder: module.placeholder,
+    })
 
     return (
         <form className='search-form'>
             {modules.map(module => (
-                <div
-                    className={`module-container ${module.name} ${
-                        activeModule && module.name === activeModule ? 'active' : ''
-                    }`}
-                    key={`m-${module.name}`}
-                >
-                    <SearchModule
-                        onChangeModule={onChangeModule}
-                        activeModule={activeModule}
-                        filterBy={filterBy}
-                        name={module.name}
-                        label={module.label}
-                        placeholder={module.placeholder}
-                    />
-                    {activeModule && module.name === activeModule && (
-                        <SearchModuleExtension activeModule={activeModule} />
+                <div className={`module-container ${module.name}`} key={`m-${module.name}`}>
+                    <SearchModule {...searchModuleProps(module)} />
+                    {module.name === 'startDate' && (
+                        <SearchModule {...searchModuleProps(module)} name={'endDate'} label={'Check out'} />
                     )}
+                    {((module.extension === 'datepicker' && activeModule === 'endDate') ||
+                        (module.extension === 'datepicker' && activeModule === 'startDate') ||
+                        activeModule === module.extension) && <SearchModuleExtension activeModule={activeModule} />}
                 </div>
             ))}
         </form>
