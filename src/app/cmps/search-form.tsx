@@ -60,30 +60,31 @@ export function SearchForm({ activeModule, onChangeModule, filterBy, isExpandedC
         >
             <form ref={formRef} onBlur={handleBlur} className='search-form'>
                 {modules.map(module => (
-                    <label
-                        key={`m-${module.name}`}
-                        className={`module ${module.name} ${
+                    <div
+                        className={`module-container ${module.name} ${
                             activeModule && module.name === activeModule ? 'active' : ''
                         }`}
-                        onClick={ev => handleClick(ev, module.name)}
+                        key={`m-${module.name}`}
                     >
-                        <span className='module-title'>{module.label}</span>
-                        <input
-                            type={'text'}
-                            name={module.name}
-                            readOnly={module.name !== 'location'}
-                            className={`module-selection`}
-                            defaultValue={getInputValues(module)}
-                            placeholder={module.placeholder}
-                        />
-                        <button className='module-reset-btn'>X</button>
+                        <label className='module' onClick={ev => handleClick(ev, module.name)}>
+                            <span className='module-title'>{module.label}</span>
+                            <input
+                                type={'text'}
+                                name={module.name}
+                                readOnly={module.name !== 'location'}
+                                className={`module-selection`}
+                                defaultValue={getInputValues(module)}
+                                placeholder={module.placeholder}
+                            />
+                            <button className='module-reset-btn'>X</button>
+                        </label>
                         {module.name === 'guests' && (
-                            <button className='search-btn' type='button'>
+                            <button className='form-search-btn' type='button'>
                                 <FaSearch />
                                 {activeModule && 'Search'}
                             </button>
                         )}
-                    </label>
+                    </div>
                 ))}
             </form>
         </div>
