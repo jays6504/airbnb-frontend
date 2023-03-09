@@ -10,6 +10,7 @@ import { OverlayScreen } from './overlay-screen'
 import { SearchForm } from './search-form'
 import { SearchTeaser } from './search-teaser'
 import { UserMenu } from './user-menu'
+import { utilService } from '../services/util.service'
 
 export interface ISearchProps {
     activeModule: string | null
@@ -28,9 +29,25 @@ export function AppHeader() {
     const [isExpanded, setIsExpanded] = useState<boolean>(false)
     const isExpandedClass: string = isExpanded ? 'expanded' : ''
 
-    let [searchParams, setSearchParams] = useSearchParams()
     // Refs
     const searchFormContainerRef = useRef<HTMLDivElement>(null)
+
+    // Search Params
+    let [_, setSearchParams] = useSearchParams()
+    const location = useLocation()
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search)
+
+        const searchObj = {
+            startDate: searchParams.get('startDate') || null,
+            endDate: searchParams.get('endDate') || null,
+            guests: searchParams.get('guests') || null,
+            location: searchParams.get('location') || null,
+        }
+        console.log('searchObj:', searchObj)
+
+        // do something with searchObj
+    }, [location])
 
     function handleFormSubmit() {
         let searchParams: ISearchBy = { ...searchBy }
@@ -39,26 +56,13 @@ export function AppHeader() {
             searchParams.endDate = new Date(searchParams.startDate.getTime() + oneDay)
         else if (!searchParams.startDate && searchParams.endDate)
             searchParams.startDate = new Date(searchParams.endDate.getTime() - oneDay)
-
+        onChangeIsExpanded(false)
         setSearchParams(prev => ({
             ...prev,
             ...searchParams,
-            startDate: formatDate(searchParams.startDate || new Date()),
-            endDate: formatDate(searchParams.endDate || new Date(Date.now() + oneDay)),
+            startDate: utilService.formatDate(searchParams.startDate || new Date()),
+            endDate: utilService.formatDate(searchParams.endDate || new Date(Date.now() + oneDay)),
         }))
-    }
-
-    function formatDate(date: Date): string {
-        let formatedDate = date
-            .toLocaleDateString('en-GB', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-            })
-            .split('/')
-            .join('-')
-        console.log('formatedDate:', formatedDate)
-        return formatedDate
     }
 
     function onSetSearchBy(searchByOpts: ISearchByOpts) {

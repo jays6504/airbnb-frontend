@@ -5,6 +5,8 @@ export const utilService = {
     loadFromStorage,
     formatTimeAgo,
     capitalize,
+    formatDate,
+    deformatDate,
 }
 
 export function makeId(length = 6) {
@@ -127,4 +129,25 @@ function formatTimeAgo(sentAt: number) {
     }
 
     return `${output}`
+}
+
+function formatDate(date: Date): string {
+    let formatedDate = date
+        .toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+        })
+        .split('/')
+        .join('-')
+    console.log('formatedDate:', formatedDate)
+    return formatedDate
+}
+
+function deformatDate(formattedDateString: string) {
+    const formattedDateParts = formattedDateString.split('-')
+    const year = parseInt(formattedDateParts[2])
+    const month = parseInt(formattedDateParts[1]) - 1 // JS months are 0-indexed
+    const day = parseInt(formattedDateParts[0])
+    const dateObj = new Date(year, month, day) // creates a new Date object with the given year, month, and day
 }
