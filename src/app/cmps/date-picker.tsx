@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import moment, { Moment } from 'moment'
 import { DayPickerRangeController, FocusedInputShape } from 'react-dates'
 import 'react-dates/lib/css/_datepicker.css'
@@ -20,6 +19,10 @@ export function DatePicker({ searchBy, onSetSearchBy, activeModule, onChangeModu
     }
     //
     const handleFocusChange = (newFocus: FocusedInputShape | null) => {
+        if (!newFocus) {
+            onChangeModule('guests')
+            return
+        }
         onChangeModule(newFocus)
     }
 
@@ -33,6 +36,7 @@ export function DatePicker({ searchBy, onSetSearchBy, activeModule, onChangeModu
                 onFocusChange={handleFocusChange}
                 numberOfMonths={2}
                 minimumNights={1}
+                // keepOpenOnDateSelect={true}
                 hideKeyboardShortcutsPanel={true}
                 initialVisibleMonth={() => moment()}
             />
