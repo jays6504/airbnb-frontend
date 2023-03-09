@@ -8,9 +8,18 @@ interface IModuleProps {
     activeModule: string | null
     searchBy: ISearchBy
     onChangeModule: (module: string | null) => void
+    handleFormSubmit: () => void
 }
 
-export function SearchModule({ activeModule, name, label, placeholder, searchBy, onChangeModule }: IModuleProps) {
+export function SearchModule({
+    activeModule,
+    name,
+    label,
+    placeholder,
+    searchBy,
+    onChangeModule,
+    handleFormSubmit,
+}: IModuleProps) {
     const getInputValue = (): string | number => {
         const formatDate = (date: Date): string => {
             return date.toLocaleString('default', { month: 'short', day: 'numeric' })
@@ -52,7 +61,7 @@ export function SearchModule({ activeModule, name, label, placeholder, searchBy,
                 <button className='module-reset-btn'>X</button>
             </div>
             {name === 'guests' && (
-                <button className='form-search-btn' type='button'>
+                <button onClick={handleFormSubmit} className='form-search-btn' type='button'>
                     <FaSearch />
                     {activeModule && 'Search'}
                 </button>

@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { SearchModule } from './search-module'
 import { SearchModuleExtension } from './search-module-extension'
 
-export function SearchForm({ activeModule, onChangeModule, searchBy, onSetSearchBy }: ISearchProps) {
+export function SearchForm({ activeModule, onChangeModule, searchBy, onSetSearchBy, handleFormSubmit }: ISearchProps) {
     const modules = [
         { name: 'location', extension: 'location', label: 'Where', placeholder: 'Search destinations' },
         { name: 'startDate', extension: 'datepicker', label: 'Check in', placeholder: 'Add dates' },
@@ -16,6 +16,7 @@ export function SearchForm({ activeModule, onChangeModule, searchBy, onSetSearch
         name: module.name,
         label: module.label,
         placeholder: module.placeholder,
+        handleFormSubmit,
     })
 
     return (
