@@ -35,8 +35,13 @@ const REGIONS = [
 interface IProps {
     searchBy: ISearchBy
     onSetSearchBy: (searchBy: ISearchByOpts) => void
+    onChangeModule: (moduleName: string) => void
 }
-export function SearchRegions({ searchBy, onSetSearchBy }: IProps) {
+export function SearchRegions({ searchBy, onSetSearchBy, onChangeModule }: IProps) {
+    function handleRegionClick(regionLabel: string) {
+        onSetSearchBy({ destination: regionLabel })
+        onChangeModule('startDate')
+    }
     return (
         <section className='search-regions'>
             <h4>Search by region</h4>
@@ -44,7 +49,7 @@ export function SearchRegions({ searchBy, onSetSearchBy }: IProps) {
                 {REGIONS.map(region => (
                     <li key={region.id}>
                         <img
-                            onClick={() => onSetSearchBy({ destination: region.label })}
+                            onClick={() => handleRegionClick(region.label)}
                             className={`${searchBy.destination === region.label ? 'active' : ''}`}
                             src={region.imgUrl}
                             alt=''

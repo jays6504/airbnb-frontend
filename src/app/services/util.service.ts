@@ -144,10 +144,11 @@ function formatDate(date: Date): string {
     return formatedDate
 }
 
-function deformatDate(formattedDateString: string) {
+function deformatDate(formattedDateString: string): Date {
     const formattedDateParts = formattedDateString.split('-')
     const year = parseInt(formattedDateParts[2])
     const month = parseInt(formattedDateParts[1]) - 1 // JS months are 0-indexed
     const day = parseInt(formattedDateParts[0])
     const dateObj = new Date(year, month, day) // creates a new Date object with the given year, month, and day
+    return dateObj
 }

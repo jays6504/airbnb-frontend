@@ -37,16 +37,18 @@ export function AppHeader() {
     const location = useLocation()
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search)
-
-        const searchObj = {
-            startDate: searchParams.get('startDate') || null,
-            endDate: searchParams.get('endDate') || null,
-            guests: searchParams.get('guests') || null,
-            location: searchParams.get('location') || null,
+        let paramsObj = Object.fromEntries(searchParams.entries())
+        let searchObj: ISearchBy = {
+            adults: +paramsObj.adults,
+            children: +paramsObj.children,
+            destination: paramsObj.destination,
+            endDate: utilService.deformatDate(paramsObj.endDate),
+            startDate: utilService.deformatDate(paramsObj.startDate),
+            infants: +paramsObj.infants,
+            pets: +paramsObj.pets,
+            guests: +paramsObj.guests,
         }
-        console.log('searchObj:', searchObj)
-
-        // do something with searchObj
+        setSearchBy(searchObj)
     }, [location])
 
     function handleFormSubmit() {
@@ -79,6 +81,7 @@ export function AppHeader() {
         setIsExpanded(value)
         if (!value) setActiveModule(null)
     }
+
     const handleFormBlur = (ev: React.MouseEvent<HTMLDivElement>) => {
         if (!isExpanded) return
         const container = searchFormContainerRef.current

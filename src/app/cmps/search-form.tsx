@@ -31,6 +31,7 @@ export function SearchForm({ activeModule, onChangeModule, searchBy, onSetSearch
                         (module.extension === 'datepicker' && activeModule === 'startDate') ||
                         activeModule === module.extension) && (
                         <SearchModuleExtension
+                            onChangeModule={onChangeModule}
                             activeModule={activeModule}
                             searchBy={searchBy}
                             onSetSearchBy={onSetSearchBy}
