@@ -1,38 +1,38 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import moment, { Moment } from 'moment'
 import { DayPickerRangeController, FocusedInputShape } from 'react-dates'
 import 'react-dates/lib/css/_datepicker.css'
-import { ISearchBy } from '../interfaces/search'
+import { ISearchBy, ISearchByOpts } from '../interfaces/search'
 
 interface IDatePickerProps {
+    activeModule: string
     searchBy: ISearchBy
+    onSetSearchBy: (searchBy: ISearchByOpts) => void
+    onChangeModule: (moduleName: string | null) => void
 }
 
-export function DatePicker({ searchBy }: IDatePickerProps) {
-    const startDate = searchBy.startDate ? moment(searchBy.startDate) : null
-    const endDate = searchBy.endDate ? moment(searchBy.endDate) : null
-
-    const [focus, setFocus] = useState<FocusedInputShape | null>(null)
-    const [selectedDates, setSelectedDates] = useState<{ [key: string]: Moment | null }>({
-        startDate: null,
-        endDate: null,
-    })
-
+export function DatePicker({ searchBy, onSetSearchBy, activeModule, onChangeModule }: IDatePickerProps) {
     const handleDatesChange = ({ startDate, endDate }: { startDate: Moment | null; endDate: Moment | null }): void => {
-        setSelectedDates({ startDate, endDate })
+        console.log('endDate,startDate:', endDate, startDate)
+        let end = endDate?.toDate()
+        let start = startDate?.toDate()
+        onSetSearchBy({ startDate: start, endDate: end })
+    }
+
+    const handleFocusChange = (newFocus: FocusedInputShape | null) => {
+        onChangeModule(newFocus)
     }
 
     return (
         <section className='datepicker'>
             <DayPickerRangeController
-                startDate={startDate}
-                endDate={endDate}
+                startDate={searchBy.startDate ? moment(searchBy.startDate) : null}
+                endDate={searchBy.endDate ? moment(searchBy.endDate) : null}
                 onDatesChange={handleDatesChange}
-                focusedInput={focus}
-                onFocusChange={(newFocus: FocusedInputShape | null) => setFocus(newFocus)}
+                focusedInput={(activeModule as FocusedInputShape) || 'startDate'}
+                onFocusChange={handleFocusChange}
                 numberOfMonths={2}
-                minimumNights={3}
-                isOutsideRange={day => day.isBefore(moment().subtract(1, 'days'), 'day')}
+                minimumNights={1}
                 hideKeyboardShortcutsPanel={true}
                 initialVisibleMonth={() => moment()}
             />

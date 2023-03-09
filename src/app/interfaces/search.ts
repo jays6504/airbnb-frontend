@@ -1,3 +1,5 @@
+import { Moment } from 'moment'
+
 export interface ISearchBy {
     destination: string
     adults: number

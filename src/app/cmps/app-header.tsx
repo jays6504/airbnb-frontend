@@ -59,6 +59,7 @@ export function AppHeader() {
         else if (!searchParams.startDate && searchParams.endDate)
             searchParams.startDate = new Date(searchParams.endDate.getTime() - oneDay)
         onChangeIsExpanded(false)
+
         setSearchParams(prev => ({
             ...prev,
             ...searchParams,
@@ -68,6 +69,7 @@ export function AppHeader() {
     }
 
     function onSetSearchBy(searchByOpts: ISearchByOpts) {
+        console.log('searchByOpts:', searchByOpts)
         setSearchBy(prev => ({ ...prev, ...searchByOpts }))
     }
 

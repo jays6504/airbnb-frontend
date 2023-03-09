@@ -7,7 +7,7 @@ interface IProps {
     activeModule: string
     searchBy: ISearchBy
     onSetSearchBy: (searchBy: ISearchByOpts) => void
-    onChangeModule: (moduleName: string) => void
+    onChangeModule: (moduleName: string | null) => void
 }
 
 export function SearchModuleExtension({ activeModule, searchBy, onSetSearchBy, onChangeModule }: IProps) {
@@ -17,7 +17,15 @@ export function SearchModuleExtension({ activeModule, searchBy, onSetSearchBy, o
         else return ''
     }
     const getModuleContent = () => {
-        if (activeModule === 'startDate' || activeModule === 'endDate') return <DatePicker searchBy={searchBy} />
+        if (activeModule === 'startDate' || activeModule === 'endDate')
+            return (
+                <DatePicker
+                    searchBy={searchBy}
+                    onSetSearchBy={onSetSearchBy}
+                    onChangeModule={onChangeModule}
+                    activeModule={activeModule}
+                />
+            )
         else if (activeModule === 'location')
             return <SearchRegions searchBy={searchBy} onSetSearchBy={onSetSearchBy} onChangeModule={onChangeModule} />
         else if (activeModule === 'guests') return <SearchGuests searchBy={searchBy} onSetSearchBy={onSetSearchBy} />
