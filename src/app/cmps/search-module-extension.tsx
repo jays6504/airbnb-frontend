@@ -18,7 +18,7 @@ export function SearchModuleExtension({ activeModule, searchBy, onSetSearchBy, o
     }
     const getModuleContent = () => {
         if (activeModule === 'startDate' || activeModule === 'endDate') return <DatePicker />
-        else if (activeModule === 'location' && !searchBy.destination.includes())
+        else if (activeModule === 'location')
             return <SearchRegions searchBy={searchBy} onSetSearchBy={onSetSearchBy} onChangeModule={onChangeModule} />
         else if (activeModule === 'guests') return <SearchGuests searchBy={searchBy} onSetSearchBy={onSetSearchBy} />
     }
