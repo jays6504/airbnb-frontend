@@ -1,8 +1,15 @@
+import { ISearchBy, ISearchByOpts } from '../interfaces/search'
 import { DatePicker } from './date-picker'
 import { SearchGuests } from './search-guests'
 import { SearchRegions } from './search-regions'
 
-export function SearchModuleExtension({ activeModule }: { activeModule: string }) {
+interface IProps {
+    activeModule: string
+    searchBy: ISearchBy
+    onSetSearchBy: (searchBy: ISearchByOpts) => void
+}
+
+export function SearchModuleExtension({ activeModule, searchBy, onSetSearchBy }: IProps) {
     const getModuleClass = () => {
         if (activeModule === 'location') return 'pos-start'
         else if (activeModule === 'guests') return 'pos-end'
@@ -10,8 +17,8 @@ export function SearchModuleExtension({ activeModule }: { activeModule: string }
     }
     const getModuleContent = () => {
         if (activeModule === 'startDate' || activeModule === 'endDate') return <DatePicker />
-        else if (activeModule === 'location') return <SearchRegions />
-        else if (activeModule === 'guests') return <SearchGuests />
+        else if (activeModule === 'location') return <SearchRegions searchBy={searchBy} onSetSearchBy={onSetSearchBy} />
+        else if (activeModule === 'guests') return <SearchGuests searchBy={searchBy} onSetSearchBy={onSetSearchBy} />
     }
     return <section className={`search-module-extension ${getModuleClass()}`}>{getModuleContent()}</section>
 }

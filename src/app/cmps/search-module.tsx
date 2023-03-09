@@ -1,29 +1,29 @@
 import { FaSearch } from 'react-icons/fa'
-import { IFilterBy } from '../interfaces/filter'
+import { ISearchBy } from '../interfaces/search'
 
 interface IModuleProps {
     name: string
     label: string
     placeholder: string
     activeModule: string | null
-    filterBy: IFilterBy
+    searchBy: ISearchBy
     onChangeModule: (module: string | null) => void
 }
 
-export function SearchModule({ activeModule, name, label, placeholder, filterBy, onChangeModule }: IModuleProps) {
+export function SearchModule({ activeModule, name, label, placeholder, searchBy, onChangeModule }: IModuleProps) {
     const getInputValue = (): string | number => {
         const formatDate = (date: Date): string => {
             return date.toLocaleString('default', { month: 'short', day: 'numeric' })
         }
 
-        if (name === 'startDate' && filterBy.startDate) {
-            return formatDate(filterBy.startDate)
-        } else if (name === 'endDate' && filterBy.endDate) {
-            return formatDate(filterBy.endDate)
-        } else if (name === 'location' && filterBy.destination) {
-            return filterBy.destination
-        } else if (name === 'guests' && filterBy.guests) {
-            return filterBy.guests
+        if (name === 'startDate' && searchBy.startDate) {
+            return formatDate(searchBy.startDate)
+        } else if (name === 'endDate' && searchBy.endDate) {
+            return formatDate(searchBy.endDate)
+        } else if (name === 'location' && searchBy.destination) {
+            return searchBy.destination
+        } else if (name === 'guests' && searchBy.guests) {
+            return searchBy.guests
         } else {
             return ''
         }

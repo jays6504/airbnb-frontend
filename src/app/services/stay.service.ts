@@ -1,4 +1,5 @@
 import { IFilter, IFilterBy } from '../interfaces/filter'
+import { ISearchBy } from '../interfaces/search'
 import { IReview } from '../interfaces/review'
 import { IStayPreview, IStay } from '../interfaces/stay'
 import { storageService } from './async-storage.service'
@@ -10,12 +11,12 @@ var gStays: IStay[] = require('../../assets/data/minified-stays.json')
 var gFilters: IFilter[] = require('../../assets/data/filters.json')
 _initStays()
 
-export const stayService = { query, getDefaultFilter, loadFilters }
+export const stayService = { query, getDefaultSearch, loadFilters }
 
-async function query(filterBy: IFilterBy = getDefaultFilter(), staysToDisplay: number = AMOUNT_TO_DISPLAY) {
+async function query(searchBy: ISearchBy = getDefaultSearch(), filterBy: IFilterBy = getDefaultFilter()) {
     try {
-        let stays = (await storageService.query(STAY_DB_KEY, staysToDisplay)) as IStay[]
-        let filteredStays = _filter(stays, filterBy)
+        let stays = (await storageService.query(STAY_DB_KEY, AMOUNT_TO_DISPLAY)) as IStay[]
+        let filteredStays = _filter(stays, filterBy, searchBy)
         let stayPreviews: IStayPreview[] = filteredStays.map((stay: IStay) => _arrangePreviewData(stay))
         return stayPreviews
     } catch (err) {
@@ -23,7 +24,7 @@ async function query(filterBy: IFilterBy = getDefaultFilter(), staysToDisplay: n
     }
 }
 
-function getDefaultFilter(): IFilterBy {
+function getDefaultSearch(): ISearchBy {
     return {
         destination: '',
         adults: 0,
@@ -32,8 +33,13 @@ function getDefaultFilter(): IFilterBy {
         pets: 0,
         startDate: null,
         endDate: null,
-        labels: [],
         guests: 0,
+    }
+}
+
+function getDefaultFilter() {
+    return {
+        labels: [],
     }
 }
 
@@ -41,10 +47,22 @@ function loadFilters(): IFilter[] {
     return [...gFilters]
 }
 
-function _filter(stays: IStay[], filterBy: IFilterBy) {
+function _filter(stays: IStay[], filterBy: IFilterBy, searchBy: ISearchBy) {
     let filteredStays = stays
     if (filterBy.labels.length) {
-        filteredStays = stays.filter(stay => stay.labels.some(label => filterBy.labels.includes(label)))
+        filteredStays = filteredStays.filter(stay => stay.labels.some(label => filterBy.labels.includes(label)))
+    }
+    if (searchBy.destination) {
+        let { destination } = searchBy
+        filteredStays = filteredStays.filter(stay => {
+            let { address, city, countryCode, country } = stay.loc
+            return (
+                address.includes(destination) ||
+                city.includes(destination) ||
+                countryCode.includes(destination) ||
+                country.includes(destination)
+            )
+        })
     }
 
     return filteredStays

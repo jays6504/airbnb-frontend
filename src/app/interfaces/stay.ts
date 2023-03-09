@@ -12,7 +12,7 @@ export interface IStay {
     amenities: string[]
     roomType: string
     host: Host
-    loc: Location
+    loc: ILocation
     reviews: IReview[]
     likedByUsers: User[]
     labels: string[]
@@ -25,7 +25,7 @@ export interface IStayPreview {
     imgUrls: string[]
     price: number
     isSuperHost: boolean
-    loc: Location
+    loc: ILocation
     avgRate: string
     // likedByUser: boolean;
 }

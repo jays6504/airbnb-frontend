@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { IFilterBy } from '../interfaces/filter'
+import { ISearchBy, ISearchByOpts } from '../interfaces/search'
+import { stayService } from '../services/stay.service'
 import { RootState } from '../store/store'
 import { AppLogo } from './app-logo'
 import { OverlayScreen } from './overlay-screen'
@@ -11,19 +12,24 @@ import { UserMenu } from './user-menu'
 export interface ISearchProps {
     activeModule: string | null
     onChangeModule: (module: string | null) => void
-    filterBy: IFilterBy
+    searchBy: ISearchBy
     isExpandedClass: string
     onChangeIsExpanded: (value: boolean) => void
+    onSetSearchBy: (searchBy: ISearchByOpts) => void
 }
 
 export function AppHeader() {
     // State
     const [activeModule, setActiveModule] = useState<string | null>(null)
-    const filterBy = useSelector((storeState: RootState) => storeState.stayModule.filterBy)
+    const [searchBy, setSearchBy] = useState<ISearchBy>(stayService.getDefaultSearch())
     const [isExpanded, setIsExpanded] = useState<boolean>(false)
     const isExpandedClass: string = isExpanded ? 'expanded' : ''
     // Refs
     const searchFormContainerRef = useRef<HTMLDivElement>(null)
+
+    function onSetSearchBy(searchByOpts: ISearchByOpts) {
+        setSearchBy(prev => ({ ...prev, ...searchByOpts }))
+    }
 
     // Methods
     function onChangeModule(module: string | null) {
@@ -47,9 +53,10 @@ export function AppHeader() {
     const searchProps = {
         activeModule,
         onChangeModule,
-        filterBy,
+        searchBy,
         isExpandedClass,
         onChangeIsExpanded,
+        onSetSearchBy,
     }
     // Template
     return (

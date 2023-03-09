@@ -24,12 +24,11 @@ const STAYS_INCREMENT_BY = 20
 export function Home() {
     const stays = useSelector((storeState: RootState) => storeState.stayModule.stays)
     const isLoading = useSelector((storeState: RootState) => storeState.stayModule.isLoading)
-    const filterBy = useSelector((storeState: RootState) => storeState.stayModule.filterBy)
     const [filters, setFilters] = useState<IFilter[]>([])
     const [isMapView, setIsMapView] = useState<boolean>(false)
 
     useEffect(() => {
-        loadStays(filterBy, STAYS_INCREMENT_BY)
+        loadStays()
         loadFilters()
     }, [])
 
@@ -54,7 +53,7 @@ export function Home() {
     }
 
     function onFilterChange(label: string) {
-        //TODO : dispatch action to make store changes in filterBy
+        //TODO : dispatch action to make store changes in searchBy
         console.log('label:', label)
     }
 
