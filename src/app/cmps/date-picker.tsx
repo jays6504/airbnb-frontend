@@ -19,10 +19,6 @@ export function DatePicker({ searchBy, onSetSearchBy, activeModule, onChangeModu
     }
     //
     const handleFocusChange = (newFocus: FocusedInputShape | null) => {
-        if (!newFocus) {
-            onChangeModule('guests')
-            return
-        }
         onChangeModule(newFocus)
     }
 
@@ -36,7 +32,8 @@ export function DatePicker({ searchBy, onSetSearchBy, activeModule, onChangeModu
                 onFocusChange={handleFocusChange}
                 numberOfMonths={2}
                 minimumNights={1}
-                // keepOpenOnDateSelect={true}
+                keepOpenOnDateSelect={true}
+                noBorder={true}
                 hideKeyboardShortcutsPanel={true}
                 initialVisibleMonth={() => moment()}
             />
