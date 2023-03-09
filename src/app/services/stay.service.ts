@@ -54,6 +54,7 @@ function _filter(stays: IStay[], filterBy: IFilterBy, searchBy: ISearchBy) {
     }
     if (searchBy.destination) {
         let { destination } = searchBy
+        console.log('destination:', destination)
         filteredStays = filteredStays.filter(stay => {
             let { address, city, countryCode, country } = stay.loc
             return (

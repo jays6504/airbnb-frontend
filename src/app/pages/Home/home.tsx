@@ -12,6 +12,8 @@ import { stayService } from '../../services/stay.service'
 import { IFilter } from '../../interfaces/filter'
 import { utilService } from '../../services/util.service'
 import { FilterButton } from './cmps/filter-button'
+import { useLocation } from 'react-router-dom'
+import { ISearchBy } from '../../interfaces/search'
 
 interface IChildProps {
     stays: IStayPreview[]
@@ -31,6 +33,24 @@ export function Home() {
         loadStays()
         loadFilters()
     }, [])
+
+    const location = useLocation()
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search)
+        let paramsObj = Object.fromEntries(searchParams.entries())
+        let searchObj: ISearchBy = {
+            adults: +paramsObj.adults,
+            children: +paramsObj.children,
+            destination: paramsObj.destination,
+            endDate: utilService.deformatDate(paramsObj.endDate),
+            startDate: utilService.deformatDate(paramsObj.startDate),
+            infants: +paramsObj.infants,
+            pets: +paramsObj.pets,
+            guests: +paramsObj.guests,
+        }
+        if (searchObj.destination === "I'm Flexible") searchObj.destination = ''
+        loadStays(searchObj)
+    }, [location])
 
     function loadFilters(): void {
         let filters: IFilter[] = stayService.loadFilters()

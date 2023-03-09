@@ -4,7 +4,6 @@ import { OverlayScreen } from '../../../cmps/overlay-screen'
 
 export function FilterButton() {
     const [isModalOpen, setIsModalOpen] = useState(false)
-    console.log('isModalOpen:', isModalOpen)
     return (
         <>
             <OverlayScreen isOpen={isModalOpen} setIsOpen={setIsModalOpen} />

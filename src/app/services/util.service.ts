@@ -144,7 +144,8 @@ function formatDate(date: Date): string {
     return formatedDate
 }
 
-function deformatDate(formattedDateString: string): Date {
+function deformatDate(formattedDateString: string): Date | null {
+    if (!formattedDateString) return null
     const formattedDateParts = formattedDateString.split('-')
     const year = parseInt(formattedDateParts[2])
     const month = parseInt(formattedDateParts[1]) - 1 // JS months are 0-indexed

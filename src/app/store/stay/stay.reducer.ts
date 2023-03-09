@@ -31,7 +31,6 @@ export function stayReducer(state = initialState, action: StayAction) {
         // case 'SET_FILTER':
         //     return { ...state, searchBy: action.searchBy }
         case 'SET_IS_LOADING':
-            console.log('state:', state)
             return { ...state, isLoading: action.isLoading }
 
         //   Defalut
