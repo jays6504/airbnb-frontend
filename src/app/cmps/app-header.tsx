@@ -39,14 +39,14 @@ export function AppHeader() {
         const searchParams = new URLSearchParams(location.search)
         let paramsObj = Object.fromEntries(searchParams.entries())
         let searchObj: ISearchBy = {
-            adults: +paramsObj.adults,
-            children: +paramsObj.children,
-            destination: paramsObj.destination,
+            destination: paramsObj.destination || '',
             endDate: utilService.deformatDate(paramsObj.endDate),
             startDate: utilService.deformatDate(paramsObj.startDate),
-            infants: +paramsObj.infants,
-            pets: +paramsObj.pets,
-            guests: +paramsObj.guests,
+            adults: +paramsObj.adults || 0,
+            children: +paramsObj.children || 0,
+            infants: +paramsObj.infants || 0,
+            pets: +paramsObj.pets || 0,
+            guests: +paramsObj.guests || 0,
         }
         setSearchBy(searchObj)
     }, [location])
@@ -69,7 +69,6 @@ export function AppHeader() {
     }
 
     function onSetSearchBy(searchByOpts: ISearchByOpts) {
-        console.log('searchByOpts:', searchByOpts)
         setSearchBy(prev => ({ ...prev, ...searchByOpts }))
     }
 
