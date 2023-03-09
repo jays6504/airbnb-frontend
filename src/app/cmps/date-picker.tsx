@@ -12,13 +12,13 @@ interface IDatePickerProps {
 }
 
 export function DatePicker({ searchBy, onSetSearchBy, activeModule, onChangeModule }: IDatePickerProps) {
+    //
     const handleDatesChange = ({ startDate, endDate }: { startDate: Moment | null; endDate: Moment | null }): void => {
-        console.log('endDate,startDate:', endDate, startDate)
         let end = endDate?.toDate()
         let start = startDate?.toDate()
         onSetSearchBy({ startDate: start, endDate: end })
     }
-
+    //
     const handleFocusChange = (newFocus: FocusedInputShape | null) => {
         onChangeModule(newFocus)
     }
