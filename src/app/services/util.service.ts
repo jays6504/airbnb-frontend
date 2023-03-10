@@ -140,7 +140,6 @@ function formatDate(date: Date): string {
         })
         .split('/')
         .join('-')
-    console.log('formatedDate:', formatedDate)
     return formatedDate
 }
 

@@ -60,9 +60,6 @@ export function StayMap({ stays, onAddToWishlist }: Props) {
     const [stayToPreview, setStayToPreview] = useState<IStayPreview | null>(null)
     const [elSelectedMarker, setElCurrentMarker] = useState<HTMLDivElement | null>(null)
     const elPreviewContainer = useRef<HTMLDivElement>(null)
-    console.log('stayToPreview:', stayToPreview)
-    console.log('elPreviewContainer:', elPreviewContainer)
-    console.log('elSelectedMarker:', elSelectedMarker)
     // Preview methods
 
     function onMarkerClick(event: React.MouseEvent<HTMLDivElement>, idx: number) {
@@ -89,7 +86,7 @@ export function StayMap({ stays, onAddToWishlist }: Props) {
 
     const StayPreviewContainer = forwardRef<HTMLDivElement, IStayContainerProps>(
         ({ containerStyles, children, ...rest }, ref) => (
-            <div {...rest} style={containerStyles as React.CSSProperties} ref={ref} className='map-stay-preview'>
+            <div style={containerStyles as React.CSSProperties} ref={ref} className='map-stay-preview'>
                 {children}
             </div>
         )
@@ -123,7 +120,7 @@ export function StayMap({ stays, onAddToWishlist }: Props) {
                         <span>{marker.price}</span>
                     </Marker>
                 ))}
-                {stayToPreview && (
+                {stayToPreview && elSelectedMarker && (
                     <StayPreviewContainer
                         lat={stayToPreview?.loc.lat || 0}
                         lng={stayToPreview?.loc.lng || 0}
