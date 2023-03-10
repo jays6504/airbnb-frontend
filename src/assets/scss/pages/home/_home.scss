@@ -1,7 +1,8 @@
 .home {
     grid-column: 1/-1;
     position: relative;
-
+    display: flex;
+    flex-direction: column;
     .filters {
         padding-top: 0.5rem;
         position: sticky;
@@ -10,7 +11,11 @@
         z-index: 1;
     }
     .stay-index {
-        padding: 1.5rem 0;
+        flex: 1;
+        height: 100%;
+        .stay-list {
+            padding: 1.5rem 0;
+        }
     }
     .view-toggle-btn {
         cursor: pointer;
