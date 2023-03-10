@@ -19,6 +19,7 @@ interface IChildProps {
     stays: IStayPreview[]
     onAddToWishlist: () => void
     isMapView: boolean
+    isLoading: boolean
 }
 
 const STAYS_INCREMENT_BY = 20
@@ -38,9 +39,10 @@ export function Home() {
     }
 
     const childProps: IChildProps = {
-        stays: stays,
+        stays,
         onAddToWishlist,
-        isMapView: isMapView,
+        isMapView,
+        isLoading,
     }
 
     function toggleMapView() {
@@ -61,7 +63,6 @@ export function Home() {
         )
     }
 
-    if (isLoading) return <div>Loading HOME...</div>
     return (
         <div className='home'>
             <div className='filters main-layout'>
