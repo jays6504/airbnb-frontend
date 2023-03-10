@@ -38,9 +38,8 @@
     .CalendarDay__selected_start,
     .CalendarDay__selected_end,
     .CalendarDay__hovered_span:hover {
-        border-radius: 55px;
-        background-color: $black !important;
         color: #fff !important;
+        background-color: $black !important;
     }
 
     .CalendarDay__selected_span {
@@ -58,6 +57,77 @@
         width: 24px;
         height: 24px;
         opacity: 1;
+    }
+    .CalendarDay__selected_start::before {
+        background: linear-gradient(to right, white, $gray-E);
+        border-radius: 55px 0 0 55px;
+    }
+    .CalendarDay__selected_end::before,
+    .CalendarDay__hovered_span:hover::before {
+        background: linear-gradient(to left, white, $gray-E);
+        border-radius: 0 55px 55px 0;
+    }
+    .CalendarDay__selected_start,
+    .CalendarDay__selected_end,
+    .CalendarDay__hovered_span:hover {
+        border-radius: 55px;
+        background-color: $black !important;
+        position: relative;
+        z-index: 1;
+        border: 0 !important;
+        // &:hover {
+        // }
+        &::before {
+            z-index: -2;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        &::after {
+            z-index: -1;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 55px;
+            background-color: $black !important;
+            color: #fff !important;
+        }
+    }
+}
+.CalendarMonth_table {
+    tbody {
+        tr {
+            td.CalendarDay__selected_span:first-of-type::before,
+            td.CalendarDay__hovered_span:first-of-type::before {
+                background: linear-gradient(to right, white, $gray-E 95%);
+            }
+            td.CalendarDay__selected_span:last-of-type::before,
+            td.CalendarDay__hovered_span:last-of-type::before {
+                background: linear-gradient(to left, white, $gray-E 95%);
+            }
+            td.CalendarDay__hovered_span:first-of-type,
+            td.CalendarDay__hovered_span:last-of-type,
+            td.CalendarDay__selected_span:first-of-type,
+            td.CalendarDay__selected_span:last-of-type {
+                position: relative;
+                z-index: 1;
+                &::before {
+                    z-index: -2;
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
     }
 }
 
