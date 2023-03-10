@@ -1,5 +1,3 @@
-import { Moment } from 'moment'
-
 export interface ISearchBy {
     destination: string
     adults: number
@@ -19,5 +17,4 @@ export interface ISearchByOpts {
     guests?: number
     startDate?: Date | null
     endDate?: Date | null
-    labels?: string[]
 }

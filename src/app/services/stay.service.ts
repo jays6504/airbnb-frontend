@@ -11,7 +11,7 @@ var gStays: IStay[] = require('../../assets/data/minified-stays.json')
 var gFilters: IFilter[] = require('../../assets/data/filters.json')
 _initStays()
 
-export const stayService = { query, getDefaultSearch, loadFilters }
+export const stayService = { query, getDefaultSearch, loadFilters, getSearchFromParams }
 
 async function query(searchBy: ISearchBy = getDefaultSearch(), filterBy: IFilterBy = getDefaultFilter()) {
     try {
@@ -22,6 +22,22 @@ async function query(searchBy: ISearchBy = getDefaultSearch(), filterBy: IFilter
     } catch (err) {
         console.log('err:', err)
     }
+}
+
+function getSearchFromParams(paramsObj: { [k: string]: string }): ISearchBy {
+    console.log('paramsObj:', paramsObj)
+    let searchObj: ISearchBy = {
+        adults: +paramsObj.adults,
+        children: +paramsObj.children,
+        destination: paramsObj.destination,
+        endDate: utilService.deformatDate(paramsObj.endDate),
+        startDate: utilService.deformatDate(paramsObj.startDate),
+        infants: +paramsObj.infants,
+        pets: +paramsObj.pets,
+        guests: +paramsObj.guests,
+    }
+    if (searchObj.destination === "I'm Flexible") searchObj.destination = ''
+    return searchObj
 }
 
 function getDefaultSearch(): ISearchBy {
@@ -44,7 +60,11 @@ function getDefaultFilter() {
 }
 
 function loadFilters(): IFilter[] {
-    return [...gFilters]
+    let filters = [...gFilters]
+    filters.forEach(filter => {
+        filter._id = utilService.makeId()
+    })
+    return filters
 }
 
 function _filter(stays: IStay[], filterBy: IFilterBy, searchBy: ISearchBy) {
@@ -53,16 +73,15 @@ function _filter(stays: IStay[], filterBy: IFilterBy, searchBy: ISearchBy) {
         filteredStays = filteredStays.filter(stay => stay.labels.some(label => filterBy.labels.includes(label)))
     }
     if (searchBy.destination) {
-        let { destination } = searchBy
-        console.log('destination:', destination)
+        const searchTerm = searchBy.destination.toLowerCase()
         filteredStays = filteredStays.filter(stay => {
-            let { address, city, countryCode, country } = stay.loc
-            return (
-                address.includes(destination) ||
-                city.includes(destination) ||
-                countryCode.includes(destination) ||
-                country.includes(destination)
-            )
+            const { address, city, countryCode, country } = stay.loc
+            const addressContainsTerm = address?.toLowerCase().includes(searchTerm)
+            const cityContainsTerm = city?.toLowerCase().includes(searchTerm)
+            const countryCodeContainsTerm = countryCode?.toLowerCase().includes(searchTerm)
+            const countryContainsTerm = country?.toLowerCase().includes(searchTerm)
+
+            return addressContainsTerm || cityContainsTerm || countryCodeContainsTerm || countryContainsTerm
         })
     }
 

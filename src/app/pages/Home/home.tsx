@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useLayoutEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { StayList } from './cmps/stay-list'
 import { StayMap } from './cmps/stay-map'
@@ -26,37 +26,14 @@ const STAYS_INCREMENT_BY = 20
 export function Home() {
     const stays = useSelector((storeState: RootState) => storeState.stayModule.stays)
     const isLoading = useSelector((storeState: RootState) => storeState.stayModule.isLoading)
-    const [filters, setFilters] = useState<IFilter[]>([])
+    const [filters, setFilters] = useState<IFilter[]>(stayService.loadFilters())
     const [isMapView, setIsMapView] = useState<boolean>(false)
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         loadStays()
-        loadFilters()
     }, [])
 
-    const location = useLocation()
-    useEffect(() => {
-        const searchParams = new URLSearchParams(location.search)
-        let paramsObj = Object.fromEntries(searchParams.entries())
-        let searchObj: ISearchBy = {
-            adults: +paramsObj.adults,
-            children: +paramsObj.children,
-            destination: paramsObj.destination,
-            endDate: utilService.deformatDate(paramsObj.endDate),
-            startDate: utilService.deformatDate(paramsObj.startDate),
-            infants: +paramsObj.infants,
-            pets: +paramsObj.pets,
-            guests: +paramsObj.guests,
-        }
-        if (searchObj.destination === "I'm Flexible") searchObj.destination = ''
-        loadStays(searchObj)
-    }, [location])
-
-    function loadFilters(): void {
-        let filters: IFilter[] = stayService.loadFilters()
-        filters.forEach(f => (f._id = utilService.makeId()))
-        setFilters(filters)
-    }
+    console.log('stays:', stays)
 
     function onAddToWishlist(): void {
         console.log('Todo:add to wishlist')
@@ -73,7 +50,6 @@ export function Home() {
     }
 
     function onFilterChange(label: string) {
-        //TODO : dispatch action to make store changes in searchBy
         console.log('label:', label)
     }
 

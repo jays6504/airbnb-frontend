@@ -1,16 +1,15 @@
 import { useSearchParams, useLocation } from 'react-router-dom'
 
 import { useRef, useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import { ISearchBy, ISearchByOpts } from '../interfaces/search'
 import { stayService } from '../services/stay.service'
-import { RootState } from '../store/store'
 import { AppLogo } from './app-logo'
 import { OverlayScreen } from './overlay-screen'
 import { SearchForm } from './search-form'
 import { SearchTeaser } from './search-teaser'
 import { UserMenu } from './user-menu'
 import { utilService } from '../services/util.service'
+import { loadStays } from '../store/stay/stay.actions'
 
 export interface ISearchProps {
     activeModule: string | null
@@ -37,18 +36,11 @@ export function AppHeader() {
     const location = useLocation()
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search)
+        if (searchParams.toString() === '') return
         let paramsObj = Object.fromEntries(searchParams.entries())
-        let searchObj: ISearchBy = {
-            destination: paramsObj.destination || '',
-            endDate: utilService.deformatDate(paramsObj.endDate),
-            startDate: utilService.deformatDate(paramsObj.startDate),
-            adults: +paramsObj.adults || 0,
-            children: +paramsObj.children || 0,
-            infants: +paramsObj.infants || 0,
-            pets: +paramsObj.pets || 0,
-            guests: +paramsObj.guests || 0,
-        }
+        let searchObj = stayService.getSearchFromParams(paramsObj)
         setSearchBy(searchObj)
+        loadStays(searchObj)
     }, [location])
 
     function handleFormSubmit() {
@@ -68,7 +60,12 @@ export function AppHeader() {
         }))
     }
 
-    function onSetSearchBy(searchByOpts: ISearchByOpts) {
+    function onSetSearchBy(
+        searchByOpts: Pick<
+            ISearchByOpts,
+            'destination' | 'adults' | 'children' | 'infants' | 'pets' | 'guests' | 'startDate' | 'endDate'
+        >
+    ) {
         setSearchBy(prev => ({ ...prev, ...searchByOpts }))
     }
 
