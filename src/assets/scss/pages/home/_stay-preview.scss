@@ -1,7 +1,16 @@
 .stay-preview {
     animation: fade-in 0.6s ease-in-out;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    border-radius: 1rem;
+    transition-duration: 200ms;
+    width: 100%;
+    background-color: #fff;
+    font-size: 1rem;
     .meta {
-        margin-top: 1rem;
+        margin-top: 0.5rem;
         display: grid;
         grid-template-columns: 1fr auto;
         grid-template-areas:
@@ -31,6 +40,21 @@
             margin-top: 0.5rem;
             .price-suffix {
                 font-weight: 100;
+            }
+        }
+    }
+    &.map-view {
+        min-width: 300px;
+        width: 100%;
+        .meta {
+            padding: 1rem;
+            padding-top: 0;
+        }
+        .img-carousel {
+            .images-container {
+                .carousel-item-container {
+                    @include aspect-ratio(6, 4);
+                }
             }
         }
     }

@@ -1,6 +1,6 @@
 import { IStayPreview } from '../../../interfaces/stay'
 import GoogleMapReact from 'google-map-react'
-import { HTMLAttributes, ReactNode, useCallback, useEffect, useRef, useState } from 'react'
+import { forwardRef, HTMLAttributes, MutableRefObject, useRef, useState } from 'react'
 import { StayPreview } from './stay.preview'
 
 enum Visibility {
@@ -12,12 +12,25 @@ interface Props {
     onAddToWishlist: () => void
 }
 
+interface IStayContainerProps extends HTMLAttributes<HTMLDivElement> {
+    lat: number
+    lng: number
+    children: JSX.Element
+    containerStyles: {
+        left: string
+        visibility: string
+    }
+    innerRef?: MutableRefObject<HTMLDivElement | null> | ((el: HTMLDivElement | null) => void)
+}
+
 interface MarkerProps extends HTMLAttributes<HTMLDivElement> {
     lat: number
     lng: number
     idx: number
-    children: ReactNode
+    children: JSX.Element
     className?: string
+    innerRef?: (el: HTMLDivElement | null) => void
+    handleClick: (event: React.MouseEvent<HTMLDivElement>, idx: number) => void
 }
 // Map setup and data
 const apiKey = 'AIzaSyB_EGN1HMBcl7uYM0IBR2jGP3-SGW3pznk'
@@ -38,74 +51,57 @@ export function StayMap({ stays, onAddToWishlist }: Props) {
         _id: stay._id,
         idx,
     }))
-
-    // Preview stay states and data
-    const [stayToPreview, setStayToPreview] = useState<IStayPreview | null>(null)
-    const [elSelectedMarker, setElCurrentMarker] = useState<HTMLDivElement | null>(null)
-    const elPreviewContainer = useRef<HTMLDivElement | null>(null)
-    const [isZoomDisabled, setIsZoomDisabled] = useState<boolean>(false)
-
-    const onRefChange = useCallback(
-        (markerNode: HTMLDivElement | null, idx: number) => {
-            if (markerNode !== null) {
-                // Marker ref changed and exists
-                if (stayToPreview?._id === markers[idx]._id) {
-                    setElCurrentMarker(markerNode)
-                }
-            }
-            // Else unmounted marker ref
-        },
-        [stayToPreview, markers]
-    )
-
-    function handleMapClick() {
-        setStayToPreview(null)
-    }
-
     function mapOptions() {
         return {
             styles: mapStyles,
-            disableDoubleClickZoom: isZoomDisabled ? true : false,
         }
     }
+    // Preview stay states and data
+    const [stayToPreview, setStayToPreview] = useState<IStayPreview | null>(null)
+    const [elSelectedMarker, setElCurrentMarker] = useState<HTMLDivElement | null>(null)
+    const elPreviewContainer = useRef<HTMLDivElement>(null)
+    console.log('stayToPreview:', stayToPreview)
+    console.log('elPreviewContainer:', elPreviewContainer)
+    console.log('elSelectedMarker:', elSelectedMarker)
     // Preview methods
 
     function onMarkerClick(event: React.MouseEvent<HTMLDivElement>, idx: number) {
         event.stopPropagation()
+        event.preventDefault()
         const stay = stays[idx]
-        setStayToPreview(stay)
-    }
-
-    function onPreviewClick(event: React.MouseEvent<HTMLDivElement>) {
-        event.stopPropagation()
-    }
-
-    function handlePreviewMouseEnter() {
-        setIsZoomDisabled(true)
-    }
-
-    function handlePreviewMouseLeave() {
-        setIsZoomDisabled(false)
+        if (stayToPreview?._id === stay._id) {
+            // Clicked on the same marker twice, close the preview
+            setStayToPreview(null)
+        } else {
+            // Clicked on a different marker, show the preview
+            setStayToPreview(stay)
+            setElCurrentMarker(event.currentTarget) // Update the current marker
+        }
     }
 
     function previewContainerStyles() {
+        if (!elSelectedMarker) return { left: '0px', visibility: Visibility.Hidden }
         return {
-            left: `${elSelectedMarker?.offsetWidth ?? 0 / 2}px`,
+            left: `${elSelectedMarker?.offsetWidth / 2}px`,
             visibility: stayToPreview ? Visibility.Visible : Visibility.Hidden,
         }
     }
 
-    // const Marker = ({ lat, lng, children, className, idx }: MarkerProps) => (
-    //     <div className={`marker-container ${className}`} lat={lat} lng={lng}>
-    //         <div
-    //             onClick={event => onMarkerClick(event, idx)}
-    //             ref={el => onRefChange(el, idx)}
-    //             className={`marker ${className}`}
-    //         >
-    //             {children}
-    //         </div>
-    //     </div>
-    // )
+    const StayPreviewContainer = forwardRef<HTMLDivElement, IStayContainerProps>(
+        ({ containerStyles, children, ...rest }, ref) => (
+            <div {...rest} style={containerStyles as React.CSSProperties} ref={ref} className='map-stay-preview'>
+                {children}
+            </div>
+        )
+    )
+
+    const Marker = ({ children, className, idx, handleClick }: MarkerProps) => (
+        <div className={`marker-container ${className}`}>
+            <div onClick={event => handleClick(event, idx)} className={`marker ${className}`}>
+                {children}
+            </div>
+        </div>
+    )
 
     return (
         <div className='index-map full'>
@@ -114,33 +110,31 @@ export function StayMap({ stays, onAddToWishlist }: Props) {
                 defaultCenter={defaultProps.center}
                 defaultZoom={defaultProps.zoom}
                 options={mapOptions()}
-                onClick={handleMapClick}
             >
-                {/* {markers.map(marker => (
+                {markers.map((marker, idx) => (
                     <Marker
-                        idx={marker.idx}
+                        handleClick={onMarkerClick}
+                        idx={idx}
                         key={marker._id}
                         lat={marker.lat}
                         lng={marker.lng}
                         className={stayToPreview?._id === marker._id ? 'active' : ''}
                     >
-                        {marker.price}
+                        <span>{marker.price}</span>
                     </Marker>
-                ))} */}
-                {/* <div
-                    onClick={onPreviewClick}
-                    lat={stayToPreview?.loc.lat}
-                    lng={stayToPreview?.loc.lng}
-                    ref={elPreviewContainer}
-                    style={previewContainerStyles()}
-                    className='map-stay-preview'
-                    onMouseEnter={handlePreviewMouseEnter}
-                    onMouseLeave={handlePreviewMouseLeave}
-                >
-                    {stayToPreview && (
-                        <StayPreview onAddToWishlist={onAddToWishlist} stay={stayToPreview} isMapView={true} />
-                    )}
-                </div> */}
+                ))}
+                {stayToPreview && (
+                    <StayPreviewContainer
+                        lat={stayToPreview?.loc.lat || 0}
+                        lng={stayToPreview?.loc.lng || 0}
+                        ref={elPreviewContainer}
+                        containerStyles={previewContainerStyles()}
+                    >
+                        <div>
+                            <StayPreview onAddToWishlist={onAddToWishlist} stay={stayToPreview} isMapView={true} />
+                        </div>
+                    </StayPreviewContainer>
+                )}
             </GoogleMapReact>
         </div>
     )
