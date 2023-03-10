@@ -32,7 +32,7 @@ export function SearchModule({
         } else if (name === 'location' && searchBy.destination) {
             return searchBy.destination
         } else if (name === 'guests' && searchBy.guests) {
-            return searchBy.guests
+            return `${searchBy.guests} guests`
         } else {
             return ''
         }

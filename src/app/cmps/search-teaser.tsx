@@ -12,7 +12,7 @@ export function SearchTeaser({ onChangeModule, searchBy, isExpandedClass, onChan
             searchBy.startDate && searchBy.endDate
                 ? `${formatDate(searchBy.startDate)} - ${formatDate(searchBy.endDate)}`
                 : 'Any week',
-        guests: searchBy.adults ? `${searchBy.adults} guests` : 'Add guests',
+        guests: searchBy.adults ? `${searchBy.guests} guests` : 'Add guests',
     }
     const handleClick: React.MouseEventHandler<HTMLElement> = ev => {
         ev.preventDefault()

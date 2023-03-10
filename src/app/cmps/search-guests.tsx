@@ -1,5 +1,5 @@
 import { ISearchBy, ISearchByOpts } from '../interfaces/search'
-import { AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai'
+import { HiOutlinePlus, HiOutlineMinus } from 'react-icons/hi'
 import { get } from 'lodash'
 interface IProps {
     searchBy: ISearchBy
@@ -18,25 +18,35 @@ export function SearchGuests({ searchBy, onSetSearchBy }: IProps) {
     function handleCounterClick(opt: string, value: number) {
         const newValue = get(searchBy, opt.toLocaleLowerCase(), 0) + value // Get the current value of the option from searchBy object
         if (newValue < 0) return
-        onSetSearchBy({ [opt.toLocaleLowerCase()]: newValue })
+        onSetSearchBy({ [opt.toLocaleLowerCase()]: newValue, guests: searchBy.guests + value })
+    }
+
+    function getVal(opt: string) {
+        return get(searchBy, opt.toLocaleLowerCase(), 0)
     }
 
     return (
         <section className='search-guests'>
             <ul className='adding-guests-list clean-list flex column'>
                 {options.map((opt, idx) => (
-                    <li key={`sg-${idx}`} className='adding-guests-item'>
-                        <section>
+                    <li key={`sg-${idx}`} className='adding-guests-item flex align-center justify-between'>
+                        <section className='data'>
                             <h4 className='label'>{opt.label}</h4>
-                            <p className='description text-muted'>{opt.description}</p>
+                            <p className='description text-muted inline-clamp'>{opt.description}</p>
                         </section>
-                        <section className='adding-guests-actions'>
-                            <div onClick={() => handleCounterClick(opt.label, -1)} className='minus'>
-                                <AiOutlineMinusCircle />
+                        <section className='adding-guests-actions flex align-center'>
+                            <div
+                                onClick={() => handleCounterClick(opt.label, -1)}
+                                className={`minus ${getVal(opt.label) === 0 ? 'disabled' : ''}`}
+                            >
+                                <HiOutlineMinus />
                             </div>
-                            <div>{get(searchBy, opt.label.toLocaleLowerCase(), 0)}</div>
-                            <div onClick={() => handleCounterClick(opt.label, 1)} className='plus'>
-                                <AiOutlinePlusCircle />
+                            <div className='counter-value'>{get(searchBy, opt.label.toLocaleLowerCase(), 0)}</div>
+                            <div
+                                onClick={() => handleCounterClick(opt.label, 1)}
+                                className={`plus ${getVal(opt.label) === 16 ? 'disabled' : ''}`}
+                            >
+                                <HiOutlinePlus />
                             </div>
                         </section>
                     </li>

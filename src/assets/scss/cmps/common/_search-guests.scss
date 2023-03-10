@@ -1,0 +1,48 @@
+.search-guests {
+    width: 100%;
+    .adding-guests-list {
+        .adding-guests-item {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid $gray-E;
+            &:first-child {
+                padding: 0 0 1.5rem;
+            }
+            &:last-child {
+                border: 0;
+                padding: 1.5rem 0 0rem;
+            }
+            .data {
+                flex: 1;
+                .label {
+                    margin-bottom: 0.25rem;
+                }
+            }
+        }
+        .adding-guests-actions {
+            align-items: center;
+            gap: 1rem;
+            .minus,
+            .plus {
+                font-size: 1rem;
+                border: 1px solid $black;
+                border-radius: 55px;
+                width: 2rem;
+                height: 2rem;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                &.disabled {
+                    cursor: not-allowed;
+                    border: 1px solid $gray-B;
+                    color: $gray-B;
+                }
+            }
+            .minus {
+            }
+            .plus {
+            }
+            .counter-value {
+            }
+        }
+    }
+}
