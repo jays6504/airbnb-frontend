@@ -33,8 +33,6 @@ export function Home() {
         loadStays()
     }, [])
 
-    console.log('stays:', stays)
-
     function onAddToWishlist(): void {
         console.log('Todo:add to wishlist')
     }

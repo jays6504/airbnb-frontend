@@ -25,7 +25,6 @@ async function query(searchBy: ISearchBy = getDefaultSearch(), filterBy: IFilter
 }
 
 function getSearchFromParams(paramsObj: { [k: string]: string }): ISearchBy {
-    console.log('paramsObj:', paramsObj)
     let searchObj: ISearchBy = {
         adults: +paramsObj.adults,
         children: +paramsObj.children,

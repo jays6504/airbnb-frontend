@@ -13,7 +13,6 @@ export function SearchGuests({ searchBy, onSetSearchBy }: IProps) {
         { label: 'Infants', description: 'Under 2' },
         { label: 'Pets', description: 'Bringing a service animal?' },
     ]
-    console.log('searchBy:', searchBy)
 
     function handleCounterClick(opt: string, value: number) {
         const newValue = get(searchBy, opt.toLocaleLowerCase(), 0) + value // Get the current value of the option from searchBy object
