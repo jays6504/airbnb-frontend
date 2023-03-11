@@ -14,25 +14,6 @@ interface IPreviewProps {
 export const StayPreview: React.FC<IPreviewProps> = ({ stay, isMapView, onAddToWishlist, delay, onStayClick }) => {
     const [isLoaded, setIsLoaded] = useState<boolean>(false)
 
-    const skeleton = () => {
-        return (
-            <div className='skeleton-preview'>
-                <div className='img-skeleton'></div>
-                <section className='meta'>
-                    <div className='group flex align-center'>
-                        <div className='skeleton text-skeleton'></div>
-                        <div className='flex grow align-center'>
-                            <div className='skeleton icon-skeleton'></div>
-                            <div className='skeleton text-skeleton'></div>
-                        </div>
-                    </div>
-                    <div className='skeleton text-skeleton'></div>
-                    <div className='skeleton text-skeleton price'></div>
-                </section>
-            </div>
-        )
-    }
-
     if (!stay) return skeleton()
     return (
         <article
@@ -56,5 +37,24 @@ export const StayPreview: React.FC<IPreviewProps> = ({ stay, isMapView, onAddToW
                 </p>
             </div>
         </article>
+    )
+}
+
+const skeleton = () => {
+    return (
+        <div className='skeleton-preview'>
+            <div className='img-skeleton'></div>
+            <section className='meta'>
+                <div className='group flex align-center'>
+                    <div className='skeleton text-skeleton'></div>
+                    <div className='flex grow align-center'>
+                        <div className='skeleton icon-skeleton'></div>
+                        <div className='skeleton text-skeleton'></div>
+                    </div>
+                </div>
+                <div className='skeleton text-skeleton'></div>
+                <div className='skeleton text-skeleton price'></div>
+            </section>
+        </div>
     )
 }

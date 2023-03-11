@@ -34,7 +34,7 @@ async function query(searchBy: ISearchBy = getDefaultSearch(), filterBy: IFilter
 }
 
 async function get(stayId: string) {
-    return storageService.get(STAY_DB_KEY, stayId) as Promise<IStayPreview>
+    return storageService.get(STAY_DB_KEY, stayId) as Promise<IStay>
 }
 
 function getSearchFromParams(paramsObj: { [k: string]: string }): ISearchBy {
