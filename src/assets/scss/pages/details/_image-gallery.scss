@@ -1,2 +1,15 @@
 .image-gallery {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: repeat(2, minmax(250px, 1fr));
+    gap: 0.5rem;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    > img {
+        height: 100%;
+        object-fit: cover;
+    }
+    > :first-child {
+        grid-row: 1/-1;
+    }
 }
