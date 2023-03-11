@@ -1,12 +1,11 @@
-import { FaStar } from 'react-icons/fa'
 import { IStay } from '../../../interfaces/stay'
+import { ReviewTitle } from './review-title'
 export function ReviewSection({ stay }: { stay: IStay | null }) {
     return (
         <section className='review-section'>
             <section className='intro'>
-                <h1 className='title flex align-center'>
-                    <FaStar /> {stay?.avgRate} • {stay?.reviews.length} reviews
-                </h1>
+                <ReviewTitle size={'lg'} avgRate={stay?.avgRate} reviewsLength={stay?.reviews.length} />
+                <h1 className='title flex align-center'></h1>
                 <div className='rates-list'></div>
             </section>
         </section>

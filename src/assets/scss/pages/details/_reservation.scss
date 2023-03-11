@@ -1,10 +1,9 @@
 .sticky-section-wrapper {
     position: relative;
     display: flex;
-    flex-wrap: wrap;
     height: 100vh;
     .reservation {
-        flex-basis: 33%;
+        min-width: 33%;
         margin-inline-start: auto;
         position: sticky;
         top: calc($header-height-desktop + 3.25rem);

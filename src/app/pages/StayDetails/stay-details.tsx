@@ -4,12 +4,12 @@ import { IStay } from '../../interfaces/stay'
 import { stayService } from '../../services/stay.service'
 import { HostSection } from './cmps/host-section'
 import { ImageGallery } from './cmps/image-gallery'
-import { MainDetails } from './cmps/main-details'
 import { MapSection } from './cmps/map-section'
 import { Reservation } from './cmps/reservation'
 import { ReviewSection } from './cmps/review-section'
 import { StayInfo } from './cmps/stay-info'
 import { StayIntro } from './cmps/stay-intro'
+import { StaySummary } from './cmps/stay-summary'
 import { ThingsToKnowSection } from './cmps/things-to-know-section'
 
 export function StayDetails() {
@@ -41,6 +41,7 @@ export function StayDetails() {
             <section className='sticky-section-wrapper'>
                 <main className='main-details'>
                     <StayInfo stay={stay} />
+                    <StaySummary staySummary={stay?.summary} />
                 </main>
                 <Reservation />
             </section>

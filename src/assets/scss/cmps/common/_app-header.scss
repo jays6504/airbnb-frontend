@@ -8,6 +8,7 @@
         z-index: 2;
         border-bottom: 1px solid $gray-F;
         .logo {
+            cursor: pointer;
             color: $primary;
         }
         // Header bg-color extension when expanded as ::before

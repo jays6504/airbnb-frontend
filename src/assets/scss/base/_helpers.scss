@@ -43,6 +43,13 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
 }
+.line-clamp-5 {
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
 
 // Inline space
 .space-inline-s {
@@ -121,8 +128,8 @@
     cursor: pointer;
 }
 .avatar {
-    width: 3rem;
-    height: 3rem;
+    width: 3.75rem;
+    height: 3.75rem;
     object-fit: cover;
     border-radius: 55px;
 }

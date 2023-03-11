@@ -1,4 +1,4 @@
-import { useSearchParams, useLocation } from 'react-router-dom'
+import { useSearchParams, useLocation, useNavigate } from 'react-router-dom'
 
 import { useRef, useState, useEffect } from 'react'
 import { ISearchBy, ISearchByOpts } from '../interfaces/search'
@@ -33,6 +33,7 @@ export function AppHeader() {
 
     // Search Params
     let [_, setSearchParams] = useSearchParams()
+    const navigate = useNavigate()
     const location = useLocation()
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search)
@@ -104,7 +105,7 @@ export function AppHeader() {
             <OverlayScreen isOpen={isExpanded} setIsOpen={onChangeIsExpanded} />
             <header className={`${isExpandedClass} main-layout`}>
                 <div className='wrapper flex align-center justify-between'>
-                    <div className='logo'>
+                    <div onClick={() => navigate('/airbnb-frontend/')} className='logo'>
                         <AppLogo />
                     </div>
                     <SearchTeaser {...searchProps} />

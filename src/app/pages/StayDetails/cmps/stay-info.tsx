@@ -13,8 +13,8 @@ export function StayInfo({ stay }: { stay: IStay | null }) {
                 )}
                 <div className='stay-more-info'>
                     {stay?.stayDetails &&
-                        Object.keys(stay.stayDetails).map(key => (
-                            <div key={key}>{stay.stayDetails[key] + ` ${key} `}</div>
+                        Object.keys(stay.stayDetails).map((key, idx) => (
+                            <div key={key}>{stay.stayDetails[key] + ` ${key}`}</div>
                         ))}
                 </div>
             </div>
