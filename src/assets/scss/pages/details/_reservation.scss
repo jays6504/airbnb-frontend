@@ -1,2 +1,19 @@
-.reservation {
+.sticky-section-wrapper {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    height: 100vh;
+    .reservation {
+        flex-basis: 33%;
+        margin-inline-start: auto;
+        position: sticky;
+        top: calc($header-height-desktop + 3.25rem);
+        border: 1px solid rgb(221, 221, 221);
+        border-radius: 12px;
+        height: max-content;
+        padding: 24px;
+        box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
+        margin-top: 3rem;
+        padding-bottom: 3rem;
+    }
 }

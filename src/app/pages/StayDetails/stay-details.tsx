@@ -36,7 +36,7 @@ export function StayDetails() {
     console.log('stay:', stay)
     return (
         <section className='stay-details'>
-            <StayIntro stayName={stay?.name} />
+            <StayIntro stay={stay} />
             <ImageGallery imgUrls={stay?.imgUrls} />
             <section className='sticky-section-wrapper'>
                 <main className='main-details'>
@@ -44,7 +44,7 @@ export function StayDetails() {
                 </main>
                 <Reservation />
             </section>
-            <ReviewSection />
+            <ReviewSection stay={stay} />
             <MapSection />
             <HostSection />
             <ThingsToKnowSection />
