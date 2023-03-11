@@ -8,6 +8,7 @@ import { MainDetails } from './cmps/main-details'
 import { MapSection } from './cmps/map-section'
 import { Reservation } from './cmps/reservation'
 import { ReviewSection } from './cmps/review-section'
+import { StayInfo } from './cmps/stay-info'
 import { StayIntro } from './cmps/stay-intro'
 import { ThingsToKnowSection } from './cmps/things-to-know-section'
 
@@ -37,10 +38,12 @@ export function StayDetails() {
         <section className='stay-details'>
             <StayIntro stayName={stay?.name} />
             <ImageGallery imgUrls={stay?.imgUrls} />
-            <div className='main-details-wrapper'>
-                <MainDetails />
+            <section className='sticky-section-wrapper'>
+                <main className='main-details'>
+                    <StayInfo stay={stay} />
+                </main>
                 <Reservation />
-            </div>
+            </section>
             <ReviewSection />
             <MapSection />
             <HostSection />

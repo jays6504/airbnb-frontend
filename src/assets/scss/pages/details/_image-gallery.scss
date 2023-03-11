@@ -20,7 +20,7 @@
 .image-gallery-item-container {
     position: relative;
     min-height: 0;
-    padding-top: calc(75% - 0.5rem); /* Set the aspect ratio of the image container to 4:3 */
+    padding-top: calc(90% - 0.5rem);
 
     &.img-skeleton {
         &::before {
