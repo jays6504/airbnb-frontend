@@ -1,11 +1,9 @@
 const ITEMS_TO_PREVIEW = 5
 
-export function ImageGallery({ imgUrls }: { imgUrls: string[] | undefined }) {
-    if (!imgUrls || !imgUrls.length) return <div className='loader'></div>
-
+export function ImageGallery({ imgUrls = [] }: { imgUrls: string[] | undefined }) {
     return (
         <section className='image-gallery'>
-            {!imgUrls || !imgUrls.length
+            {!imgUrls.length
                 ? skeleton()
                 : imgUrls
                       .slice(0, ITEMS_TO_PREVIEW)
@@ -15,7 +13,7 @@ export function ImageGallery({ imgUrls }: { imgUrls: string[] | undefined }) {
 }
 
 function skeleton() {
-    return Array.from({ length: ITEMS_TO_PREVIEW }, (_, idx) => (
-        <div key={`g-s-${idx}`} className='image-skeleton'></div>
-    ))
+    console.log('skeletons:')
+    const skeletonsArray = Array.from({ length: ITEMS_TO_PREVIEW })
+    return skeletonsArray.map((_, idx) => <div key={`g-s-${idx}`} className='skeleton-details img-skeleton'></div>)
 }
