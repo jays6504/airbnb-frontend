@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { IStay } from '../../interfaces/stay'
 import { stayService } from '../../services/stay.service'
@@ -25,13 +25,14 @@ export function StayDetails() {
         if (!stayId) return
         try {
             const stay = await stayService.get(stayId)
+            stay.avgRate = stayService.calcAvgRate(stay.reviews)
+            stay.avgRates = stayService.calcAvgRates(stay.reviews)
             setStay(stay)
         } catch (err) {
             navigate('/airbnb-frontend')
         }
     }
     console.log('stay:', stay)
-
     return (
         <section className='stay-details'>
             <StayIntro stayName={stay?.name} />

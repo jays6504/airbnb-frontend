@@ -22,6 +22,10 @@ export function DatePicker({ searchBy, onSetSearchBy, activeModule, onChangeModu
         onChangeModule(newFocus)
     }
 
+    const isOutsideRange = (day: Moment) => {
+        return day.isBefore(moment().startOf('day'))
+    }
+
     return (
         <section className='datepicker'>
             <DayPickerRangeController
@@ -36,6 +40,7 @@ export function DatePicker({ searchBy, onSetSearchBy, activeModule, onChangeModu
                 noBorder={true}
                 hideKeyboardShortcutsPanel={true}
                 initialVisibleMonth={() => moment()}
+                isOutsideRange={isOutsideRange}
             />
         </section>
     )

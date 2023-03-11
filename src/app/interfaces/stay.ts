@@ -17,6 +17,8 @@ export interface IStay {
     likedByUsers: User[]
     labels: string[]
     stayDetails: { [key: string]: number }
+    avgRates?: { [k: string]: number }
+    avgRate?: string
 }
 export interface IStayPreview {
     _id: string

@@ -17,6 +17,8 @@ export const stayService = {
     getDefaultSearch,
     loadFilters,
     getSearchFromParams,
+    calcAvgRate,
+    calcAvgRates,
 }
 
 async function query(searchBy: ISearchBy = getDefaultSearch(), filterBy: IFilterBy = getDefaultFilter(), pageIdx = 0) {
@@ -119,19 +121,42 @@ function _arrangePreviewData(stay: IStay): IStayPreview {
         imgUrls: stay.imgUrls,
         isSuperHost: stay.host.isSuperHost,
         loc: stay.loc,
-        avgRate: _calcAvgRate(stay.reviews),
+        avgRate: calcAvgRate(stay.reviews),
         type: stay.type,
     }
 }
 
-function _calcAvgRate(stayReviews: IReview[]): string {
-    if (!stayReviews.length) return '0'
-    let allRatesSum = stayReviews.reduce((acc, review) => {
+function calcAvgRates(reviews: IReview[]): { [key: string]: number } {
+    const avgRates: { [key: string]: number } = {}
+    const numReviews = reviews.length
+
+    reviews.forEach(review => {
+        const moreRates = review.moreRate
+
+        Object.entries(moreRates).forEach(([key, value]) => {
+            avgRates[key] = avgRates[key] || 0
+            avgRates[key] += value / numReviews
+        })
+    })
+
+    Object.entries(avgRates).forEach(([key, value]) => {
+        avgRates[key] = parseFloat(value.toFixed(1))
+    })
+
+    return avgRates
+}
+
+function getRatesSum(stayReviews: IReview[]) {
+    return stayReviews.reduce((acc, review) => {
         const rates = Object.values(review.moreRate)
         let ratesSum = 0
         rates.forEach(r => (ratesSum += r))
         acc += ratesSum / rates.length
         return acc
     }, 0)
+}
+function calcAvgRate(stayReviews: IReview[]): string {
+    if (!stayReviews.length) return '0'
+    let allRatesSum = getRatesSum(stayReviews)
     return (allRatesSum / stayReviews.length).toFixed(2)
 }
