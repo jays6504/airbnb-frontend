@@ -34,7 +34,7 @@ async function query(searchBy: ISearchBy = getDefaultSearch(), filterBy: IFilter
 }
 
 async function get(stayId: string) {
-    return Promise.resolve(stayId)
+    return storageService.get(STAY_DB_KEY, stayId) as Promise<IStayPreview>
 }
 
 function getSearchFromParams(paramsObj: { [k: string]: string }): ISearchBy {
@@ -105,14 +105,15 @@ function _initStays() {
     let storeStays = localStorage.getItem(STAY_DB_KEY)
     stays = storeStays ? JSON.parse(storeStays) : []
     if (!stays || !stays.length) {
-        stays = gStays
+        stays = [...gStays]
+        stays.forEach(stay => (stay._id = utilService.makeId()))
         localStorage.setItem(STAY_DB_KEY, JSON.stringify(stays))
     }
 }
 
 function _arrangePreviewData(stay: IStay): IStayPreview {
     return {
-        _id: utilService.makeId(),
+        _id: stay._id,
         name: stay.name,
         price: stay.price,
         imgUrls: stay.imgUrls,
