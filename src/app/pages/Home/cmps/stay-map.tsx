@@ -3,15 +3,16 @@ import GoogleMapReact from 'google-map-react'
 import { forwardRef, HTMLAttributes, MutableRefObject, useRef, useState } from 'react'
 import { StayPreview } from './stay.preview'
 
+interface Props {
+    stays: IStayPreview[]
+    onAddToWishlist: () => void
+    onStayClick: (stayId: string) => void
+}
+
 enum Visibility {
     Visible = 'visible',
     Hidden = 'hidden',
 }
-interface Props {
-    stays: IStayPreview[]
-    onAddToWishlist: () => void
-}
-
 interface IStayContainerProps extends HTMLAttributes<HTMLDivElement> {
     lat: number
     lng: number
@@ -32,18 +33,8 @@ interface MarkerProps extends HTMLAttributes<HTMLDivElement> {
     innerRef?: (el: HTMLDivElement | null) => void
     handleClick: (event: React.MouseEvent<HTMLDivElement>, idx: number) => void
 }
-// Map setup and data
-const apiKey = 'AIzaSyB_EGN1HMBcl7uYM0IBR2jGP3-SGW3pznk'
-const defaultProps = {
-    center: {
-        lat: 37.7749,
-        lng: -122.4194,
-    },
-    zoom: 2,
-}
-const currencySign = '$'
 
-export function StayMap({ stays, onAddToWishlist }: Props) {
+export function StayMap({ stays, onAddToWishlist, onStayClick }: Props) {
     const markers = stays.map((stay, idx) => ({
         lat: stay.loc.lat,
         lng: stay.loc.lng,
@@ -128,7 +119,12 @@ export function StayMap({ stays, onAddToWishlist }: Props) {
                         containerStyles={previewContainerStyles()}
                     >
                         <div>
-                            <StayPreview onAddToWishlist={onAddToWishlist} stay={stayToPreview} isMapView={true} />
+                            <StayPreview
+                                onAddToWishlist={onAddToWishlist}
+                                stay={stayToPreview}
+                                isMapView={true}
+                                onStayClick={onStayClick}
+                            />
                         </div>
                     </StayPreviewContainer>
                 )}
@@ -136,6 +132,16 @@ export function StayMap({ stays, onAddToWishlist }: Props) {
         </div>
     )
 }
+// Map setup and data
+const apiKey = 'AIzaSyB_EGN1HMBcl7uYM0IBR2jGP3-SGW3pznk'
+const defaultProps = {
+    center: {
+        lat: 37.7749,
+        lng: -122.4194,
+    },
+    zoom: 2,
+}
+const currencySign = '$'
 
 const mapStyles = [
     {

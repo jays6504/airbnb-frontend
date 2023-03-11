@@ -8,9 +8,10 @@ interface IPreviewProps {
     onAddToWishlist?: () => void
     isMapView: boolean
     delay?: number
+    onStayClick: (stayId: string) => void
 }
 
-export const StayPreview: React.FC<IPreviewProps> = ({ stay, isMapView, onAddToWishlist, delay }) => {
+export const StayPreview: React.FC<IPreviewProps> = ({ stay, isMapView, onAddToWishlist, delay, onStayClick }) => {
     const [isLoaded, setIsLoaded] = useState<boolean>(false)
 
     const skeleton = () => {
@@ -31,32 +32,28 @@ export const StayPreview: React.FC<IPreviewProps> = ({ stay, isMapView, onAddToW
         )
     }
 
-    const actualPreview = () => {
-        return (
-            <article
-                className={`stay-preview ${isMapView ? 'map-view' : ''} ${isLoaded ? 'loaded' : ''}`}
-                onLoad={() => setIsLoaded(true)}
-                style={{ transitionDelay: `${delay}ms` }}
-            >
-                <ImgCarousel imgUrls={stay?.imgUrls || []} />
-                <div className='meta'>
-                    <p className='rate'>
-                        <span className='flex align-center'>
-                            <FaStar />
-                            <span>{stay?.avgRate}</span>
-                        </span>
-                    </p>
-                    <p className='name font-medium inline-clamp'>{stay?.name}</p>
-                    <p className='type'>{stay?.type}</p>
-                    <p className='price font-medium'>
-                        ${stay?.price}
-                        <span className='price-suffix font-base'>night</span>
-                    </p>
-                </div>
-            </article>
-        )
-    }
-
     if (!stay) return skeleton()
-    return actualPreview()
+    return (
+        <article
+            className={`stay-preview ${isMapView ? 'map-view' : ''} ${isLoaded ? 'loaded' : ''}`}
+            onLoad={() => setIsLoaded(true)}
+            style={{ transitionDelay: `${delay}ms` }}
+        >
+            <ImgCarousel imgUrls={stay.imgUrls || []} />
+            <div onClick={() => onStayClick(stay._id)} className='meta'>
+                <p className='rate'>
+                    <span className='flex align-center'>
+                        <FaStar />
+                        <span>{stay.avgRate}</span>
+                    </span>
+                </p>
+                <p className='name font-medium inline-clamp'>{stay.name}</p>
+                <p className='type'>{stay.type}</p>
+                <p className='price font-medium'>
+                    ${stay.price}
+                    <span className='price-suffix font-base'>night</span>
+                </p>
+            </div>
+        </article>
+    )
 }

@@ -11,7 +11,7 @@ import { FilterSlider } from './cmps/filter-slider'
 import { stayService } from '../../services/stay.service'
 import { IFilter } from '../../interfaces/filter'
 import { FilterButton } from './cmps/filter-button'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 interface IChildProps {
     stays: IStayPreview[]
@@ -20,6 +20,7 @@ interface IChildProps {
     isLoading: boolean
     STAYS_INCREMENT_BY: number
     loadMore: (pageIndex?: number) => void
+    onStayClick: (stayId: string) => void
 }
 
 const STAYS_INCREMENT_BY = 20
@@ -31,11 +32,16 @@ export function Home() {
     const [isMapView, setIsMapView] = useState<boolean>(false)
 
     const location = useLocation()
+    const navigate = useNavigate()
     useLayoutEffect(() => {
         const searchParams = new URLSearchParams(location.search)
         if (searchParams.toString() !== '') return
         loadStays()
     }, [])
+
+    function onStayClick(stayId: string) {
+        navigate(`/stay/${stayId}`)
+    }
 
     function onAddToWishlist(): void {
         console.log('Todo:add to wishlist')
@@ -54,6 +60,7 @@ export function Home() {
         isLoading,
         STAYS_INCREMENT_BY,
         loadMore,
+        onStayClick,
     }
 
     function toggleMapView() {

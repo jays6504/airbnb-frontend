@@ -9,6 +9,7 @@ interface IListProps {
     isLoading: boolean
     STAYS_INCREMENT_BY: number
     loadMore: (pageIndex?: number) => void
+    onStayClick: (stayId: string) => void
 }
 
 export const StayList: React.FC<IListProps> = ({
@@ -18,6 +19,7 @@ export const StayList: React.FC<IListProps> = ({
     isLoading,
     STAYS_INCREMENT_BY: skeletonNum,
     loadMore,
+    onStayClick,
 }) => {
     const [lastStayRef, setLastStayRef] = useState<HTMLDivElement | null>(null)
     const pageIdx = useRef<number>(0)
@@ -46,20 +48,24 @@ export const StayList: React.FC<IListProps> = ({
         }
     }, [lastStayRef, loadMore, isLoading])
 
-    const childProps = (stay: IStayPreview) => {
-        return { stay, onAddToWishlist, isMapView }
+    const skeletonProps = {
+        stay: undefined,
+        isMapView: false,
+        onAddToWishlist,
+        onStayClick,
+    }
+    const previewProps = (stay: IStayPreview) => {
+        return { stay, onAddToWishlist, isMapView, onStayClick }
     }
     function getSkeletonArray() {
-        return Array.from({ length: skeletonNum }, (_, index) => (
-            <StayPreview key={index} stay={undefined} isMapView={false} />
-        ))
+        return Array.from({ length: skeletonNum }, (_, index) => <StayPreview key={index} {...skeletonProps} />)
     }
     return (
         <section className='stay-list'>
             {stays.length
                 ? stays.map((stay, index) => (
                       <div key={stay._id}>
-                          <StayPreview {...childProps(stay)} delay={(skeletonNum % 20) * 25} />
+                          <StayPreview {...previewProps(stay)} delay={(skeletonNum % 20) * 25} />
                           {index === stays.length - 1 && !isLoading && (
                               <div className='scroll-indicator' ref={setLastStayRef}></div>
                           )}
