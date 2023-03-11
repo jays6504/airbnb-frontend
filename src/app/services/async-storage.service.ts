@@ -2,17 +2,17 @@ export const storageService = {
     query,
 }
 
-const ADD_TO_DISPLAY = 20
-
-function query(entityType: string, inDisplayAmount: number, delay = 500) {
+function query(entityType: string, delay = 1500) {
     // supports pagination
     const storedEntities = localStorage.getItem(entityType)
     const entities = storedEntities ? JSON.parse(storedEntities) : []
 
-    return new Promise(resolve =>
-        setTimeout(() => resolve(entities.splice(0, inDisplayAmount + ADD_TO_DISPLAY)), delay)
-    )
+    return new Promise(resolve => setTimeout(() => resolve(entities), delay))
 }
+
+// const startIndex = incrementByAmount * startFrom
+// const endIndex = incrementByAmount + incrementByAmount * startFrom
+// console.log('startIndex,endIndex:', startIndex, endIndex)
 
 // function get(entityType:any, entityId) {
 //     return query(entityType).then(entities => {

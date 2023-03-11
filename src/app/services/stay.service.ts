@@ -5,19 +5,27 @@ import { IStayPreview, IStay } from '../interfaces/stay'
 import { storageService } from './async-storage.service'
 import { utilService } from './util.service'
 
-const AMOUNT_TO_DISPLAY = 20
+const INCREMENT_BY_AMOUNT = 20
 const STAY_DB_KEY = 'stayDB'
 var gStays: IStay[] = require('../../assets/data/minified-stays.json')
 var gFilters: IFilter[] = require('../../assets/data/filters.json')
 _initStays()
 
-export const stayService = { query, getDefaultSearch, loadFilters, getSearchFromParams }
+export const stayService = {
+    query,
+    getDefaultSearch,
+    loadFilters,
+    getSearchFromParams,
+}
 
-async function query(searchBy: ISearchBy = getDefaultSearch(), filterBy: IFilterBy = getDefaultFilter()) {
+async function query(searchBy: ISearchBy = getDefaultSearch(), filterBy: IFilterBy = getDefaultFilter(), pageIdx = 0) {
     try {
-        let stays = (await storageService.query(STAY_DB_KEY, AMOUNT_TO_DISPLAY)) as IStay[]
+        let stays = (await storageService.query(STAY_DB_KEY)) as IStay[]
         let filteredStays = _filter(stays, filterBy, searchBy)
-        let stayPreviews: IStayPreview[] = filteredStays.map((stay: IStay) => _arrangePreviewData(stay))
+        const startIndex = INCREMENT_BY_AMOUNT * pageIdx
+        const endIndex = INCREMENT_BY_AMOUNT + INCREMENT_BY_AMOUNT * pageIdx
+        let splicedStays = filteredStays.splice(startIndex, endIndex)
+        let stayPreviews: IStayPreview[] = splicedStays.map((stay: IStay) => _arrangePreviewData(stay))
         return stayPreviews
     } catch (err) {
         console.log('err:', err)

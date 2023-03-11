@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { IStayPreview } from '../../../interfaces/stay'
 import { StayPreview } from './stay.preview'
 
@@ -7,20 +7,66 @@ interface IListProps {
     onAddToWishlist: () => void
     isMapView: boolean
     isLoading: boolean
+    STAYS_INCREMENT_BY: number
+    loadMore: (pageIndex?: number) => void
 }
 
-export const StayList: React.FC<IListProps> = ({ stays, onAddToWishlist, isMapView, isLoading }) => {
+export const StayList: React.FC<IListProps> = ({
+    stays,
+    onAddToWishlist,
+    isMapView,
+    isLoading,
+    STAYS_INCREMENT_BY: skeletonNum,
+    loadMore,
+}) => {
+    const [lastStayRef, setLastStayRef] = useState<HTMLDivElement | null>(null)
+    const pageIdx = useRef<number>(0)
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            entries => {
+                const lastStay = entries[0]
+                if (lastStay.isIntersecting && !isLoading) {
+                    // Load the next set of stays
+                    pageIdx.current++
+                    loadMore(pageIdx.current)
+                }
+            },
+            { threshold: 0 }
+        )
+
+        if (lastStayRef) {
+            observer.observe(lastStayRef)
+        }
+
+        return () => {
+            if (lastStayRef) {
+                observer.unobserve(lastStayRef)
+            }
+        }
+    }, [lastStayRef, loadMore, isLoading])
+
     const childProps = (stay: IStayPreview) => {
         return { stay, onAddToWishlist, isMapView }
     }
     function getSkeletonArray() {
-        return Array.from({ length: 20 }, (_, index) => <StayPreview key={index} stay={undefined} isMapView={false} />)
+        return Array.from({ length: skeletonNum }, (_, index) => (
+            <StayPreview key={index} stay={undefined} isMapView={false} />
+        ))
     }
     return (
         <section className='stay-list'>
             {stays.length
-                ? stays.map(stay => <StayPreview key={stay._id} {...childProps(stay)} />)
+                ? stays.map((stay, index) => (
+                      <div key={stay._id}>
+                          <StayPreview {...childProps(stay)} />
+                          {index === stays.length - 1 && !isLoading && (
+                              <div className='scroll-indicator' ref={setLastStayRef}></div>
+                          )}
+                      </div>
+                  ))
                 : getSkeletonArray()}
+            {isLoading && getSkeletonArray()}
         </section>
     )
 }
