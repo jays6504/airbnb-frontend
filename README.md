@@ -1,4 +1,4 @@
-# Airbnb Clone
+# Airbnb Clone - In progress 
 
 Welcome to this Airbnb clone built with React, TypeScript, Redux, and SCSS. This project is designed to mimic some of the functionalities of Airbnb.com such as search for specific locations, filter search results according to user preferences, select dates for check-in and check-out and view accommodation details.
 
