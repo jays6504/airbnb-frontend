@@ -13,6 +13,7 @@ _initStays()
 
 export const stayService = {
     query,
+    get,
     getDefaultSearch,
     loadFilters,
     getSearchFromParams,
@@ -30,6 +31,10 @@ async function query(searchBy: ISearchBy = getDefaultSearch(), filterBy: IFilter
     } catch (err) {
         console.log('err:', err)
     }
+}
+
+async function get(stayId: string) {
+    return Promise.resolve(stayId)
 }
 
 function getSearchFromParams(paramsObj: { [k: string]: string }): ISearchBy {

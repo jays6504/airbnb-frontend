@@ -21,12 +21,13 @@ export const StayPreview: React.FC<IPreviewProps> = ({ stay, isMapView, onAddToW
                 <section className='meta'>
                     <div className='group flex align-center'>
                         <div className='skeleton text-skeleton'></div>
-                        <div className='flex'>
+                        <div className='flex grow align-center'>
                             <div className='skeleton icon-skeleton'></div>
+                            <div className='skeleton text-skeleton'></div>
                         </div>
                     </div>
                     <div className='skeleton text-skeleton'></div>
-                    <div className='skeleton text-skeleton'></div>
+                    <div className='skeleton text-skeleton price'></div>
                 </section>
             </div>
         )

@@ -13,7 +13,7 @@ function App() {
             <main className='main-content main-layout'>
                 <Routes>
                     <Route path='/airbnb-frontend/' element={<Home />} />
-                    <Route path='/stay/:id' element={<StayDetails />} />
+                    <Route path='/stay/:stayId' element={<StayDetails />} />
                 </Routes>
             </main>
         </div>
