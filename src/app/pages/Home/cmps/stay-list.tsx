@@ -59,7 +59,7 @@ export const StayList: React.FC<IListProps> = ({
             {stays.length
                 ? stays.map((stay, index) => (
                       <div key={stay._id}>
-                          <StayPreview {...childProps(stay)} />
+                          <StayPreview {...childProps(stay)} delay={(skeletonNum % 20) * 25} />
                           {index === stays.length - 1 && !isLoading && (
                               <div className='scroll-indicator' ref={setLastStayRef}></div>
                           )}

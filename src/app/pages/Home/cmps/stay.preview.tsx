@@ -1,14 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { IStayPreview } from '../../../interfaces/stay'
 import { ImgCarousel } from './img-carousel'
 import { FaStar } from 'react-icons/fa'
+
 interface IPreviewProps {
     stay: IStayPreview | undefined
     onAddToWishlist?: () => void
     isMapView: boolean
+    delay?: number
 }
 
-export const StayPreview: React.FC<IPreviewProps> = ({ stay, isMapView, onAddToWishlist }) => {
+export const StayPreview: React.FC<IPreviewProps> = ({ stay, isMapView, onAddToWishlist, delay }) => {
+    const [isLoaded, setIsLoaded] = useState<boolean>(false)
+
     const skeleton = () => {
         return (
             <div className='skeleton-preview'>
@@ -27,24 +31,32 @@ export const StayPreview: React.FC<IPreviewProps> = ({ stay, isMapView, onAddToW
         )
     }
 
+    const actualPreview = () => {
+        return (
+            <article
+                className={`stay-preview ${isMapView ? 'map-view' : ''} ${isLoaded ? 'loaded' : ''}`}
+                onLoad={() => setIsLoaded(true)}
+                style={{ transitionDelay: `${delay}ms` }}
+            >
+                <ImgCarousel imgUrls={stay?.imgUrls || []} />
+                <div className='meta'>
+                    <p className='rate'>
+                        <span className='flex align-center'>
+                            <FaStar />
+                            <span>{stay?.avgRate}</span>
+                        </span>
+                    </p>
+                    <p className='name font-medium inline-clamp'>{stay?.name}</p>
+                    <p className='type'>{stay?.type}</p>
+                    <p className='price font-medium'>
+                        ${stay?.price}
+                        <span className='price-suffix font-base'>night</span>
+                    </p>
+                </div>
+            </article>
+        )
+    }
+
     if (!stay) return skeleton()
-    return (
-        <article className={`stay-preview ${isMapView ? 'map-view' : ''}`}>
-            <ImgCarousel imgUrls={stay.imgUrls} />
-            <div className='meta'>
-                <p className='rate'>
-                    <span className='flex align-center'>
-                        <FaStar />
-                        <span>{stay.avgRate}</span>
-                    </span>
-                </p>
-                <p className='name font-medium inline-clamp'>{stay.name}</p>
-                <p className='type'>{stay.type}</p>
-                <p className='price font-medium'>
-                    ${stay.price}
-                    <span className='price-suffix font-base'>night</span>
-                </p>
-            </div>
-        </article>
-    )
+    return actualPreview()
 }

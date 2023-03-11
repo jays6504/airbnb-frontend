@@ -17,7 +17,12 @@
     background-color: #fff;
     font-size: 1rem;
     position: relative;
-
+    opacity: 0;
+    &.loaded {
+        opacity: 1;
+        transition-duration: 0.2s;
+        transition-property: opacity;
+    }
     .meta {
         margin-top: 0.5rem;
         display: grid;
@@ -121,27 +126,32 @@
     }
 }
 
-.skeleton-preview.hide {
-    z-index: 1;
-    position: relative;
-    opacity: 0;
-    animation: fade-out 0.3s ease-in-out;
-}
+// .stay-preview-wrapper {
+//     position: relative;
 
-@keyframes fade-in {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
+//     &.fade-in {
+//         .skeleton-preview {
+//             opacity: 0;
+//             transition-delay: $delay;
+//         }
 
-@keyframes fade-out {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
-}
+//         .stay-preview {
+//             opacity: 1;
+//             position: absolute;
+//             top: 0;
+//             left: 0;
+//             right: 0;
+//             bottom: 0;
+//             animation: swap-preview 0.3s ease-in-out forwards;
+//         }
+//     }
+// }
+
+// @keyframes swap-preview {
+//     from {
+//         opacity: 0;
+//     }
+//     to {
+//         opacity: 1;
+//     }
+// }
