@@ -24,8 +24,12 @@ This project was built using:
 - TypeScript: A superset of JavaScript that adds static type definitions
 - Redux: A predictable state container for JavaScript apps
 - Sass: A CSS preprocessor that adds features like variables, nested rules, and mixins
-- Firebase Authentication: A service that provides user authentication using email address as well as third-party provided identities like Google and Facebook
-- Stripe API: A platform for processing online payments
+
+Libraries Used
+- Moment.js: A library for parsing, validating, manipulating, and formatting dates and times.
+- Lodash: A utility library that provides many helper functions for common programming tasks.
+- Google-map-react: A library for rendering Google Maps components in React applications.
+- react-dates: A library for displaying and selecting dates in React applications.
 
 ## Getting started
 
