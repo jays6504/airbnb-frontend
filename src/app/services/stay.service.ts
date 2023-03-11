@@ -23,9 +23,9 @@ async function query(searchBy: ISearchBy = getDefaultSearch(), filterBy: IFilter
         let stays = (await storageService.query(STAY_DB_KEY)) as IStay[]
         let filteredStays = _filter(stays, filterBy, searchBy)
         const startIndex = INCREMENT_BY_AMOUNT * pageIdx
-        const endIndex = INCREMENT_BY_AMOUNT + INCREMENT_BY_AMOUNT * pageIdx
-        let splicedStays = filteredStays.splice(startIndex, endIndex)
-        let stayPreviews: IStayPreview[] = splicedStays.map((stay: IStay) => _arrangePreviewData(stay))
+        const endIndex = startIndex + INCREMENT_BY_AMOUNT
+        let slicedStays = filteredStays.slice(startIndex, endIndex)
+        let stayPreviews: IStayPreview[] = slicedStays.map((stay: IStay) => _arrangePreviewData(stay))
         return stayPreviews
     } catch (err) {
         console.log('err:', err)

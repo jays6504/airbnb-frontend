@@ -43,6 +43,7 @@ export function Home() {
 
     function loadMore(pageIndex = 0) {
         if (isLoading) return
+        console.log('pageIndex:', pageIndex)
         loadMoreStays(pageIndex)
     }
 
