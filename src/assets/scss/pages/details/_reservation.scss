@@ -25,10 +25,33 @@
     margin-block: 1rem;
     .dates-wrapper {
         border-bottom: 1px solid $gray-B;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        > :first-child {
-            border-right: 1px solid $gray-B;
+        .inputs-wrapper {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            > :first-child {
+                border-right: 1px solid $gray-B;
+            }
+        }
+        &.open {
+            z-index: 3;
+            position: relative;
+            .inputs-wrapper {
+                border-radius: 0.5rem;
+                border: 1px solid $gray-B;
+            }
+            .date-picker-wrapper {
+                background: rgb(255, 255, 255);
+                border-radius: 16px;
+                box-shadow: rgb(0 0 0 / 20%) 0px 6px 20px;
+                display: inline-block;
+                padding: 24px 32px 16px;
+                position: absolute;
+                top: -1rem;
+                right: -1.75rem;
+                width: 661px;
+                z-index: -1;
+                min-height: 460px;
+            }
         }
     }
     label {

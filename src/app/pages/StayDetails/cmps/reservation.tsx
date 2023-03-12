@@ -2,6 +2,7 @@ import { ISearchBy } from '../../../interfaces/search'
 import { IStay } from '../../../interfaces/stay'
 import { ReviewTitle } from './review-title'
 import moment from 'moment'
+import { useState } from 'react'
 
 interface Props {
     searchBy: ISearchBy
@@ -46,18 +47,21 @@ interface PickersProps {
 export function ReservationPickers({ stay, searchBy }: PickersProps) {
     const startDateString = searchBy.startDate ? moment(searchBy.startDate).format('YYYY-MM-DD') : ''
     const endDateString = searchBy.endDate ? moment(searchBy.endDate).format('YYYY-MM-DD') : ''
-
+    const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
     return (
         <section className='reservation-pickers'>
-            <div className='dates-wrapper'>
-                <label className='check-in'>
-                    <span className='font-bold'>Check-in</span>
-                    <input type='date' readOnly={true} value={startDateString} />
-                </label>
-                <label className='check-out'>
-                    <span className='font-bold'>Check-out</span>
-                    <input type='date' readOnly={true} value={endDateString} />
-                </label>
+            <div className={`dates-wrapper ${isDatePickerOpen ? 'open' : ''}`}>
+                {isDatePickerOpen && <div className='date-picker-wrapper'></div>}
+                <div className='inputs-wrapper'>
+                    <label onClick={() => setIsDatePickerOpen(prev => !prev)} className='check-in'>
+                        <span className='font-bold'>Check-in</span>
+                        <input type='date' readOnly={true} value={startDateString} />
+                    </label>
+                    <label onClick={() => setIsDatePickerOpen(prev => !prev)} className='check-out'>
+                        <span className='font-bold'>Check-out</span>
+                        <input type='date' readOnly={true} value={endDateString} />
+                    </label>
+                </div>
             </div>
             <label className='guests'>
                 <span className='font-bold'>Guests</span>
