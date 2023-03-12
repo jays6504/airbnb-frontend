@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { ISearchBy } from '../../interfaces/search'
 import { IStay } from '../../interfaces/stay'
 import { stayService } from '../../services/stay.service'
 import { HostSection } from './cmps/host-section'
@@ -14,13 +15,24 @@ import { ThingsToKnowSection } from './cmps/things-to-know-section'
 
 export function StayDetails() {
     const [stay, setStay] = useState<IStay | null>(null)
-
+    const [searchBy, setSearchBy] = useState<ISearchBy>(stayService.getDefaultSearch())
+    console.log('searchBy:', searchBy)
     const { stayId } = useParams()
     const navigate = useNavigate()
 
     useEffect(() => {
         loadStay()
     }, [])
+    // Search Params
+    // let [searchParams, setSearchParams] = useSearchParams()
+    const location = useLocation()
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search)
+        if (searchParams.toString() === '') return
+        let paramsObj = Object.fromEntries(searchParams.entries())
+        let searchObj = stayService.getSearchFromParams(paramsObj)
+        setSearchBy(searchObj)
+    }, [location])
 
     async function loadStay() {
         if (!stayId) return
@@ -43,7 +55,7 @@ export function StayDetails() {
                     <StayInfo stay={stay} />
                     <StaySummary staySummary={stay?.summary} />
                 </main>
-                <Reservation />
+                {stay ? <Reservation stay={stay} searchBy={searchBy} /> : <div className='reservation skeleton'></div>}
             </section>
             <ReviewSection stay={stay} />
             <MapSection />

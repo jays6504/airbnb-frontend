@@ -9,9 +9,9 @@ export function StayIntro({ stay }: { stay: IStay | null }) {
             ) : (
                 <h1 className='stay-title'>{stay.name}</h1>
             )}
-            <p>
+            <div>
                 <ReviewTitle avgRate={stay?.avgRate} reviewsLength={stay?.reviews.length} />
-            </p>
+            </div>
         </div>
     )
 }

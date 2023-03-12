@@ -10,17 +10,17 @@ export function ReviewTitle({
 }) {
     const textSkeleton = () => <div className='skeleton-details text-skeleton'></div>
     return (
-        <h1 className={`review-title ${size === 'lg' ? 'lg' : 'sm'}`}>
+        <div className={`review-title ${size === 'lg' ? 'lg' : 'sm'}`}>
             {!avgRate ? (
                 <>
                     {textSkeleton()} {textSkeleton()} {textSkeleton()}
                 </>
             ) : (
                 <>
-                    <FaStar /> {avgRate + ' · '} {reviewsLength}
+                    <FaStar /> {parseFloat(avgRate).toFixed(1) + ' · '} {reviewsLength}
                     {' reviews'}
                 </>
             )}
-        </h1>
+        </div>
     )
 }

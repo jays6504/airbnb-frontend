@@ -41,14 +41,14 @@ async function get(stayId: string) {
 
 function getSearchFromParams(paramsObj: { [k: string]: string }): ISearchBy {
     let searchObj: ISearchBy = {
-        adults: +paramsObj.adults,
-        children: +paramsObj.children,
-        destination: paramsObj.destination,
-        endDate: utilService.deformatDate(paramsObj.endDate),
-        startDate: utilService.deformatDate(paramsObj.startDate),
-        infants: +paramsObj.infants,
-        pets: +paramsObj.pets,
-        guests: +paramsObj.guests,
+        adults: +paramsObj.adults || 0,
+        children: +paramsObj.children || 0,
+        destination: paramsObj.destination || '',
+        startDate: utilService.deformatDate(paramsObj.startDate) || null,
+        endDate: utilService.deformatDate(paramsObj.endDate) || null,
+        infants: +paramsObj.infants || 0,
+        pets: +paramsObj.pets || 0,
+        guests: +paramsObj.guests || 0,
     }
     if (searchObj.destination === "I'm Flexible") searchObj.destination = ''
     return searchObj

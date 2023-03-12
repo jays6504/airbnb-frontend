@@ -40,7 +40,8 @@ export function Home() {
     }, [])
 
     function onStayClick(stayId: string) {
-        navigate(`/stay/${stayId}`)
+        const searchParams = new URLSearchParams(location.search)
+        navigate(`/stay/${stayId}?${searchParams}`)
     }
 
     function onAddToWishlist(): void {
