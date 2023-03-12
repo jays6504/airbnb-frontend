@@ -1,8 +1,9 @@
 import { useEffect, useState, useRef } from 'react'
 import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { ISearchBy } from '../../interfaces/search'
+import { ISearchBy, ISearchByOpts } from '../../interfaces/search'
 import { IStay } from '../../interfaces/stay'
 import { stayService } from '../../services/stay.service'
+import { DetailsDatePicker } from './cmps/details-date-picker'
 import { HostSection } from './cmps/host-section'
 import { ImageGallery } from './cmps/image-gallery'
 import { MapSection } from './cmps/map-section'
@@ -15,6 +16,7 @@ import { ThingsToKnowSection } from './cmps/things-to-know-section'
 
 export function StayDetails() {
     const [stay, setStay] = useState<IStay | null>(null)
+    const [activeModule, setActiveModule] = useState<string | null>(null)
     const [searchBy, setSearchBy] = useState<ISearchBy>(stayService.getDefaultSearch())
     console.log('searchBy:', searchBy)
     const { stayId } = useParams()
@@ -45,6 +47,16 @@ export function StayDetails() {
             navigate('/airbnb-frontend')
         }
     }
+
+    function onSearchChange(searchOpts: ISearchByOpts) {
+        setSearchBy(prev => ({ ...prev, ...searchOpts }))
+    }
+
+    function onChangeModule(moduleName: string | null) {
+        if (activeModule === moduleName) return
+        setActiveModule(moduleName)
+    }
+
     console.log('stay:', stay)
     return (
         <section className='stay-details'>
@@ -54,6 +66,13 @@ export function StayDetails() {
                 <main className='main-details'>
                     <StayInfo stay={stay} />
                     <StaySummary staySummary={stay?.summary} />
+                    <DetailsDatePicker
+                        searchBy={searchBy}
+                        onSearchChange={onSearchChange}
+                        cityName={stay?.loc.city}
+                        activeModule={activeModule}
+                        onChangeModule={onChangeModule}
+                    />
                 </main>
                 {stay ? <Reservation stay={stay} searchBy={searchBy} /> : <div className='reservation skeleton'></div>}
             </section>

@@ -1,7 +1,6 @@
 .sticky-section-wrapper {
     position: relative;
     display: flex;
-    height: 100vh;
     .reservation {
         min-width: 33%;
         margin-inline-start: auto;
@@ -14,6 +13,16 @@
         box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
         margin-top: 3rem;
         padding-bottom: 3rem;
+    }
+}
+
+.reservation-header {
+    .header-price {
+        font-size: 22px;
+        .suffix {
+            font-size: 16px;
+            font-family: $base-font-family;
+        }
     }
 }
 
@@ -54,7 +63,7 @@
             }
         }
     }
-    label {
+    .reservation-module {
         display: flex;
         flex-direction: column;
         align-items: flex-start;

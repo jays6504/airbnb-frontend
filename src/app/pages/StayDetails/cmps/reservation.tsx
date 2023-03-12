@@ -30,9 +30,10 @@ interface HeaderProps {
 function ReservationHeader({ avgRate, reviewsLength, stayPrice }: HeaderProps) {
     return (
         <header className='reservation-header flex align-center justify-between'>
-            <div className='font-medium'>
+            <div className='header-price font-medium'>
                 {'$'}
-                {stayPrice + ' night'}
+                {stayPrice + ' '}
+                <span className='suffix'>night</span>
             </div>
             <ReviewTitle avgRate={avgRate} reviewsLength={reviewsLength} />
         </header>
@@ -53,20 +54,20 @@ export function ReservationPickers({ stay, searchBy }: PickersProps) {
             <div className={`dates-wrapper ${isDatePickerOpen ? 'open' : ''}`}>
                 {isDatePickerOpen && <div className='date-picker-wrapper'></div>}
                 <div className='inputs-wrapper'>
-                    <label onClick={() => setIsDatePickerOpen(prev => !prev)} className='check-in'>
+                    <div onClick={() => setIsDatePickerOpen(prev => !prev)} className='reservation-module check-in'>
                         <span className='font-bold'>Check-in</span>
                         <input type='date' readOnly={true} value={startDateString} />
-                    </label>
-                    <label onClick={() => setIsDatePickerOpen(prev => !prev)} className='check-out'>
+                    </div>
+                    <div onClick={() => setIsDatePickerOpen(prev => !prev)} className='reservation-module check-out'>
                         <span className='font-bold'>Check-out</span>
                         <input type='date' readOnly={true} value={endDateString} />
-                    </label>
+                    </div>
                 </div>
             </div>
-            <label className='guests'>
+            <div className='reservation-module guests'>
                 <span className='font-bold'>Guests</span>
                 <input type='text' readOnly={true} value={`${searchBy.guests || 1} guests`} />
-            </label>
+            </div>
         </section>
     )
 }
