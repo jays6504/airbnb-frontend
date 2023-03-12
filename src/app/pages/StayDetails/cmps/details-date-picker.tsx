@@ -14,13 +14,20 @@ export function DetailsDatePicker({ searchBy, onSearchChange, cityName, activeMo
     const startDateFormatted = moment(searchBy.startDate).format('MMM D, YYYY')
     const endDateFormatted = moment(searchBy.endDate).format('MMM D, YYYY')
     const numNights = moment(searchBy.endDate).diff(moment(searchBy.startDate), 'days')
+    const dateRangeTitle = `${numNights} nights in ${cityName}`
     const dateRangeText = `${startDateFormatted} - ${endDateFormatted}`
     return (
         <section className='details-date-picker'>
             <h1>
-                {numNights} nights in {cityName}
+                {!searchBy.startDate && 'Select check-in date'}
+                {searchBy.startDate && !searchBy.endDate && 'Select checkout date'}
+                {searchBy.startDate && searchBy.endDate && dateRangeTitle}
             </h1>
-            <p className='text-muted'>{dateRangeText}</p>
+            <p className='text-muted'>
+                {!searchBy.startDate && 'Add your travel dates for exact pricing'}
+                {searchBy.startDate && !searchBy.endDate && 'Minimum stay: 1 nights'}
+                {searchBy.startDate && searchBy.endDate && dateRangeText}
+            </p>
             <DatePicker
                 searchBy={searchBy}
                 onSetSearchBy={onSearchChange}
