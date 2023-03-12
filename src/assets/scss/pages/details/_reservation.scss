@@ -16,3 +16,53 @@
         padding-bottom: 3rem;
     }
 }
+
+.reservation-pickers {
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+    border: 1px solid $gray-B;
+    border-radius: 0.5rem;
+    margin-block: 1rem;
+    .dates-wrapper {
+        border-bottom: 1px solid $gray-B;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        > :first-child {
+            border-right: 1px solid $gray-B;
+        }
+    }
+    label {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0.5rem;
+        font-size: 10px;
+        text-transform: uppercase;
+        input {
+            font-size: 14px;
+            background-color: transparent;
+            width: 100%;
+            border: 0;
+            &:focus-within {
+                border: 0;
+                outline: 0;
+            }
+        }
+    }
+    .check-in {
+        grid-column: 1/2;
+    }
+    .check-out {
+        grid-column: 2/-1;
+    }
+    .guests {
+    }
+    .check-in,
+    .check-out {
+        grid-row: 1/2;
+    }
+    > :last-child {
+        grid-row: 2/-1;
+        grid-column: 1/-1;
+    }
+}

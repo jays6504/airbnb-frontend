@@ -49,16 +49,18 @@ export function ReservationPickers({ stay, searchBy }: PickersProps) {
 
     return (
         <section className='reservation-pickers'>
-            <label>
-                Check-in
-                <input type='date' readOnly={true} value={startDateString} />
-            </label>
-            <label>
-                Check-out
-                <input type='date' readOnly={true} value={endDateString} />
-            </label>
-            <label>
-                Guests
+            <div className='dates-wrapper'>
+                <label className='check-in'>
+                    <span className='font-bold'>Check-in</span>
+                    <input type='date' readOnly={true} value={startDateString} />
+                </label>
+                <label className='check-out'>
+                    <span className='font-bold'>Check-out</span>
+                    <input type='date' readOnly={true} value={endDateString} />
+                </label>
+            </div>
+            <label className='guests'>
+                <span className='font-bold'>Guests</span>
                 <input type='text' readOnly={true} value={`${searchBy.guests || 1} guests`} />
             </label>
         </section>
