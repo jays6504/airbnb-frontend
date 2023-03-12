@@ -1,0 +1,25 @@
+.reviews-list {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    margin-top: 2rem;
+    gap: 0 3rem;
+    .review-list-item {
+        margin-bottom: 3rem;
+        .review-by {
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .review-body {
+            margin-bottom: 1rem;
+        }
+        button {
+            text-decoration: underline;
+            margin: 0;
+            padding: 0;
+            background-color: transparent;
+        }
+    }
+    @media (min-width: $padded-break-normal) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, useRef } from 'react'
+import { useState, useLayoutEffect, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { StayList } from './cmps/stay-list'
 import { StayMap } from './cmps/stay-map'
@@ -11,7 +11,7 @@ import { FilterSlider } from './cmps/filter-slider'
 import { stayService } from '../../services/stay.service'
 import { IFilter } from '../../interfaces/filter'
 import { FilterButton } from './cmps/filter-button'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 interface IChildProps {
     stays: IStayPreview[]
@@ -33,11 +33,20 @@ export function Home() {
 
     const location = useLocation()
     const navigate = useNavigate()
+    let [searchParams, setSearchParams] = useSearchParams()
     useLayoutEffect(() => {
         const searchParams = new URLSearchParams(location.search)
         if (searchParams.toString() !== '') return
         loadStays()
     }, [])
+
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search)
+        if (searchParams.toString() === '') return
+        let paramsObj = Object.fromEntries(searchParams.entries())
+        let searchObj = stayService.getSearchFromParams(paramsObj)
+        loadStays(searchObj)
+    }, [searchParams])
 
     function onStayClick(stayId: string) {
         const searchParams = new URLSearchParams(location.search)

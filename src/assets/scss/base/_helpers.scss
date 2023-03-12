@@ -50,6 +50,13 @@
     text-overflow: ellipsis;
     overflow: hidden;
 }
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
 
 // Inline space
 .space-inline-s {
@@ -132,4 +139,8 @@
     height: 3.75rem;
     object-fit: cover;
     border-radius: 55px;
+    &.sm {
+        width: 2.75rem;
+        height: 2.75rem;
+    }
 }

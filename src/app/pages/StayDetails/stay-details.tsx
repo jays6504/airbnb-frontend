@@ -27,7 +27,6 @@ export function StayDetails() {
 
     const imgsToDisplay = stay?.imgUrls?.slice(0, 5)
     const amenitiesToDisplay = stay?.amenities?.slice(0, 10)
-    const reviewsToDisplay = stay?.reviews?.slice(0, 6)
 
     useEffect(() => {
         loadStay()

@@ -41,7 +41,6 @@ export function AppHeader() {
         let paramsObj = Object.fromEntries(searchParams.entries())
         let searchObj = stayService.getSearchFromParams(paramsObj)
         setSearchBy(searchObj)
-        loadStays(searchObj)
     }, [location])
 
     function handleFormSubmit() {
@@ -80,6 +79,13 @@ export function AppHeader() {
         if (!value) setActiveModule(null)
     }
 
+    function onBackHome() {
+        navigate('/airbnb-frontend/')
+        setSearchBy(stayService.getDefaultSearch())
+        setActiveModule(null)
+        setIsExpanded(false)
+    }
+
     const handleFormBlur = (ev: React.MouseEvent<HTMLDivElement>) => {
         if (!isExpanded) return
         const container = searchFormContainerRef.current
@@ -104,7 +110,7 @@ export function AppHeader() {
             <OverlayScreen isOpen={isExpanded} setIsOpen={onChangeIsExpanded} />
             <header className={`${isExpandedClass} main-layout`}>
                 <div className='wrapper flex align-center justify-between'>
-                    <div onClick={() => navigate('/airbnb-frontend/')} className='logo'>
+                    <div onClick={() => onBackHome()} className='logo'>
                         <AppLogo />
                     </div>
                     <SearchTeaser {...searchProps} />

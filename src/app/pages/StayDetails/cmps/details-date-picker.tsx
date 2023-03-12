@@ -34,6 +34,11 @@ export function DetailsDatePicker({ searchBy, onSearchChange, cityName, activeMo
                 activeModule={activeModule || 'startDate'}
                 onChangeModule={onChangeModule}
             />
+            <div>
+                <p className='clear-dates-link' onClick={() => onSearchChange({ startDate: null, endDate: null })}>
+                    Clear dates
+                </p>
+            </div>
         </section>
     )
 }
