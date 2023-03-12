@@ -12,7 +12,6 @@
         padding: 24px;
         box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
         margin-top: 3rem;
-        padding-bottom: 3rem;
     }
 }
 
@@ -96,5 +95,52 @@
     > :last-child {
         grid-row: 2/-1;
         grid-column: 1/-1;
+    }
+}
+
+.reservation-button {
+    --mouseX: 92;
+    --mouseY: 73;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    font-family: $font-family-medium;
+    width: 100%;
+    padding: 0.75rem;
+    color: white;
+
+    position: relative;
+    overflow: hidden;
+    background-image: radial-gradient(
+        circle,
+        rgb(255, 56, 92) 0%,
+        rgb(230, 30, 77) 27.5%,
+        rgb(227, 28, 95) 40%,
+        rgb(215, 4, 102) 57.5%,
+        rgb(189, 30, 89) 75%,
+        rgb(189, 30, 89) 100%
+    );
+    background-size: 200% 200%;
+    background-position: calc((100 - var(--mouseX, 0)) * 1%) calc((100 - var(--mouseY, 0)) * 1%);
+
+    transition: background-position linear;
+}
+
+.reservation-total {
+    padding-top: 1.5rem;
+    .wont-charged-msg {
+        margin-bottom: 1.5rem;
+        text-align: center;
+        font-size: 0.95rem;
+    }
+    .total-calc {
+    }
+    .total-field {
+        margin-bottom: 1rem;
+    }
+    .total-sum {
+        padding-top: 1rem;
+        border-top: 1px solid $gray-E;
     }
 }

@@ -76,10 +76,29 @@ interface ButtonProps {
     searchBy: ISearchBy
     stay: IStay
 }
-
+interface ReservationButtonStyle extends React.CSSProperties {
+    '--mouseX'?: number
+    '--mouseY'?: number
+}
 function ReservationButton({ stay, searchBy }: ButtonProps) {
+    const [mouseX, setX] = useState(0)
+    const [mouseY, setY] = useState(0)
+
     const buttonText = searchBy.endDate && searchBy.startDate ? 'Reserve' : 'Check Availability'
-    return <button className='reservation-button'>{buttonText}</button>
+
+    const handleMouseMove = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setX((event.nativeEvent.offsetX / event.currentTarget.offsetWidth) * 100)
+        setY((event.nativeEvent.offsetY / event.currentTarget.offsetHeight) * 100)
+    }
+    const buttonStyle: ReservationButtonStyle = {
+        '--mouseX': mouseX,
+        '--mouseY': mouseY,
+    }
+    return (
+        <button className='reservation-button' style={buttonStyle} onMouseMove={handleMouseMove}>
+            {buttonText}
+        </button>
+    )
 }
 
 interface TotalProps {
@@ -92,16 +111,20 @@ function ReservationTotal({ searchBy, stay }: TotalProps) {
     const totalPrice = stay.price * numNights
     return (
         <section className='reservation-total'>
-            <p>You won't be charged yet</p>
+            <p className='wont-charged-msg text-muted'>You won't be charged yet</p>
             <div className='total-calc'>
-                <div className='total flex align-center justify-between'>
+                <div className='total-field flex align-center justify-between'>
                     <span>
                         ${stay.price.toFixed(2)} x {numNights} nights
                     </span>
                     <span>${stay.price * numNights}</span>
                 </div>
+                <div className='total-field flex align-center justify-between'>
+                    <span>Service fee</span>
+                    <span>$90</span>
+                </div>
             </div>
-            <div className='total flex align-center justify-between font-medium'>
+            <div className='total-sum flex align-center justify-between font-medium'>
                 <span>Total</span>
                 <span>${totalPrice}</span>
             </div>
