@@ -1,0 +1,15 @@
+.stay-amenities {
+    .amenities-list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        li {
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            img {
+                width: 1.5rem;
+            }
+        }
+    }
+}

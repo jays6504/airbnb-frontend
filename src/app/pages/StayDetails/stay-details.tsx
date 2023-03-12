@@ -9,6 +9,8 @@ import { ImageGallery } from './cmps/image-gallery'
 import { MapSection } from './cmps/map-section'
 import { Reservation } from './cmps/reservation'
 import { ReviewSection } from './cmps/review-section'
+import { StayAmenities } from './cmps/stay-amenities'
+import { StayAmenity } from './cmps/stay-amenity'
 import { StayInfo } from './cmps/stay-info'
 import { StayIntro } from './cmps/stay-intro'
 import { StaySummary } from './cmps/stay-summary'
@@ -21,13 +23,18 @@ export function StayDetails() {
     console.log('searchBy:', searchBy)
     const { stayId } = useParams()
     const navigate = useNavigate()
+    const location = useLocation()
+
+    const imgsToDisplay = stay?.imgUrls?.slice(0, 5)
+    const amenitiesToDisplay = stay?.amenities?.slice(0, 10)
+    const reviewsToDisplay = stay?.reviews?.slice(0, 6)
 
     useEffect(() => {
         loadStay()
     }, [])
     // Search Params
     // let [searchParams, setSearchParams] = useSearchParams()
-    const location = useLocation()
+
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search)
         if (searchParams.toString() === '') return
@@ -61,18 +68,24 @@ export function StayDetails() {
     return (
         <section className='stay-details'>
             <StayIntro stay={stay} />
-            <ImageGallery imgUrls={stay?.imgUrls} />
+            <ImageGallery imgUrls={imgsToDisplay} />
             <section className='sticky-section-wrapper'>
                 <main className='main-details'>
                     <StayInfo stay={stay} />
-                    <StaySummary staySummary={stay?.summary} />
-                    <DetailsDatePicker
-                        searchBy={searchBy}
-                        onSearchChange={onSearchChange}
-                        cityName={stay?.loc.city}
-                        activeModule={activeModule}
-                        onChangeModule={onChangeModule}
-                    />
+                    {stay && (
+                        <>
+                            <AirCover />
+                            <StaySummary staySummary={stay.summary} />
+                            <StayAmenities amenitiesToDisplay={amenitiesToDisplay} />
+                            <DetailsDatePicker
+                                searchBy={searchBy}
+                                onSearchChange={onSearchChange}
+                                cityName={stay?.loc.city}
+                                activeModule={activeModule}
+                                onChangeModule={onChangeModule}
+                            />
+                        </>
+                    )}
                 </main>
                 {stay ? <Reservation stay={stay} searchBy={searchBy} /> : <div className='reservation skeleton'></div>}
             </section>
@@ -81,5 +94,22 @@ export function StayDetails() {
             <HostSection />
             <ThingsToKnowSection />
         </section>
+    )
+}
+
+export function AirCover() {
+    return (
+        <div className='air-cover'>
+            <h3>
+                <img
+                    src='https://a0.muscache.com/im/pictures/54e427bb-9cb7-4a81-94cf-78f19156faad.jpg'
+                    alt='aircover'
+                />
+            </h3>
+            <p>
+                Every booking includes free protection from Host cancellations, listing inaccuracies, and other issues
+                like trouble checking in.
+            </p>
+        </div>
     )
 }
