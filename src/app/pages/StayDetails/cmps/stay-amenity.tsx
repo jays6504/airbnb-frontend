@@ -146,6 +146,13 @@ export function StayAmenity({ amenity }: { amenity: string }) {
         'Waterfront': Waterfront,
         'Wifi': Wifi,
     }
+    let imgSrc = amenityMap[amenity]
 
-    return <img src={amenityMap[amenity]} className='amenity-img' alt={amenityMap[amenity]} />
+    // If there is no match, choose a random amenity image
+    if (!imgSrc) {
+        const keys = Object.keys(amenityMap)
+        const randomKey = keys[Math.floor(Math.random() * keys.length)]
+        imgSrc = amenityMap[randomKey]
+    }
+    return <img src={imgSrc} className='amenity-img' alt={amenity} />
 }

@@ -1,3 +1,4 @@
+import moment from 'moment'
 import { DatePicker } from '../../../cmps/date-picker'
 import { ISearchBy, ISearchByOpts } from '../../../interfaces/search'
 
@@ -10,8 +11,16 @@ interface Props {
 }
 
 export function DetailsDatePicker({ searchBy, onSearchChange, cityName, activeModule, onChangeModule }: Props) {
+    const startDateFormatted = moment(searchBy.startDate).format('MMM D, YYYY')
+    const endDateFormatted = moment(searchBy.endDate).format('MMM D, YYYY')
+    const numNights = moment(searchBy.endDate).diff(moment(searchBy.startDate), 'days')
+    const dateRangeText = `${startDateFormatted} - ${endDateFormatted}`
     return (
         <section className='details-date-picker'>
+            <h1>
+                {numNights} nights in {cityName}
+            </h1>
+            <p className='text-muted'>{dateRangeText}</p>
             <DatePicker
                 searchBy={searchBy}
                 onSetSearchBy={onSearchChange}
