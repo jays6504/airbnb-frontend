@@ -1,8 +1,15 @@
 .sticky-section-wrapper {
     position: relative;
+    flex-wrap: wrap;
     display: flex;
     border-bottom: 1px solid $gray-E;
     padding-bottom: 3rem;
+    @media (min-width: 1185px) {
+        .main-details {
+            padding-inline-end: 5rem;
+            width: 67%;
+        }
+    }
     .reservation {
         min-width: 33%;
         margin-inline-start: auto;

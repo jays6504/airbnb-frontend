@@ -14,9 +14,12 @@
         outline: 0;
         background-color: #fff;
         color: $gray-200;
-        .divider {
+        padding: 0;
+        span {
             padding: 0 1rem;
-            box-shadow: 1px 0px 0px 0px $gray-E;
+        }
+        .divider {
+            box-shadow: inset -1px 0px 0px 0px $gray-E;
         }
     }
 }
@@ -27,7 +30,6 @@
     justify-content: center;
     align-self: center;
     height: max-content;
-    margin-inline-start: 0.5rem;
     font-size: 1.25rem;
     &.small {
         scale: 0.7;

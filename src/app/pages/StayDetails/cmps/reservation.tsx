@@ -40,7 +40,6 @@ export function Reservation({ stay, searchBy, onSearchChange, activeModule, onCh
     }
 
     function togglePicker(picker: 'dates' | 'guests' | null) {
-        console.log('picker:', picker)
         if (!picker) {
             setIsPickerShown({ dates: false, guests: false })
             return
