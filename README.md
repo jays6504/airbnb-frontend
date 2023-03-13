@@ -4,7 +4,7 @@ Welcome to this Airbnb clone built with React, TypeScript, Redux, and SCSS. This
 
 ## Screenshots
 
-![Homepage Screenshot](https://res.cloudinary.com/dsperrtyj/image/upload/v1678400298/airbnb-desktop_ovru8f.png)
+![Homepage Screenshot](https://res.cloudinary.com/dsperrtyj/image/upload/v1678705023/ezgif-1-dbc00e72e5_mjnk0f.gif)
 
 ## Features
 
