@@ -20,7 +20,6 @@ export function StayDetails() {
     const [stay, setStay] = useState<IStay | null>(null)
     const [activeModule, setActiveModule] = useState<string | null>(null)
     const [searchBy, setSearchBy] = useState<ISearchBy>(stayService.getDefaultSearch())
-    console.log('searchBy:', searchBy)
     const { stayId } = useParams()
     const navigate = useNavigate()
     const location = useLocation()
@@ -68,16 +67,15 @@ export function StayDetails() {
         setActiveModule(moduleName)
     }
 
-    console.log('stay:', stay)
     return (
         <section className='stay-details'>
             <StayIntro stay={stay} />
             <ImageGallery imgUrls={imgsToDisplay} />
             <section className='sticky-section-wrapper'>
                 <main className='main-details'>
-                    <StayInfo stay={stay} />
                     {stay && (
                         <>
+                            <StayInfo stay={stay} />
                             <AirCover />
                             <StaySummary staySummary={stay.summary} />
                             <StayAmenities amenitiesToDisplay={amenitiesToDisplay} />
@@ -106,9 +104,9 @@ export function StayDetails() {
             {stay && (
                 <>
                     <ReviewSection stay={stay} />
-                    <MapSection />
-                    <HostSection />
-                    <ThingsToKnowSection />
+                    <MapSection stayLoc={stay.loc} />
+                    {/* <HostSection /> */}
+                    {/* <ThingsToKnowSection /> */}
                 </>
             )}
         </section>

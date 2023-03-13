@@ -3,7 +3,14 @@
     margin-inline: auto;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
     width: 100%;
     padding: 2rem 0;
+    > .stay-intro {
+        margin-bottom: 1rem;
+    }
+    .map-section,
+    .review-section {
+        padding: 3rem 0;
+        border-bottom: 1px solid $gray-E;
+    }
 }

@@ -1,6 +1,8 @@
 .sticky-section-wrapper {
     position: relative;
     display: flex;
+    border-bottom: 1px solid $gray-E;
+    padding-bottom: 3rem;
     .reservation {
         min-width: 33%;
         margin-inline-start: auto;

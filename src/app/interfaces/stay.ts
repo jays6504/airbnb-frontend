@@ -32,7 +32,7 @@ export interface IStayPreview {
     // likedByUser: boolean;
 }
 
-interface ILocation {
+export interface ILocation {
     country: string
     countryCode: string
     city: string

@@ -3,7 +3,9 @@
     padding-inline-end: 5rem;
     > * {
         padding: 3rem 0;
+        padding-bottom: 0;
         &:not(:last-child) {
+            padding-bottom: 3rem;
             border-bottom: 1px solid $gray-E;
         }
     }
