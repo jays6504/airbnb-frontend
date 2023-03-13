@@ -7,6 +7,7 @@ interface Props {
     onSearchChange: (searchOpts: ISearchByOpts) => void
     cityName: string | undefined
     activeModule?: string | null
+    closePickers?: () => void
     onChangeModule: (moduleName: string | null) => void
 }
 
@@ -16,6 +17,7 @@ export function DetailsDatePicker({
     cityName,
     activeModule = 'startDate',
     onChangeModule,
+    closePickers,
 }: Props) {
     const startDateFormatted = moment(searchBy.startDate).format('MMM D, YYYY')
     const endDateFormatted = moment(searchBy.endDate).format('MMM D, YYYY')
@@ -46,10 +48,15 @@ export function DetailsDatePicker({
                 activeModule={activeModule}
                 onChangeModule={onChangeModule}
             />
-            <div>
+            <div className='actions flex align-center justify-end'>
                 <p className='clear-dates-link' onClick={resetDates}>
                     Clear dates
                 </p>
+                {closePickers && (
+                    <button onClick={closePickers} className='close-picker-btn'>
+                        Close
+                    </button>
+                )}
             </div>
         </section>
     )

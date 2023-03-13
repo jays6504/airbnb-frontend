@@ -12,6 +12,17 @@ export function ReviewList({ reviewsToDisplay }: { reviewsToDisplay: IReview[] }
 
 function ReviewListItem({ review }: { review: IReview }) {
     const [isShowingMore, setIsShowingMore] = useState(false)
+    const maxCharacters = 200
+
+    let reviewText = review.txt
+    if (!isShowingMore && reviewText.length > maxCharacters) {
+        const lastSpaceIndex = reviewText.lastIndexOf(' ', maxCharacters)
+        reviewText = reviewText.substring(0, lastSpaceIndex) + '...'
+    }
+
+    const showMoreButton = review.txt.length > maxCharacters && (
+        <button onClick={() => setIsShowingMore(prev => !prev)}>{!isShowingMore ? 'Show More' : 'Show Less'}</button>
+    )
 
     return (
         <li className='review-list-item'>
@@ -22,10 +33,8 @@ function ReviewListItem({ review }: { review: IReview }) {
                     <p className='text-muted'>{moment(review.createdAt).format('MMMM YYYY')}</p>
                 </div>
             </section>
-            <section className={`review-body ${!isShowingMore ? 'line-clamp-3' : ''}`}>{review.txt}</section>
-            <button onClick={() => setIsShowingMore(prev => !prev)}>
-                {!isShowingMore ? 'Show More' : 'Show Less'}
-            </button>
+            <section className={`review-body`}>{reviewText}</section>
+            {showMoreButton}
         </li>
     )
 }

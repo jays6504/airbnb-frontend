@@ -50,10 +50,10 @@
             }
             .date-picker-wrapper {
                 background: rgb(255, 255, 255);
-                border-radius: 16px;
+                border-radius: 1rem;
                 box-shadow: rgb(0 0 0 / 20%) 0px 6px 20px;
                 display: inline-block;
-                padding: 24px 32px 16px;
+                padding: 1.5rem 2rem 1rem;
                 position: absolute;
                 top: -1rem;
                 right: -1.75rem;
@@ -68,9 +68,15 @@
         flex-direction: column;
         align-items: flex-start;
         padding: 0.5rem;
+        &:focus-within {
+            border-radius: 0.5rem;
+            box-shadow: 0px 0px 0px 2px black;
+            outline: 0;
+        }
         > span {
             font-size: 10px;
             text-transform: uppercase;
+            user-select: none;
         }
         > input {
             font-size: 14px;
@@ -89,7 +95,7 @@
     }
     .guests-wrapper {
         position: relative;
-        .search-guests {
+        .guests-picker-wrapper {
             background-color: white;
             position: absolute;
             bottom: 0;
@@ -98,9 +104,19 @@
             z-index: 22;
             box-shadow: rgb(0 0 0 / 20%) 0px 6px 20px;
             border-radius: 1rem;
+            .search-guests {
+                margin-bottom: 1.5rem;
+            }
         }
     }
-    .guests {
+    .close-picker-btn {
+        font-family: $font-family-medium;
+        font-size: 14px;
+        line-height: 1.25;
+        background-color: $black;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
     }
 }
 

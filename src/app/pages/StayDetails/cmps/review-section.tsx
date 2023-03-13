@@ -1,8 +1,12 @@
+import { useMemo } from 'react'
 import { IStay } from '../../../interfaces/stay'
 import { ReviewList } from './review-list'
 import { ReviewTitle } from './review-title'
 export function ReviewSection({ stay }: { stay: IStay | null }) {
-    const reviewsToDisplay = stay?.reviews?.slice(0, 6)
+    const reviewsToDisplay = useMemo(() => {
+        return stay?.reviews?.slice(0, 6)
+    }, [stay])
+
     return (
         <section className='review-section'>
             <section className='intro'>

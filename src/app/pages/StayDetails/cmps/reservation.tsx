@@ -66,6 +66,10 @@ function ReservationPickers({ stay, searchBy, onSearchChange, activeModule, onCh
     }, [searchBy.endDate])
 
     useEffect(() => {
+        if (!searchBy.adults) onSearchChange({ guests: 1, adults: 1 })
+    }, [])
+
+    useEffect(() => {
         if (isPickerShown.dates || isPickerShown.guests) {
             document.addEventListener('click', handleOutsideClick)
             return () => document.removeEventListener('click', handleOutsideClick)
@@ -96,6 +100,7 @@ function ReservationPickers({ stay, searchBy, onSearchChange, activeModule, onCh
                 {isPickerShown.dates && (
                     <div className='date-picker-wrapper'>
                         <DetailsDatePicker
+                            closePickers={closePickers}
                             searchBy={searchBy}
                             onSearchChange={onSearchChange}
                             cityName={stay.loc.city}
@@ -120,7 +125,14 @@ function ReservationPickers({ stay, searchBy, onSearchChange, activeModule, onCh
                     <span className='font-bold'>Guests</span>
                     <input type='text' readOnly={true} value={`${searchBy.guests} guests`} />
                 </div>
-                {isPickerShown.guests && <SearchGuests searchBy={searchBy} onSetSearchBy={onSearchChange} />}
+                {isPickerShown.guests && (
+                    <div className='guests-picker-wrapper'>
+                        <SearchGuests searchBy={searchBy} onSetSearchBy={onSearchChange} />
+                        <button onClick={closePickers} className='close-picker-btn'>
+                            Close
+                        </button>
+                    </div>
+                )}
             </div>
         </section>
     )
