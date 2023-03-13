@@ -2,12 +2,32 @@
     flex: 1;
     display: flex;
     gap: 3rem;
-    overflow-x: scroll;
     overflow-y: hidden;
     position: relative;
-    padding-inline-end: 3rem;
-    &::-webkit-scrollbar {
-        display: none;
+    margin-inline-end: 1rem;
+    .filter-items {
+        display: flex;
+        overflow-x: scroll;
+        width: 100%;
+        height: 100%;
+        white-space: nowrap;
+        transition: transform 0.2s ease-in-out;
+        scroll-behavior: smooth;
+        gap: 3rem;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+    &::before {
+        content: '';
+        position: absolute;
+        z-index: 2;
+        left: 0;
+        background: linear-gradient(to left, #ffffff00, rgb(255, 255, 255));
+        height: 100%;
+        width: 4rem;
+        pointer-events: none;
+        opacity: 0;
     }
     &::after {
         content: '';
@@ -16,18 +36,23 @@
         right: 0;
         background: linear-gradient(to right, #ffffff00, rgb(255, 255, 255));
         height: 100%;
-        width: 12rem;
+        width: 4rem;
         pointer-events: none;
     }
-    .next-filters-btn {
-        cursor: pointer;
+    &.before-shown::before {
+        opacity: 1;
+    }
+    &.after-hidden::after {
+        opacity: 0;
+    }
+    .filters-nav-btn {
         position: absolute;
-        z-index: 3;
-        right: 0.5rem;
         top: 50%;
-        transform: translateY(-50%);
+        cursor: pointer;
+        z-index: 3;
         width: 30px;
         height: 30px;
+        transform: translateY(-50%);
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -35,9 +60,21 @@
         border: 1px solid $gray-D;
         background-color: #fff;
         transition: transform 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+        opacity: 0;
+        pointer-events: none;
         &:hover {
             transform: translateY(-50%) scale(1.1);
         }
+        &.shown {
+            pointer-events: all;
+            opacity: 1;
+        }
+    }
+    .prev-filters-btn {
+        left: 0.5rem;
+    }
+    .next-filters-btn {
+        right: 0.5rem;
     }
     .filter-widget {
         cursor: pointer;
@@ -48,7 +85,7 @@
         transition: 0.2s all cubic-bezier(0.075, 0.82, 0.165, 1);
         position: relative;
         padding: 1rem 0;
-
+        opacity: 0.8;
         &::after {
             content: '';
             width: 100%;
@@ -59,9 +96,12 @@
             opacity: 0;
             transition: 0.2s all cubic-bezier(0.075, 0.82, 0.165, 1);
         }
-        &:hover::after {
+        &:hover {
             opacity: 1;
-            background-color: $gray-D;
+            &::after {
+                opacity: 1;
+                background-color: $gray-D;
+            }
         }
         img {
             margin-bottom: 0.5rem;
