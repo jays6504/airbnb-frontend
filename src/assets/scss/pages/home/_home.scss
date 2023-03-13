@@ -36,4 +36,13 @@
         justify-content: center;
         gap: 0.5rem;
     }
+    .home-footer {
+        font-size: 14px;
+        border-top: 1px solid $gray-E;
+        position: fixed;
+        bottom: 0;
+        background: white;
+        width: 100%;
+        padding: 0.75rem $layoutPadding;
+    }
 }

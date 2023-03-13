@@ -96,6 +96,11 @@ export function Home() {
                     {viewToggleBtn(isMapView)}
                 </button>
             </section>
+            <div className='home-footer'>
+                <span>
+                    ©2023 Airbnb clone created by <a href='https://github.com/Boydem/airbnb-frontend'>Noam Dahan</a>
+                </span>
+            </div>
         </div>
     )
 }
