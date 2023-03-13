@@ -12,6 +12,7 @@
         padding: 24px;
         box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
         margin-top: 3rem;
+        z-index: 11;
     }
 }
 
@@ -133,8 +134,6 @@
         margin-bottom: 1.5rem;
         text-align: center;
         font-size: 0.95rem;
-    }
-    .total-calc {
     }
     .total-field {
         margin-bottom: 1rem;

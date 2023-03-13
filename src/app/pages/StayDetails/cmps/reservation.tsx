@@ -1,20 +1,24 @@
-import { ISearchBy } from '../../../interfaces/search'
+import { ISearchBy, ISearchByOpts } from '../../../interfaces/search'
 import { IStay } from '../../../interfaces/stay'
 import { ReviewTitle } from './review-title'
 import moment from 'moment'
 import { useState } from 'react'
+import { DetailsDatePicker } from './details-date-picker'
 
 interface Props {
     searchBy: ISearchBy
     stay: IStay
+    onSearchChange: (searchOpts: ISearchByOpts) => void
+    activeModule: string | null
+    onChangeModule: (moduleName: string | null) => void
 }
 
-export function Reservation({ stay, searchBy }: Props) {
+export function Reservation({ stay, searchBy, onSearchChange, activeModule, onChangeModule }: Props) {
     const isTotalReady = searchBy.endDate && searchBy.startDate
     return (
         <section className='reservation'>
             <ReservationHeader avgRate={stay.avgRate} reviewsLength={stay.reviews.length} stayPrice={stay.price} />
-            <ReservationPickers {...{ stay, searchBy }} />
+            <ReservationPickers {...{ stay, searchBy, onSearchChange, activeModule, onChangeModule }} />
             <ReservationButton {...{ stay, searchBy }} />
             {isTotalReady && <ReservationTotal {...{ stay, searchBy }} />}
         </section>
@@ -43,16 +47,29 @@ function ReservationHeader({ avgRate, reviewsLength, stayPrice }: HeaderProps) {
 interface PickersProps {
     searchBy: ISearchBy
     stay: IStay
+    onSearchChange: (searchOpts: ISearchByOpts) => void
+    activeModule: string | null
+    onChangeModule: (moduleName: string | null) => void
 }
 
-export function ReservationPickers({ stay, searchBy }: PickersProps) {
+export function ReservationPickers({ stay, searchBy, onSearchChange, activeModule, onChangeModule }: PickersProps) {
     const startDateString = searchBy.startDate ? moment(searchBy.startDate).format('YYYY-MM-DD') : ''
     const endDateString = searchBy.endDate ? moment(searchBy.endDate).format('YYYY-MM-DD') : ''
     const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
     return (
         <section className='reservation-pickers'>
             <div className={`dates-wrapper ${isDatePickerOpen ? 'open' : ''}`}>
-                {isDatePickerOpen && <div className='date-picker-wrapper'></div>}
+                {isDatePickerOpen && (
+                    <div className='date-picker-wrapper'>
+                        <DetailsDatePicker
+                            searchBy={searchBy}
+                            onSearchChange={onSearchChange}
+                            cityName={stay.loc.city}
+                            activeModule={activeModule}
+                            onChangeModule={onChangeModule}
+                        />
+                    </div>
+                )}
                 <div className='inputs-wrapper'>
                     <div onClick={() => setIsDatePickerOpen(prev => !prev)} className='reservation-module check-in'>
                         <span className='font-bold'>Check-in</span>
@@ -108,11 +125,12 @@ interface TotalProps {
 
 function ReservationTotal({ searchBy, stay }: TotalProps) {
     const numNights = moment(searchBy.endDate).diff(moment(searchBy.startDate), 'days')
-    const totalPrice = stay.price * numNights
+    const serviceFee = 90
+    const totalPrice = stay.price * numNights + serviceFee
     return (
         <section className='reservation-total'>
             <p className='wont-charged-msg text-muted'>You won't be charged yet</p>
-            <div className='total-calc'>
+            <section>
                 <div className='total-field flex align-center justify-between'>
                     <span>
                         ${stay.price.toFixed(2)} x {numNights} nights
@@ -121,13 +139,13 @@ function ReservationTotal({ searchBy, stay }: TotalProps) {
                 </div>
                 <div className='total-field flex align-center justify-between'>
                     <span>Service fee</span>
-                    <span>$90</span>
+                    <span>${serviceFee}</span>
                 </div>
-            </div>
-            <div className='total-sum flex align-center justify-between font-medium'>
+            </section>
+            <section className='total-sum flex align-center justify-between font-medium'>
                 <span>Total</span>
                 <span>${totalPrice}</span>
-            </div>
+            </section>
         </section>
     )
 }

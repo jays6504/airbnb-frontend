@@ -86,7 +86,17 @@ export function StayDetails() {
                         </>
                     )}
                 </main>
-                {stay ? <Reservation stay={stay} searchBy={searchBy} /> : <div className='reservation skeleton'></div>}
+                {stay ? (
+                    <Reservation
+                        stay={stay}
+                        searchBy={searchBy}
+                        onChangeModule={onChangeModule}
+                        activeModule={activeModule}
+                        onSearchChange={onSearchChange}
+                    />
+                ) : (
+                    <div className='reservation skeleton'></div>
+                )}
             </section>
             <ReviewSection stay={stay} />
             <MapSection />
