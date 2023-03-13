@@ -103,10 +103,14 @@ export function StayDetails() {
                     <div className='reservation skeleton'></div>
                 )}
             </section>
-            <ReviewSection stay={stay} />
-            <MapSection />
-            <HostSection />
-            <ThingsToKnowSection />
+            {stay && (
+                <>
+                    <ReviewSection stay={stay} />
+                    <MapSection />
+                    <HostSection />
+                    <ThingsToKnowSection />
+                </>
+            )}
         </section>
     )
 }
