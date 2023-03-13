@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { ISearchBy, ISearchByOpts } from '../../interfaces/search'
 import { IStay } from '../../interfaces/stay'
@@ -25,8 +25,13 @@ export function StayDetails() {
     const navigate = useNavigate()
     const location = useLocation()
 
-    const imgsToDisplay = stay?.imgUrls?.slice(0, 5)
-    const amenitiesToDisplay = stay?.amenities?.slice(0, 10)
+    const imgsToDisplay = useMemo(() => {
+        return stay?.imgUrls?.slice(0, 5)
+    }, [stay?.imgUrls])
+
+    const amenitiesToDisplay = useMemo(() => {
+        return stay?.amenities?.slice(0, 10)
+    }, [stay?.amenities])
 
     useEffect(() => {
         loadStay()

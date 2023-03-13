@@ -6,16 +6,28 @@ interface Props {
     searchBy: ISearchBy
     onSearchChange: (searchOpts: ISearchByOpts) => void
     cityName: string | undefined
-    activeModule: string | null
+    activeModule?: string | null
     onChangeModule: (moduleName: string | null) => void
 }
 
-export function DetailsDatePicker({ searchBy, onSearchChange, cityName, activeModule, onChangeModule }: Props) {
+export function DetailsDatePicker({
+    searchBy,
+    onSearchChange,
+    cityName,
+    activeModule = 'startDate',
+    onChangeModule,
+}: Props) {
     const startDateFormatted = moment(searchBy.startDate).format('MMM D, YYYY')
     const endDateFormatted = moment(searchBy.endDate).format('MMM D, YYYY')
     const numNights = moment(searchBy.endDate).diff(moment(searchBy.startDate), 'days')
     const dateRangeTitle = `${numNights} nights in ${cityName}`
     const dateRangeText = `${startDateFormatted} - ${endDateFormatted}`
+
+    function resetDates() {
+        onSearchChange({ startDate: null, endDate: null })
+        onChangeModule('startDate')
+    }
+
     return (
         <section className='details-date-picker'>
             <h1>
@@ -31,11 +43,11 @@ export function DetailsDatePicker({ searchBy, onSearchChange, cityName, activeMo
             <DatePicker
                 searchBy={searchBy}
                 onSetSearchBy={onSearchChange}
-                activeModule={activeModule || 'startDate'}
+                activeModule={activeModule}
                 onChangeModule={onChangeModule}
             />
             <div>
-                <p className='clear-dates-link' onClick={() => onSearchChange({ startDate: null, endDate: null })}>
+                <p className='clear-dates-link' onClick={resetDates}>
                     Clear dates
                 </p>
             </div>

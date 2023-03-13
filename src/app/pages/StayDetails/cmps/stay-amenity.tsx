@@ -1,3 +1,5 @@
+import React from 'react'
+
 import Airconditioning from '../../../../assets/images/amenities/air-conditioning.svg'
 import Balcony from '../../../../assets/images/amenities/balcony.svg'
 import Beachfront from '../../../../assets/images/amenities/beachfront.svg'
@@ -71,7 +73,11 @@ import Washer from '../../../../assets/images/amenities/washer.svg'
 import Waterfront from '../../../../assets/images/amenities/waterfront.svg'
 import Wifi from '../../../../assets/images/amenities/wifi.svg'
 
-export function StayAmenity({ amenity }: { amenity: string }) {
+interface StayAmenityProps {
+    amenity: string
+}
+
+function StayAmenityComponent({ amenity }: StayAmenityProps) {
     const amenityMap: { [k: string]: string } = {
         'Air conditioning': Airconditioning,
         'Balcony': Balcony,
@@ -156,3 +162,4 @@ export function StayAmenity({ amenity }: { amenity: string }) {
     }
     return <img src={imgSrc} className='amenity-img' alt={amenity} />
 }
+export const StayAmenity = React.memo(StayAmenityComponent)
