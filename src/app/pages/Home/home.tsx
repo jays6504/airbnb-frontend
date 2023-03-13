@@ -1,18 +1,17 @@
-import { useState, useLayoutEffect, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useLayoutEffect } from 'react'
 import { useSelector } from 'react-redux'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { FaMap, FaListUl } from 'react-icons/fa'
+
+import { RootState } from '../../store/store'
+import { IStayPreview } from '../../interfaces/stay'
+import { IFilter } from '../../interfaces/filter'
+import { loadMoreStays, loadStays } from '../../store/stay/stay.actions'
+import { stayService } from '../../services/stay.service'
 import { StayList } from './cmps/stay-list'
 import { StayMap } from './cmps/stay-map'
-import { IStayPreview } from '../../interfaces/stay'
-import { FaMap } from 'react-icons/fa'
-import { FaListUl } from 'react-icons/fa'
-import { loadMoreStays, loadStays } from '../../store/stay/stay.actions'
-import { RootState } from '../../store/store'
-import { FilterSlider } from './cmps/filter-slider'
-import { stayService } from '../../services/stay.service'
-import { IFilter } from '../../interfaces/filter'
 import { FilterButton } from './cmps/filter-button'
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
-
+import { FilterSlider } from './cmps/filter-slider'
 interface IChildProps {
     stays: IStayPreview[]
     onAddToWishlist: () => void
@@ -26,14 +25,13 @@ interface IChildProps {
 const STAYS_INCREMENT_BY = 20
 
 export function Home() {
-    const stays = useSelector((storeState: RootState) => storeState.stayModule.stays)
-    const isLoading = useSelector((storeState: RootState) => storeState.stayModule.isLoading)
+    const { stays, isLoading } = useSelector((storeState: RootState) => storeState.stayModule)
     const [filters, setFilters] = useState<IFilter[]>(stayService.loadFilters())
     const [isMapView, setIsMapView] = useState<boolean>(false)
 
     const location = useLocation()
     const navigate = useNavigate()
-    let [searchParams, setSearchParams] = useSearchParams()
+
     useLayoutEffect(() => {
         const searchParams = new URLSearchParams(location.search)
         if (searchParams.toString() !== '') return
@@ -43,10 +41,14 @@ export function Home() {
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search)
         if (searchParams.toString() === '') return
-        let paramsObj = Object.fromEntries(searchParams.entries())
-        let searchObj = stayService.getSearchFromParams(paramsObj)
+        const paramsObj = Object.fromEntries(searchParams.entries())
+        loadStaysFromSearchParams(paramsObj)
+    }, [location.search])
+
+    function loadStaysFromSearchParams(params: Record<string, string>) {
+        const searchObj = stayService.getSearchFromParams(params)
         loadStays(searchObj)
-    }, [searchParams])
+    }
 
     function onStayClick(stayId: string) {
         const searchParams = new URLSearchParams(location.search)
@@ -59,7 +61,6 @@ export function Home() {
 
     function loadMore(pageIndex = 0) {
         if (isLoading) return
-        console.log('pageIndex:', pageIndex)
         loadMoreStays(pageIndex)
     }
 

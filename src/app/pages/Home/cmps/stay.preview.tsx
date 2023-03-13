@@ -7,6 +7,7 @@ interface IPreviewProps {
     stay: IStayPreview | undefined
     onAddToWishlist?: () => void
     isMapView: boolean
+
     delay?: number
     onStayClick: (stayId: string) => void
 }
@@ -29,7 +30,7 @@ export const StayPreview: React.FC<IPreviewProps> = ({ stay, isMapView, onAddToW
                         <span>{stay.avgRate}</span>
                     </span>
                 </p>
-                <p className='name font-medium inline-clamp'>{stay.name}</p>
+                <p className='name font-medium inline-clamp'>{stay.loc.address}</p>
                 <p className='type'>{stay.type}</p>
                 <p className='price font-medium'>
                     ${stay.price}
