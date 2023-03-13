@@ -19,6 +19,8 @@ export interface IStay {
     stayDetails: { [key: string]: number }
     avgRates?: { [k: string]: number }
     avgRate?: string
+    filters: string[]
+    region: string
 }
 export interface IStayPreview {
     _id: string
@@ -29,6 +31,8 @@ export interface IStayPreview {
     isSuperHost: boolean
     loc: ILocation
     avgRate: string
+    filters: string[]
+    region: string
     // likedByUser: boolean;
 }
 

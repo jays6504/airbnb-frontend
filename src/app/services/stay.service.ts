@@ -8,6 +8,8 @@ import { utilService } from './util.service'
 const INCREMENT_BY_AMOUNT = 20
 const STAY_DB_KEY = 'stayDB'
 var gStays: IStay[] = require('../../assets/data/minified-stays.json')
+var gFiltersName: string[] = require('../../assets/data/filter-names.json')
+var gRegionsName: string[] = require('../../assets/data/regions-names.json')
 var gFilters: IFilter[] = require('../../assets/data/filters.json')
 _initStays()
 
@@ -89,13 +91,8 @@ function _filter(stays: IStay[], filterBy: IFilterBy, searchBy: ISearchBy) {
     if (searchBy.destination) {
         const searchTerm = searchBy.destination.toLowerCase()
         filteredStays = filteredStays.filter(stay => {
-            const { address, city, countryCode, country } = stay.loc
-            const addressContainsTerm = address?.toLowerCase().includes(searchTerm)
-            const cityContainsTerm = city?.toLowerCase().includes(searchTerm)
-            const countryCodeContainsTerm = countryCode?.toLowerCase().includes(searchTerm)
-            const countryContainsTerm = country?.toLowerCase().includes(searchTerm)
-
-            return addressContainsTerm || cityContainsTerm || countryCodeContainsTerm || countryContainsTerm
+            const { region } = stay
+            return region.toLowerCase() === searchTerm
         })
     }
 
@@ -108,7 +105,17 @@ function _initStays() {
     stays = storeStays ? JSON.parse(storeStays) : []
     if (!stays || !stays.length) {
         stays = [...gStays]
-        stays.forEach(stay => (stay._id = utilService.makeId()))
+        stays.forEach(stay => {
+            stay._id = utilService.makeId()
+            stay.filters = [
+                utilService.getRandomItemFromArr(gFiltersName),
+                utilService.getRandomItemFromArr(gFiltersName),
+                utilService.getRandomItemFromArr(gFiltersName),
+                utilService.getRandomItemFromArr(gFiltersName),
+                utilService.getRandomItemFromArr(gFiltersName),
+            ]
+            stay.region = utilService.getRandomItemFromArr(gRegionsName)
+        })
         localStorage.setItem(STAY_DB_KEY, JSON.stringify(stays))
     }
 }
@@ -123,6 +130,8 @@ function _arrangePreviewData(stay: IStay): IStayPreview {
         loc: stay.loc,
         avgRate: calcAvgRate(stay.reviews),
         type: stay.type,
+        filters: stay.filters,
+        region: stay.region,
     }
 }
 

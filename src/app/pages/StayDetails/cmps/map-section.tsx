@@ -12,7 +12,7 @@ function MapMarker({ lat, lng }: MarkerProps) {
     return <div className='map-marker'>📍</div>
 }
 
-export function MapSection({ stayLoc }: { stayLoc: ILocation }) {
+export function MapSection({ stayLoc, staySummary }: { stayLoc: ILocation; staySummary: string }) {
     const mapOptions = {
         center: stayLoc,
         zoom: 2,
@@ -24,7 +24,7 @@ export function MapSection({ stayLoc }: { stayLoc: ILocation }) {
             <div style={{ height: '400px', width: '100%' }}>
                 <GoogleMapReact
                     bootstrapURLKeys={{ key: apiKey }}
-                    defaultCenter={stayLoc}
+                    defaultCenter={mapOptions.center}
                     defaultZoom={2}
                     options={mapOptions}
                 >
@@ -32,6 +32,7 @@ export function MapSection({ stayLoc }: { stayLoc: ILocation }) {
                 </GoogleMapReact>
             </div>
             <div className='address font-medium'>{stayLoc.address}</div>
+            <div className='summary'>{staySummary}</div>
         </section>
     )
 }

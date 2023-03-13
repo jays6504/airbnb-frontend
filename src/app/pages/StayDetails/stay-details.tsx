@@ -104,7 +104,7 @@ export function StayDetails() {
             {stay && (
                 <>
                     <ReviewSection stay={stay} />
-                    <MapSection stayLoc={stay.loc} />
+                    <MapSection staySummary={stay.summary} stayLoc={stay.loc} />
                     {/* <HostSection /> */}
                     {/* <ThingsToKnowSection /> */}
                 </>
