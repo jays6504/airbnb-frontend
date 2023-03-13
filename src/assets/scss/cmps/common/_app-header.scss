@@ -7,6 +7,10 @@
         background-color: white;
         z-index: 2;
         border-bottom: 1px solid $gray-F;
+        &.sm-layout {
+            max-width: $break-normal;
+            margin-inline: auto;
+        }
         .logo {
             cursor: pointer;
             color: $primary;

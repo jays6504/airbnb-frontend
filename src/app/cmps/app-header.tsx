@@ -27,15 +27,15 @@ export function AppHeader() {
     const [searchBy, setSearchBy] = useState<ISearchBy>(stayService.getDefaultSearch())
     const [isExpanded, setIsExpanded] = useState<boolean>(false)
     const isExpandedClass: string = isExpanded ? 'expanded' : ''
-
+    const [isDetailsLayout, setIsDetailsLayout] = useState<boolean>(false)
     // Refs
     const searchFormContainerRef = useRef<HTMLDivElement>(null)
-
     // Search Params
     let [_, setSearchParams] = useSearchParams()
     const navigate = useNavigate()
     const location = useLocation()
     useEffect(() => {
+        setIsDetailsLayout(location.pathname.includes('/stay/'))
         const searchParams = new URLSearchParams(location.search)
         if (searchParams.toString() === '') return
         let paramsObj = Object.fromEntries(searchParams.entries())
@@ -106,10 +106,10 @@ export function AppHeader() {
     }
     // Template
     return (
-        <div onClick={handleFormBlur} className='app-header'>
+        <div onClick={handleFormBlur} className={`app-header`}>
             <OverlayScreen isOpen={isExpanded} setIsOpen={onChangeIsExpanded} />
-            <header className={`${isExpandedClass} main-layout`}>
-                <div className='wrapper flex align-center justify-between'>
+            <header className={`${isExpandedClass} ${isDetailsLayout ? 'sm-layout' : 'main-layout'} `}>
+                <div className={`wrapper flex align-center justify-between`}>
                     <div onClick={() => onBackHome()} className='logo'>
                         <AppLogo />
                     </div>
