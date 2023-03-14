@@ -1,0 +1,19 @@
+.mobile-bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    background-color: #fff;
+    font-size: 16px;
+    .link {
+        cursor: pointer;
+        text-decoration: underline;
+        font-family: $font-family-medium;
+        color: $gray-300;
+    }
+    button {
+        width: max-content;
+        padding-inline: 1.25rem;
+    }
+}

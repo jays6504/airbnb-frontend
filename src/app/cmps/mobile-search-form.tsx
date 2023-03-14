@@ -1,11 +1,12 @@
 import moment from 'moment'
 import { ISearchProps } from './app-header'
 import { DatePicker } from './date-picker'
+import { MobileBottomBar } from './mobile-bottom-bar'
 import { SearchGuests } from './search-guests'
 import { SearchRegions } from './search-regions'
 
 export function MobileSearchForm(props: ISearchProps) {
-    const { activeModule, onChangeModule, searchBy } = props
+    const { activeModule, onChangeModule, searchBy, handleFormSubmit } = props
     const formatDate = (date: Date): string => {
         return moment(date).format('MMM D')
     }
@@ -51,6 +52,9 @@ export function MobileSearchForm(props: ISearchProps) {
                     )}
                 </div>
             ))}
+            <MobileBottomBar buttonText={'Search'} handleClick={handleFormSubmit}>
+                <p className='link'>Clear all</p>
+            </MobileBottomBar>
         </section>
     )
 }

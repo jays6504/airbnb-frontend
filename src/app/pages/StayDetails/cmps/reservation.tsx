@@ -5,6 +5,7 @@ import moment from 'moment'
 import { useState, useMemo, useEffect, useRef } from 'react'
 import { DetailsDatePicker } from './details-date-picker'
 import { SearchGuests } from '../../../cmps/search-guests'
+import { AirbnbBtn } from '../../../cmps/airbnb-btn'
 interface Props {
     searchBy: ISearchBy
     stay: IStay
@@ -166,28 +167,13 @@ interface ButtonProps {
     searchBy: ISearchBy
     togglePicker: (picker: 'dates' | 'guests' | null) => void
 }
-interface ReservationButtonStyle extends React.CSSProperties {
-    '--mouseX'?: number
-    '--mouseY'?: number
-}
+
 function ReservationButton({ searchBy, togglePicker }: ButtonProps) {
-    const [mouseX, setX] = useState(0)
-    const [mouseY, setY] = useState(0)
     const isAvailable = searchBy.endDate && searchBy.startDate
 
     const buttonText = useMemo(() => {
         return isAvailable ? 'Reserve' : 'Check Availability'
     }, [searchBy.endDate, searchBy.startDate])
-
-    const handleMouseMove = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setX((event.nativeEvent.offsetX / event.currentTarget.offsetWidth) * 100)
-        setY((event.nativeEvent.offsetY / event.currentTarget.offsetHeight) * 100)
-    }
-
-    const buttonStyle: ReservationButtonStyle = {
-        '--mouseX': mouseX,
-        '--mouseY': mouseY,
-    }
 
     function handleClick() {
         if (!isAvailable) {
@@ -196,9 +182,9 @@ function ReservationButton({ searchBy, togglePicker }: ButtonProps) {
     }
 
     return (
-        <button onClick={handleClick} className='reservation-button' style={buttonStyle} onMouseMove={handleMouseMove}>
-            {buttonText}
-        </button>
+        <AirbnbBtn handleClick={handleClick}>
+            <span>{buttonText}</span>
+        </AirbnbBtn>
     )
 }
 
