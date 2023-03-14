@@ -15,7 +15,7 @@ export default function Modal({ children, isOpen, onClose }: ModalProps) {
             <div onClick={onClose} className={`modal-overlay ${isOpen ? 'open' : ''}`}></div>
             <div className={`app-modal ${isOpen ? 'open' : ''}`}>
                 <button onClick={onClose} className='close-btn'></button>
-                <div className='modal-content'>{children}</div>
+                {children}
             </div>
         </>,
         portalElement

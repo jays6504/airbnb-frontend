@@ -29,8 +29,8 @@ export function FilterSlider({ filters, onFilterChange }: Props) {
 
     const onScrollFilters = (direction: number) => {
         if (filterItemsRef.current) {
-            filterItemsRef.current.scrollLeft += 1000 * direction
-            console.log('filterItemsRef.current.scrollLeft:', filterItemsRef.current.scrollLeft)
+            const { clientWidth } = filterItemsRef.current
+            filterItemsRef.current.scrollLeft += clientWidth * 0.6 * direction
         }
     }
 

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { BiSliderAlt } from 'react-icons/bi'
 import Modal from '../../../cmps/modal'
+import { FilterModal } from './filter-modal'
 
 export function FilterButton() {
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -8,7 +9,7 @@ export function FilterButton() {
     return (
         <>
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                <div className='content'>Hello modal</div>
+                <FilterModal />
             </Modal>
             <button onClick={() => setIsModalOpen(true)} className='filter-button'>
                 <BiSliderAlt />
