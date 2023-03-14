@@ -108,7 +108,7 @@ export function AppHeader() {
     return (
         <div onClick={handleFormBlur} className={`app-header`}>
             <OverlayScreen isOpen={isExpanded} setIsOpen={onChangeIsExpanded} />
-            <header className={`${isExpandedClass} ${isDetailsLayout ? 'sm-layout' : 'main-layout'} `}>
+            <header className={`${isExpandedClass} ${isDetailsLayout ? 'secondary-layout' : 'main-layout'} `}>
                 <div className={`wrapper flex align-center justify-between`}>
                     <div onClick={() => onBackHome()} className='logo'>
                         <AppLogo />

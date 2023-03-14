@@ -1,10 +1,8 @@
 .stay-details {
-    max-width: 1120px;
-    margin-inline: auto;
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 2rem 0;
+    padding-block: 2rem;
     > .stay-intro {
         margin-bottom: 1rem;
     }

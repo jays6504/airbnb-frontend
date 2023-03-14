@@ -19,7 +19,7 @@
             background-color: transparent;
         }
     }
-    @media (min-width: $padded-break-normal) {
+    @media (min-width: $main-break-md) {
         grid-template-columns: repeat(2, 1fr);
     }
 }

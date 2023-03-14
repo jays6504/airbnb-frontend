@@ -1,28 +1,14 @@
-/* Media queries Breakpoint mixins */
+@mixin padding-layout($padding-lg, $padding-md, $padding-sm) {
+    padding-inline: $padding-lg;
 
-@mixin for-mobile-layout {
-    @media (max-width: $break-narrow) {
-        @content;
+    @media (max-width: $main-break-md) {
+        padding-inline: $padding-md;
+    }
+
+    @media (max-width: $break-sm) {
+        padding-inline: $padding-sm;
     }
 }
-
-@mixin for-narrow-layout {
-    @media (min-width: $break-narrow) {
-        @content;
-    }
-}
-
-@mixin for-normal-layout {
-    @media (min-width: $break-normal) {
-        @content;
-    }
-}
-
-@mixin layoutGTC($max) {
-    grid-template-columns: minmax($layoutPadding, 1fr) minmax(auto, $max) minmax($layoutPadding, 1fr);
-}
-
-/* Media  Mixins */
 
 //aspect ratio mixin
 @mixin aspect-ratio($width: 1, $height: 1) {

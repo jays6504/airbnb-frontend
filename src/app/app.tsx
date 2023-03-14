@@ -10,7 +10,7 @@ function App() {
     return (
         <div className='app'>
             <AppHeader />
-            <main className='main-content main-layout'>
+            <main className='main-content'>
                 <Routes>
                     <Route path='/airbnb-frontend/' element={<Home />} />
                     <Route path='/stay/:stayId' element={<StayDetails />} />

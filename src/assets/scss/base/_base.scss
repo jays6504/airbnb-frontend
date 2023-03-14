@@ -6,9 +6,9 @@ body {
     font-family: $base-font-family;
     overflow-x: hidden;
 
-    @media (min-width: $padded-break-narrow) {
-        font-size: $base-font-size;
-    }
+    // @media (min-width: $main-break-md) {
+    //     font-size: $base-font-size;
+    // }
 }
 
 body {

@@ -27,6 +27,7 @@ const STAYS_INCREMENT_BY = 20
 export function Home() {
     const { stays, isLoading } = useSelector((storeState: RootState) => storeState.stayModule)
     const [filters, setFilters] = useState<IFilter[]>(stayService.loadFilters())
+
     const [isMapView, setIsMapView] = useState<boolean>(false)
 
     const location = useLocation()
@@ -97,7 +98,7 @@ export function Home() {
                     {viewToggleBtn(isMapView)}
                 </button>
             </section>
-            <div className='home-footer'>
+            <div className='home-footer main-layout'>
                 <span>
                     ©2023 Airbnb clone created by <a href='https://github.com/Boydem/airbnb-frontend'>Noam Dahan</a>
                 </span>

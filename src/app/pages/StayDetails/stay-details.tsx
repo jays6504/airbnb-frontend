@@ -68,7 +68,7 @@ export function StayDetails() {
     }
 
     return (
-        <section className='stay-details'>
+        <section className='stay-details secondary-layout'>
             <StayIntro stay={stay} />
             <ImageGallery imgUrls={imgsToDisplay} />
             <section className='sticky-section-wrapper'>
