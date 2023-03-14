@@ -8,6 +8,21 @@
     white-space: nowrap;
     display: flex;
     align-items: center;
+    .airbnb-btn {
+        margin-inline-end: 1rem;
+        border-radius: 55px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: all 0.3s;
+        max-width: 100%;
+        min-width: max-content;
+        width: 2rem;
+        height: 3rem;
+        padding: 0 1rem;
+        font-family: $font-family-medium;
+    }
     &:hover:not(.active) {
         background-color: #e0e0e0;
     }

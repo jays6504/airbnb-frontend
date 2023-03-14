@@ -1,5 +1,6 @@
 import { FaSearch } from 'react-icons/fa'
 import { ISearchBy } from '../interfaces/search'
+import { AirbnbBtn } from './airbnb-btn'
 
 interface IModuleProps {
     name: string
@@ -61,10 +62,12 @@ export function SearchModule({
                 <button className='module-reset-btn'>X</button>
             </div>
             {name === 'guests' && (
-                <button onClick={handleFormSubmit} className='form-search-btn' type='button'>
-                    <FaSearch />
-                    {activeModule && 'Search'}
-                </button>
+                <AirbnbBtn handleClick={handleFormSubmit} type='button'>
+                    <>
+                        {activeModule && <span>Search</span>}
+                        <FaSearch />
+                    </>
+                </AirbnbBtn>
             )}
         </div>
     )

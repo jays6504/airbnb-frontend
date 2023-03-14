@@ -8,9 +8,10 @@ interface ReservationButtonStyle extends React.CSSProperties {
 interface Props {
     children: ReactElement
     handleClick?: () => void
+    type?: 'button' | 'submit' | 'reset'
 }
 
-export function AirbnbBtn({ children, handleClick }: Props) {
+export function AirbnbBtn({ children, handleClick, ...rest }: Props) {
     const [mouseX, setX] = useState(0)
     const [mouseY, setY] = useState(0)
     const handleMouseMove = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -24,6 +25,7 @@ export function AirbnbBtn({ children, handleClick }: Props) {
     }
     return (
         <button
+            {...rest}
             onClick={handleClick ? handleClick : () => {}}
             className='airbnb-btn'
             style={buttonStyle}
