@@ -19,7 +19,7 @@
             background-color: transparent;
         }
     }
-    @media (min-width: $main-break-md) {
+    @media (min-width: $secondary-break-sm) {
         grid-template-columns: repeat(2, 1fr);
     }
 }
