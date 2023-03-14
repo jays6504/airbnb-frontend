@@ -1,3 +1,6 @@
+import moment from 'moment'
+import { ISearchBy } from '../interfaces/search'
+
 export const utilService = {
     makeId,
     saveToStorage,
@@ -5,6 +8,7 @@ export const utilService = {
     formatDate,
     deformatDate,
     getRandomItemFromArr,
+    formatDateMMMd,
 }
 
 export function makeId(length = 6) {
@@ -29,6 +33,18 @@ function loadFromStorage(key: string) {
 
 function getRandomItemFromArr(arr: any[]) {
     return arr[Math.floor(Math.random() * arr.length)]
+}
+
+function formatDateMMMd(searchBy: ISearchBy): string {
+    const formattedDate = (date: Date | null) => moment(date).format('MMM D')
+    const startDateMonth = moment(searchBy.startDate).month()
+    const endDateMonth = moment(searchBy.endDate).month()
+
+    if (startDateMonth === endDateMonth) {
+        return `${moment(searchBy.startDate).format('MMM D')} - ${moment(searchBy.endDate).format('D')}`
+    }
+
+    return `${formattedDate(searchBy.startDate)} - ${formattedDate(searchBy.endDate)}`
 }
 
 function formatDate(date: Date): string {

@@ -3,6 +3,13 @@
     height: 100vh;
     background-color: $gray-F;
     padding-block: 1.5rem;
+    h4 {
+        font-size: 16px;
+    }
+    .title {
+        font-size: px-to-rem(26px);
+        margin-bottom: 1rem;
+    }
     .module-tab {
         font-size: 14px;
         width: 100%;
@@ -14,17 +21,11 @@
         &.active {
             box-shadow: 0 0 0 1px rgb(0 0 0 / 4%), 0 6px 20px rgb(0 0 0 / 20%);
         }
-        h4 {
-            font-size: px-to-rem(26px);
-        }
         background-color: #fff;
         border-radius: 1rem;
         padding: 1.5rem;
     }
     .search-guests {
-        h4 {
-            font-size: 16px;
-        }
     }
     .regions-list {
         overflow-x: scroll;

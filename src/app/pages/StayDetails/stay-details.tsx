@@ -1,20 +1,23 @@
 import { useEffect, useState, useMemo } from 'react'
-import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useMobileWidth } from '../../hooks/useMobileWidth'
+import { MobileBottomBar } from '../../cmps/mobile-bottom-bar'
 import { ISearchBy, ISearchByOpts } from '../../interfaces/search'
 import { IStay } from '../../interfaces/stay'
 import { stayService } from '../../services/stay.service'
+import { AirCover } from './cmps/air-cover'
 import { DetailsDatePicker } from './cmps/details-date-picker'
-import { HostSection } from './cmps/host-section'
 import { ImageGallery } from './cmps/image-gallery'
 import { MapSection } from './cmps/map-section'
-import { Reservation } from './cmps/reservation'
+import { Reservation } from './cmps/Reservation/reservation'
 import { ReviewSection } from './cmps/review-section'
 import { StayAmenities } from './cmps/stay-amenities'
-import { StayAmenity } from './cmps/stay-amenity'
 import { StayInfo } from './cmps/stay-info'
 import { StayIntro } from './cmps/stay-intro'
 import { StaySummary } from './cmps/stay-summary'
-import { ThingsToKnowSection } from './cmps/things-to-know-section'
+import { ReviewTitle } from './cmps/review-title'
+import moment from 'moment'
+import { utilService } from '../../services/util.service'
 
 export function StayDetails() {
     const [stay, setStay] = useState<IStay | null>(null)
@@ -23,6 +26,8 @@ export function StayDetails() {
     const { stayId } = useParams()
     const navigate = useNavigate()
     const location = useLocation()
+    const isMobileWidth = useMobileWidth(1180)
+    const isAvailable = searchBy.endDate && searchBy.startDate
 
     const imgsToDisplay = useMemo(() => {
         return stay?.imgUrls?.slice(0, 5)
@@ -36,8 +41,6 @@ export function StayDetails() {
         loadStay()
     }, [])
     // Search Params
-    // let [searchParams, setSearchParams] = useSearchParams()
-
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search)
         if (searchParams.toString() === '') return
@@ -67,6 +70,10 @@ export function StayDetails() {
         setActiveModule(moduleName)
     }
 
+    const buttonText = useMemo(() => {
+        return isAvailable ? 'Reserve' : 'Check Availability'
+    }, [searchBy.endDate, searchBy.startDate])
+
     return (
         <section className='stay-details secondary-layout'>
             <StayIntro stay={stay} />
@@ -89,14 +96,32 @@ export function StayDetails() {
                         </>
                     )}
                 </main>
-                {stay ? (
+                {stay && !isMobileWidth ? (
                     <Reservation
                         stay={stay}
                         searchBy={searchBy}
                         onChangeModule={onChangeModule}
                         activeModule={activeModule}
                         onSearchChange={onSearchChange}
+                        isAvailable={isAvailable}
+                        buttonText={buttonText}
                     />
+                ) : stay && isMobileWidth ? (
+                    <MobileBottomBar handleClick={() => {}} buttonText={buttonText}>
+                        <>
+                            <div>
+                                <span className='font-medium'>${stay.price}</span>{' '}
+                                <span className='text-muted'>night</span>
+                            </div>
+                            <div>
+                                {searchBy.endDate && searchBy.startDate ? (
+                                    <span>{`${utilService.formatDateMMMd(searchBy)}`}</span>
+                                ) : (
+                                    <ReviewTitle avgRate={stay.avgRate} reviewsLength={stay.reviews.length} />
+                                )}
+                            </div>
+                        </>
+                    </MobileBottomBar>
                 ) : (
                     <div className='reservation skeleton'></div>
                 )}
@@ -110,22 +135,5 @@ export function StayDetails() {
                 </>
             )}
         </section>
-    )
-}
-
-export function AirCover() {
-    return (
-        <div className='air-cover'>
-            <h3>
-                <img
-                    src='https://a0.muscache.com/im/pictures/54e427bb-9cb7-4a81-94cf-78f19156faad.jpg'
-                    alt='aircover'
-                />
-            </h3>
-            <p>
-                Every booking includes free protection from Host cancellations, listing inaccuracies, and other issues
-                like trouble checking in.
-            </p>
-        </div>
     )
 }

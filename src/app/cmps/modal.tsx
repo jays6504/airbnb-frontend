@@ -1,4 +1,5 @@
 import { useState, ReactElement } from 'react'
+import { FaTimes } from 'react-icons/fa'
 import ReactDom from 'react-dom'
 interface ModalProps {
     children: ReactElement
@@ -14,7 +15,9 @@ export default function Modal({ children, isOpen, onClose }: ModalProps) {
         <>
             <div onClick={onClose} className={`modal-overlay ${isOpen ? 'open' : ''}`}></div>
             <div className={`app-modal ${isOpen ? 'open' : ''}`}>
-                <button onClick={onClose} className='close-btn'></button>
+                <button onClick={onClose} className='close-btn'>
+                    <FaTimes />
+                </button>
                 {children}
             </div>
         </>,

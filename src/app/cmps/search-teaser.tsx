@@ -1,17 +1,12 @@
 import moment from 'moment'
 import { ISearchProps } from './app-header'
 import { FaSearch } from 'react-icons/fa'
+import { utilService } from '../services/util.service'
 
 export function SearchTeaser({ onChangeModule, searchBy, isExpandedClass, onChangeIsExpanded }: ISearchProps) {
-    const formatDate = (date: Date): string => {
-        return moment(date).format('MMM D')
-    }
     let titles: { [key: string]: string } = {
         location: searchBy.destination ? searchBy.destination : 'Anywhere',
-        startDate:
-            searchBy.startDate && searchBy.endDate
-                ? `${formatDate(searchBy.startDate)} - ${formatDate(searchBy.endDate)}`
-                : 'Any week',
+        startDate: searchBy.startDate && searchBy.endDate ? utilService.formatDateMMMd(searchBy) : 'Any week',
         guests: searchBy.adults ? `${searchBy.guests} guests` : 'Add guests',
     }
     const handleClick: React.MouseEventHandler<HTMLElement> = ev => {

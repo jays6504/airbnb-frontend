@@ -1,4 +1,5 @@
 import moment from 'moment'
+import { stayService } from '../services/stay.service'
 import { ISearchProps } from './app-header'
 import { DatePicker } from './date-picker'
 import { MobileBottomBar } from './mobile-bottom-bar'
@@ -6,7 +7,7 @@ import { SearchGuests } from './search-guests'
 import { SearchRegions } from './search-regions'
 
 export function MobileSearchForm(props: ISearchProps) {
-    const { activeModule, onChangeModule, searchBy, handleFormSubmit } = props
+    const { activeModule, onChangeModule, searchBy, handleFormSubmit, onSetSearchBy } = props
     const formatDate = (date: Date): string => {
         return moment(date).format('MMM D')
     }
@@ -24,6 +25,7 @@ export function MobileSearchForm(props: ISearchProps) {
 
     return (
         <section className='mobile-search-form main-layout'>
+            <h1 className='title'>Search stays</h1>
             {Object.keys(modules).map(module => (
                 <div
                     key={module}
@@ -53,7 +55,9 @@ export function MobileSearchForm(props: ISearchProps) {
                 </div>
             ))}
             <MobileBottomBar buttonText={'Search'} handleClick={handleFormSubmit}>
-                <p className='link'>Clear all</p>
+                <p onClick={() => onSetSearchBy(stayService.getDefaultSearch())} className='link'>
+                    Clear all
+                </p>
             </MobileBottomBar>
         </section>
     )

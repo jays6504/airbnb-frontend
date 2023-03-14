@@ -29,9 +29,20 @@
     }
     > .close-btn {
         position: absolute;
-        inset: 0;
-        margin: auto;
+        top: 1rem;
+        right: 1rem;
         width: 30px;
         height: 30px;
+        background-color: #fff;
+        border-radius: 55px;
+        border: 1px solid $gray-D;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        transition: transform 0.2s;
+        &:hover {
+            transform: scale(1.05);
+        }
     }
 }
