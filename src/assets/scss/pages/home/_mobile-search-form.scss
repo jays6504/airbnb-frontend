@@ -1,0 +1,46 @@
+.mobile-search-form {
+    width: 100vw;
+    height: 100vh;
+    background-color: $gray-F;
+    padding-block: 1.5rem;
+    .module-tab {
+        font-size: 14px;
+        width: 100%;
+        height: 100%;
+        background-color: transparent;
+    }
+    .module-container {
+        margin-bottom: 1.5rem;
+        &.active {
+            box-shadow: 0 0 0 1px rgb(0 0 0 / 4%), 0 6px 20px rgb(0 0 0 / 20%);
+        }
+        h4 {
+            font-size: px-to-rem(26px);
+        }
+        background-color: #fff;
+        border-radius: 1rem;
+        padding: 1.5rem;
+    }
+    .regions-list {
+        overflow-x: scroll;
+        scroll-behavior: smooth;
+        scroll-snap-type: x proximity;
+        display: flex;
+        padding-top: 0.5rem;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+        li {
+            padding: 2px;
+            -webkit-scroll-snap-align: end;
+            -moz-scroll-snap-align: end;
+            -ms-scroll-snap-align: end;
+            scroll-snap-align: end;
+            img {
+                object-fit: cover;
+                height: 100px;
+                min-width: 100px;
+            }
+        }
+    }
+}

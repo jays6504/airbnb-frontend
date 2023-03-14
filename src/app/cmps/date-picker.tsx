@@ -8,9 +8,16 @@ interface IDatePickerProps {
     searchBy: ISearchBy
     onSetSearchBy: (searchBy: ISearchByOpts) => void
     onChangeModule: (moduleName: string | null) => void
+    numOfMonths?: number
 }
 
-export function DatePicker({ searchBy, onSetSearchBy, activeModule = 'startDate', onChangeModule }: IDatePickerProps) {
+export function DatePicker({
+    searchBy,
+    onSetSearchBy,
+    activeModule = 'startDate',
+    onChangeModule,
+    numOfMonths = 2,
+}: IDatePickerProps) {
     //
     const handleDatesChange = ({ startDate, endDate }: { startDate: Moment | null; endDate: Moment | null }): void => {
         let end = endDate?.toDate()
@@ -34,7 +41,7 @@ export function DatePicker({ searchBy, onSetSearchBy, activeModule = 'startDate'
                 onDatesChange={handleDatesChange}
                 focusedInput={(activeModule as FocusedInputShape) || 'startDate'}
                 onFocusChange={handleFocusChange}
-                numberOfMonths={2}
+                numberOfMonths={numOfMonths}
                 minimumNights={1}
                 keepOpenOnDateSelect={true}
                 noBorder={true}

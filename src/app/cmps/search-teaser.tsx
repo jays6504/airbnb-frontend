@@ -1,10 +1,10 @@
-import { ISearchBy } from '../interfaces/search'
+import moment from 'moment'
 import { ISearchProps } from './app-header'
 import { FaSearch } from 'react-icons/fa'
 
 export function SearchTeaser({ onChangeModule, searchBy, isExpandedClass, onChangeIsExpanded }: ISearchProps) {
     const formatDate = (date: Date): string => {
-        return date.toLocaleString('default', { month: 'short', day: 'numeric' })
+        return moment(date).format('MMM D')
     }
     let titles: { [key: string]: string } = {
         location: searchBy.destination ? searchBy.destination : 'Anywhere',
@@ -15,7 +15,6 @@ export function SearchTeaser({ onChangeModule, searchBy, isExpandedClass, onChan
         guests: searchBy.adults ? `${searchBy.guests} guests` : 'Add guests',
     }
     const handleClick: React.MouseEventHandler<HTMLElement> = ev => {
-        ev.preventDefault()
         onChangeIsExpanded(true)
     }
     return (

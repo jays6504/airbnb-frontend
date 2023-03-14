@@ -153,3 +153,18 @@
 .CalendarMonth {
     height: 100% !important;
 }
+.DayPicker.DayPicker_1.DayPicker__horizontal.DayPicker__horizontal_2 {
+    width: 100% !important;
+    *:not(.CalendarMonth_caption, strong) {
+        font-size: 16px;
+    }
+    .DayPicker_weekHeader {
+        color: $gray-B;
+        top: calc(62px + 0.5rem);
+    }
+    .CalendarMonth_caption {
+        margin-bottom: 1rem;
+        font-size: 24px;
+        line-height: 1;
+    }
+}

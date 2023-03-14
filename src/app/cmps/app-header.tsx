@@ -9,7 +9,10 @@ import { SearchForm } from './search-form'
 import { SearchTeaser } from './search-teaser'
 import { UserMenu } from './user-menu'
 import { utilService } from '../services/util.service'
-import { loadStays } from '../store/stay/stay.actions'
+import { useMobileWidth } from '../hooks/useMobileWidth'
+import { MobileSearchTeaser } from './mobile-search-teaser'
+import Modal from './modal'
+import { MobileSearchForm } from './mobile-search-form'
 
 export interface ISearchProps {
     activeModule: string | null
@@ -26,8 +29,9 @@ export function AppHeader() {
     const [activeModule, setActiveModule] = useState<string | null>(null)
     const [searchBy, setSearchBy] = useState<ISearchBy>(stayService.getDefaultSearch())
     const [isExpanded, setIsExpanded] = useState<boolean>(false)
-    const isExpandedClass: string = isExpanded ? 'expanded' : ''
     const [isDetailsLayout, setIsDetailsLayout] = useState<boolean>(false)
+    const isMobileWidth = useMobileWidth()
+
     // Refs
     const searchFormContainerRef = useRef<HTMLDivElement>(null)
     // Search Params
@@ -95,6 +99,7 @@ export function AppHeader() {
         }
     }
     // Props
+    const isExpandedClass: string = isExpanded ? 'expanded' : ''
     const searchProps = {
         activeModule,
         onChangeModule,
@@ -105,9 +110,9 @@ export function AppHeader() {
         handleFormSubmit,
     }
     // Template
-    return (
+    return !isMobileWidth ? (
         <div onClick={handleFormBlur} className={`app-header`}>
-            <OverlayScreen isOpen={isExpanded} setIsOpen={onChangeIsExpanded} />
+            <OverlayScreen isOpen={isExpanded} setIsOpen={() => setIsExpanded(false)} />
             <header className={`${isExpandedClass} ${isDetailsLayout ? 'secondary-layout' : 'main-layout'} `}>
                 <div className={`wrapper flex align-center justify-between`}>
                     <div onClick={() => onBackHome()} className='logo'>
@@ -118,11 +123,22 @@ export function AppHeader() {
                 </div>
                 <div
                     ref={searchFormContainerRef}
-                    className={`search-form-container ${isExpandedClass} ${!activeModule ? 'blured' : ''}`}
+                    className={`secondary-layout search-form-container ${isExpandedClass} ${
+                        !activeModule ? 'blured' : ''
+                    }`}
                 >
                     <SearchForm {...searchProps} />
                 </div>
             </header>
+        </div>
+    ) : (
+        <div className='mobile-header main-layout'>
+            <MobileSearchTeaser {...searchProps} />
+            {isExpanded && (
+                <Modal isOpen={isExpanded} onClose={() => setIsExpanded(false)}>
+                    <MobileSearchForm {...searchProps} />
+                </Modal>
+            )}
         </div>
     )
 }
