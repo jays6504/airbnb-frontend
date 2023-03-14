@@ -12,6 +12,7 @@ root.render(
     <Router>
         <Provider store={store}>
             <App />
+            <div id='portal'></div>
         </Provider>
     </Router>
 )
