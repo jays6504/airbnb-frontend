@@ -1,6 +1,7 @@
 import moment from 'moment'
 import { ISearchProps } from './app-header'
 import { DatePicker } from './date-picker'
+import { SearchGuests } from './search-guests'
 import { SearchRegions } from './search-regions'
 
 export function MobileSearchForm(props: ISearchProps) {
@@ -34,6 +35,8 @@ export function MobileSearchForm(props: ISearchProps) {
                     {activeModule === module || (activeModule === 'endDate' && module === 'startDate') ? (
                         module === 'location' ? (
                             <SearchRegions {...props} />
+                        ) : module === 'guests' ? (
+                            <SearchGuests {...props} />
                         ) : (
                             <DatePicker {...props} numOfMonths={1} />
                         )
