@@ -29,7 +29,7 @@ export function AppHeader() {
     const [activeModule, setActiveModule] = useState<string | null>(null)
     const [searchBy, setSearchBy] = useState<ISearchBy>(stayService.getDefaultSearch())
     const [isExpanded, setIsExpanded] = useState<boolean>(false)
-    const [isDetailsLayout, setIsDetailsLayout] = useState<boolean>(false)
+    const [isDetailsPage, setIsDetailsPage] = useState<boolean>(false)
     const isMobileWidth = useMobileWidth()
 
     // Refs
@@ -39,28 +39,38 @@ export function AppHeader() {
     const navigate = useNavigate()
     const location = useLocation()
     useEffect(() => {
-        setIsDetailsLayout(location.pathname.includes('/stay/'))
+        setIsDetailsPage(location.pathname.includes('/stay/'))
         const searchParams = new URLSearchParams(location.search)
         if (searchParams.toString() === '') return
         let paramsObj = Object.fromEntries(searchParams.entries())
         let searchObj = stayService.getSearchFromParams(paramsObj)
+        searchObj.guests = searchObj.adults + searchObj.children + searchObj.infants
         setSearchBy(searchObj)
     }, [location])
 
     function handleFormSubmit() {
-        let searchParams: ISearchBy = { ...searchBy }
-        let oneDay = 1000 * 60 * 60 * 24
-        if (!searchParams.endDate && searchParams.startDate)
-            searchParams.endDate = new Date(searchParams.startDate.getTime() + oneDay)
-        else if (!searchParams.startDate && searchParams.endDate)
-            searchParams.startDate = new Date(searchParams.endDate.getTime() - oneDay)
+        const { destination, startDate, endDate, adults, children, infants, pets } = searchBy
+        const oneDay = 1000 * 60 * 60 * 24
+        if (!endDate && startDate) {
+            searchBy.endDate = new Date(startDate.getTime() + oneDay)
+        } else if (!startDate && endDate) {
+            searchBy.startDate = new Date(endDate.getTime() - oneDay)
+        }
         onChangeIsExpanded(false)
-        setSearchParams(prev => ({
-            ...prev,
-            ...searchParams,
-            startDate: utilService.formatDate(searchParams.startDate || new Date()),
-            endDate: utilService.formatDate(searchParams.endDate || new Date(Date.now() + oneDay)),
-        }))
+        const params = new URLSearchParams({
+            destination,
+            startDate: utilService.formatDate(startDate || new Date()),
+            endDate: utilService.formatDate(endDate || new Date(Date.now() + oneDay)),
+            adults: adults.toString(),
+            children: children.toString(),
+            infants: infants.toString(),
+            pets: pets.toString(),
+        })
+        if (isDetailsPage) {
+            navigate(`/airbnb-frontend/?${params}`)
+        } else {
+            setSearchParams(params)
+        }
     }
 
     function onSetSearchBy(
@@ -113,7 +123,7 @@ export function AppHeader() {
     return !isMobileWidth ? (
         <div onClick={handleFormBlur} className={`app-header`}>
             <OverlayScreen isOpen={isExpanded} setIsOpen={() => setIsExpanded(false)} />
-            <header className={`${isExpandedClass} ${isDetailsLayout ? 'secondary-layout' : 'main-layout'} `}>
+            <header className={`${isExpandedClass} ${isDetailsPage ? 'secondary-layout' : 'main-layout'} `}>
                 <div className={`wrapper flex align-center justify-between`}>
                     <div onClick={() => onBackHome()} className='logo'>
                         <AppLogo />

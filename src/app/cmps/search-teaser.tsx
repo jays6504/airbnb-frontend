@@ -7,7 +7,7 @@ export function SearchTeaser({ onChangeModule, searchBy, isExpandedClass, onChan
     let titles: { [key: string]: string } = {
         location: searchBy.destination ? searchBy.destination : 'Anywhere',
         startDate: searchBy.startDate && searchBy.endDate ? utilService.formatDateMMMd(searchBy) : 'Any week',
-        guests: searchBy.adults ? `${searchBy.guests} guests` : 'Add guests',
+        guests: searchBy.guests ? `${searchBy.guests} guests` : 'Add guests',
     }
     const handleClick: React.MouseEventHandler<HTMLElement> = ev => {
         onChangeIsExpanded(true)

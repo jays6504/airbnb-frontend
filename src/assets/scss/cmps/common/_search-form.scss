@@ -45,21 +45,4 @@
             flex: 1;
         }
     }
-    .form-search-btn {
-        margin-inline-end: 0.5rem;
-        background: $brand-gradient;
-        color: #fff;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        border-radius: 155px;
-        transition: all 0.3s;
-        min-width: max-content;
-        max-width: 100%;
-        width: 2rem;
-        height: 3rem;
-        padding: 0 1rem;
-        font-family: $font-family-medium;
-    }
 }

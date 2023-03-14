@@ -3,13 +3,17 @@ import { HTMLAttributes } from 'react'
 import GoogleMapReact from 'google-map-react'
 import { ILocation } from '../../../interfaces/stay'
 
-interface MarkerProps extends HTMLAttributes<HTMLDivElement> {
+interface MarkerProps {
     lat: number
     lng: number
 }
 
-function MapMarker({ lat, lng }: MarkerProps) {
-    return <div className='map-marker'>📍</div>
+function MapMarker({ ...rest }: MarkerProps) {
+    return (
+        <div {...rest} className='map-marker'>
+            📍
+        </div>
+    )
 }
 
 export function MapSection({ stayLoc, staySummary }: { stayLoc: ILocation; staySummary: string }) {

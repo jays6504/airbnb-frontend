@@ -58,13 +58,15 @@ export const StayList: React.FC<IListProps> = ({
         return { stay, onAddToWishlist, isMapView, onStayClick }
     }
     function getSkeletonArray() {
-        return Array.from({ length: skeletonNum }, (_, index) => <StayPreview key={index} {...skeletonProps} />)
+        return Array.from({ length: skeletonNum }, (_, index) => (
+            <StayPreview key={`skp-${index}`} {...skeletonProps} />
+        ))
     }
     return (
         <section className='stay-list'>
             {stays.length
                 ? stays.map((stay, index) => (
-                      <div key={stay._id}>
+                      <div key={`${stay._id + index}`}>
                           <StayPreview {...previewProps(stay)} delay={(skeletonNum % 20) * 25} />
                           {index === stays.length - 1 && !isLoading && (
                               <div className='scroll-indicator' ref={setLastStayRef}></div>
