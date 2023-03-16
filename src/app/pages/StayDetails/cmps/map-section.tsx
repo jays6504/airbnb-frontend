@@ -14,7 +14,7 @@ function MapMarker({ lat, lng }: MarkerProps) {
     return <div className='map-marker'>📍</div>
 }
 // Map setup and data
-const apiKey = 'AIzaSyCEwVE-T9Gw3abvfpZQeE2sjIHjOxCx964'
+const apiKey = 'AIzaSyAQdtY3afjXx7DgdmDjBYzKoLAVDUFdztw'
 
 export function MapSection({ stayLoc, staySummary }: { stayLoc: ILocation; staySummary: string }) {
     const mapOptions = {

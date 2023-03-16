@@ -133,7 +133,7 @@ export function StayMap({ stays, onAddToWishlist, onStayClick }: Props) {
     )
 }
 // Map setup and data
-const apiKey = 'AIzaSyCEwVE-T9Gw3abvfpZQeE2sjIHjOxCx964'
+const apiKey = 'AIzaSyAQdtY3afjXx7DgdmDjBYzKoLAVDUFdztw'
 const defaultProps = {
     center: {
         lat: 37.7749,
