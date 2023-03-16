@@ -15,8 +15,13 @@ function MapMarker(props: MarkerProps) {
 const apiKey = 'AIzaSyAQdtY3afjXx7DgdmDjBYzKoLAVDUFdztw'
 
 export function MapSection({ stayLoc, staySummary }: { stayLoc: ILocation; staySummary: string }) {
+    let center = { lat: 0, lng: 0 }
+    if (stayLoc.lat && stayLoc.lng) {
+        center = { lat: stayLoc.lat, lng: stayLoc.lng }
+    }
+
     const mapOptions = {
-        center: stayLoc,
+        center: center,
         zoom: 2,
         styles: mapStyles,
     }

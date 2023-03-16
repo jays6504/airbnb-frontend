@@ -9,7 +9,7 @@ import { IFilter } from '../../interfaces/filter'
 import { loadMoreStays, loadStays } from '../../store/stay/stay.actions'
 import { stayService } from '../../services/stay.service'
 import { StayList } from './cmps/stay-list'
-import { StayMap } from './cmps/stay-map'
+import { StayMap } from './cmps/Map/stay-map'
 import { FilterButton } from './cmps/filter-button'
 import { FilterSlider } from './cmps/filter-slider'
 interface IChildProps {

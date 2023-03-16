@@ -1,7 +1,9 @@
-import { IStayPreview } from '../../../interfaces/stay'
+import { IStayPreview } from '../../../../interfaces/stay'
 import GoogleMapReact from 'google-map-react'
 import { forwardRef, HTMLAttributes, MutableRefObject, useMemo, useRef, useState } from 'react'
-import { StayPreview } from './stay.preview'
+import { StayPreview } from '../stay.preview'
+import { MapMarker } from './map-marker'
+import { MapPreviewContainer } from './map-preview-container'
 
 interface Props {
     stays: IStayPreview[]
@@ -12,30 +14,6 @@ interface Props {
 enum Visibility {
     Visible = 'visible',
     Hidden = 'hidden',
-}
-type ContainerStyles = {
-    [key in keyof React.CSSProperties]?: React.CSSProperties[key]
-} & {
-    left: number
-    visibility: string
-}
-
-interface IStayContainerProps extends HTMLAttributes<HTMLDivElement> {
-    lat: number
-    lng: number
-    children: JSX.Element
-    containerStyles: ContainerStyles
-    innerRef?: MutableRefObject<HTMLDivElement | null> | ((el: HTMLDivElement | null) => void)
-}
-
-interface MarkerProps extends HTMLAttributes<HTMLDivElement> {
-    lat: number
-    lng: number
-    idx: number
-    children: JSX.Element
-    className?: string
-    innerRef?: (el: HTMLDivElement | null) => void
-    handleClick: (event: React.MouseEvent<HTMLDivElement>, idx: number) => void
 }
 
 export function StayMap({ stays, onAddToWishlist, onStayClick }: Props) {
@@ -81,33 +59,6 @@ export function StayMap({ stays, onAddToWishlist, onStayClick }: Props) {
         }
     }
 
-    const StayPreviewContainer = forwardRef<HTMLDivElement, IStayContainerProps>(
-        ({ containerStyles, children, ...rest }, ref) => (
-            <div
-                {...rest}
-                style={{
-                    position: 'absolute',
-                    zIndex: 1,
-                    top: 0,
-                    left: `${containerStyles.left}px`, // Use template literal to set left property
-                    visibility: containerStyles.visibility, // Use the provided visibility property
-                }}
-                ref={ref}
-                className='map-stay-preview'
-            >
-                {children}
-            </div>
-        )
-    )
-
-    const Marker = ({ children, className, idx, handleClick }: MarkerProps) => (
-        <div className={`marker-container ${className}`}>
-            <div onClick={event => handleClick(event, idx)} className={`marker ${className}`}>
-                {children}
-            </div>
-        </div>
-    )
-
     return (
         <div className='index-map full'>
             <GoogleMapReact
@@ -121,19 +72,19 @@ export function StayMap({ stays, onAddToWishlist, onStayClick }: Props) {
                 }}
             >
                 {markers.map((marker, idx) => (
-                    <Marker
+                    <MapMarker
                         handleClick={onMarkerClick}
                         idx={idx}
                         key={marker._id}
                         lat={marker.lat}
                         lng={marker.lng}
-                        className={stayToPreview?._id === marker._id ? 'active' : ''}
+                        isActive={stayToPreview?._id === marker._id}
                     >
                         <span>{marker.price}</span>
-                    </Marker>
+                    </MapMarker>
                 ))}
                 {stayToPreview && elSelectedMarker ? (
-                    <StayPreviewContainer
+                    <MapPreviewContainer
                         lat={stayToPreview?.loc.lat || 0}
                         lng={stayToPreview?.loc.lng || 0}
                         ref={elPreviewContainer}
@@ -147,7 +98,7 @@ export function StayMap({ stays, onAddToWishlist, onStayClick }: Props) {
                                 onStayClick={onStayClick}
                             />
                         </div>
-                    </StayPreviewContainer>
+                    </MapPreviewContainer>
                 ) : null}
             </GoogleMapReact>
         </div>
