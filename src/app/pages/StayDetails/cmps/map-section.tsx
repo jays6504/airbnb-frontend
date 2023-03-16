@@ -8,13 +8,13 @@ interface MarkerProps {
     lng: number
 }
 
-function MapMarker({ ...rest }: MarkerProps) {
-    return (
-        <div {...rest} className='map-marker'>
-            📍
-        </div>
-    )
+function MapMarker({ lat, lng }: MarkerProps) {
+    console.log('lat:', lat)
+    console.log('lng:', lng)
+    return <div className='map-marker'>📍</div>
 }
+// Map setup and data
+const apiKey = 'AIzaSyCEwVE-T9Gw3abvfpZQeE2sjIHjOxCx964'
 
 export function MapSection({ stayLoc, staySummary }: { stayLoc: ILocation; staySummary: string }) {
     const mapOptions = {
@@ -40,8 +40,6 @@ export function MapSection({ stayLoc, staySummary }: { stayLoc: ILocation; stayS
         </section>
     )
 }
-// Map setup and data
-const apiKey = 'AIzaSyB_EGN1HMBcl7uYM0IBR2jGP3-SGW3pznk'
 
 const mapStyles = [
     {
