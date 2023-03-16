@@ -34,7 +34,6 @@ export function StayMap({ stays, onAddToWishlist, onStayClick }: Props) {
 
     function onMarkerClick(event: React.MouseEvent<HTMLDivElement>, idx: number) {
         event.stopPropagation()
-        event.preventDefault()
         const stay = stays[idx]
         if (stayToPreview?._id === stay._id) {
             // Clicked on the same marker twice, close the preview
@@ -47,7 +46,6 @@ export function StayMap({ stays, onAddToWishlist, onStayClick }: Props) {
     }
 
     function previewContainerStyles() {
-        console.log('asdasd:')
         if (!elSelectedMarker) return { left: 0, visibility: Visibility.Hidden }
 
         const { left, width } = elSelectedMarker.getBoundingClientRect()
