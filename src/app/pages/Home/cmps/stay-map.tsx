@@ -1,6 +1,6 @@
 import { IStayPreview } from '../../../interfaces/stay'
 import GoogleMapReact from 'google-map-react'
-import { forwardRef, HTMLAttributes, MutableRefObject, useRef, useState } from 'react'
+import { forwardRef, HTMLAttributes, MutableRefObject, useMemo, useRef, useState } from 'react'
 import { StayPreview } from './stay.preview'
 
 interface Props {
@@ -13,14 +13,18 @@ enum Visibility {
     Visible = 'visible',
     Hidden = 'hidden',
 }
+type ContainerStyles = {
+    [key in keyof React.CSSProperties]?: React.CSSProperties[key]
+} & {
+    left: number
+    visibility: string
+}
+
 interface IStayContainerProps extends HTMLAttributes<HTMLDivElement> {
     lat: number
     lng: number
     children: JSX.Element
-    containerStyles: {
-        left: string
-        visibility: string
-    }
+    containerStyles: ContainerStyles
     innerRef?: MutableRefObject<HTMLDivElement | null> | ((el: HTMLDivElement | null) => void)
 }
 
@@ -35,18 +39,15 @@ interface MarkerProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export function StayMap({ stays, onAddToWishlist, onStayClick }: Props) {
-    const markers = stays.map((stay, idx) => ({
-        lat: stay.loc.lat,
-        lng: stay.loc.lng,
-        price: currencySign + stay.price.toLocaleString(),
-        _id: stay._id,
-        idx,
-    }))
-    function mapOptions() {
-        return {
-            styles: mapStyles,
-        }
-    }
+    const markers = useMemo(() => {
+        return stays.map((stay, idx) => ({
+            lat: stay.loc.lat,
+            lng: stay.loc.lng,
+            price: currencySign + stay.price.toLocaleString(),
+            _id: stay._id,
+            idx,
+        }))
+    }, [stays])
     // Preview stay states and data
     const [stayToPreview, setStayToPreview] = useState<IStayPreview | null>(null)
     const [elSelectedMarker, setElCurrentMarker] = useState<HTMLDivElement | null>(null)
@@ -68,16 +69,32 @@ export function StayMap({ stays, onAddToWishlist, onStayClick }: Props) {
     }
 
     function previewContainerStyles() {
-        if (!elSelectedMarker) return { left: '0px', visibility: Visibility.Hidden }
+        console.log('asdasd:')
+        if (!elSelectedMarker) return { left: 0, visibility: Visibility.Hidden }
+
+        const { left, width } = elSelectedMarker.getBoundingClientRect()
+        if (isNaN(left) || isNaN(width)) return { left: 0, visibility: Visibility.Hidden }
+
         return {
-            left: `${elSelectedMarker?.offsetWidth / 2}px`,
+            left: left + width / 2,
             visibility: stayToPreview ? Visibility.Visible : Visibility.Hidden,
         }
     }
 
     const StayPreviewContainer = forwardRef<HTMLDivElement, IStayContainerProps>(
         ({ containerStyles, children, ...rest }, ref) => (
-            <div style={containerStyles as React.CSSProperties} ref={ref} className='map-stay-preview'>
+            <div
+                {...rest}
+                style={{
+                    position: 'absolute',
+                    zIndex: 1,
+                    top: 0,
+                    left: `${containerStyles.left}px`, // Use template literal to set left property
+                    visibility: containerStyles.visibility, // Use the provided visibility property
+                }}
+                ref={ref}
+                className='map-stay-preview'
+            >
                 {children}
             </div>
         )
@@ -97,7 +114,11 @@ export function StayMap({ stays, onAddToWishlist, onStayClick }: Props) {
                 bootstrapURLKeys={{ key: apiKey }}
                 defaultCenter={defaultProps.center}
                 defaultZoom={defaultProps.zoom}
-                options={mapOptions()}
+                options={{
+                    styles: mapStyles,
+                    center: defaultProps.center,
+                    zoom: defaultProps.zoom,
+                }}
             >
                 {markers.map((marker, idx) => (
                     <Marker
@@ -111,7 +132,7 @@ export function StayMap({ stays, onAddToWishlist, onStayClick }: Props) {
                         <span>{marker.price}</span>
                     </Marker>
                 ))}
-                {stayToPreview && elSelectedMarker && (
+                {stayToPreview && elSelectedMarker ? (
                     <StayPreviewContainer
                         lat={stayToPreview?.loc.lat || 0}
                         lng={stayToPreview?.loc.lng || 0}
@@ -127,7 +148,7 @@ export function StayMap({ stays, onAddToWishlist, onStayClick }: Props) {
                             />
                         </div>
                     </StayPreviewContainer>
-                )}
+                ) : null}
             </GoogleMapReact>
         </div>
     )

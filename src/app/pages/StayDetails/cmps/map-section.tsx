@@ -8,9 +8,7 @@ interface MarkerProps {
     lng: number
 }
 
-function MapMarker({ lat, lng }: MarkerProps) {
-    console.log('lat:', lat)
-    console.log('lng:', lng)
+function MapMarker(props: MarkerProps) {
     return <div className='map-marker'>📍</div>
 }
 // Map setup and data
