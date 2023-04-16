@@ -92,7 +92,7 @@ export function Home() {
                 </div>
             </div>
 
-            <section className='stay-index main-layout'>
+            <section className='stay-index'>
                 {!isMapView ? <StayList {...childProps} /> : <StayMap {...childProps} />}
                 <button onClick={toggleMapView} className='view-toggle-btn'>
                     {viewToggleBtn(isMapView)}

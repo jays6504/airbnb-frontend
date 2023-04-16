@@ -63,7 +63,7 @@ export const StayList: React.FC<IListProps> = ({
         ))
     }
     return (
-        <section className='stay-list'>
+        <section className='stay-list main-layout'>
             {stays.length
                 ? stays.map((stay, index) => (
                       <div key={`${stay._id + index}`}>

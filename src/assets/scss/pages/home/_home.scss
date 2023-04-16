@@ -1,8 +1,15 @@
+.main-content {
+    display: flex;
+    flex-direction: column;
+}
 .home {
     grid-column: 1/-1;
     position: relative;
     display: flex;
     flex-direction: column;
+    height: 100%;
+    flex-grow: 1;
+
     .filters {
         padding-top: 0.5rem;
         position: sticky;
@@ -13,8 +20,17 @@
     .stay-index {
         flex: 1;
         height: 100%;
+        display: flex;
+        .index-map {
+            flex: 1;
+            height: 100%;
+            height: calc(100vh - 211.5px);
+            padding: 0;
+        }
         .stay-list {
-            padding: 1.5rem 0;
+            flex: 1;
+            height: 100%;
+            padding-block: 1.5rem;
         }
     }
     .view-toggle-btn {

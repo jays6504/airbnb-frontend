@@ -1,6 +1,6 @@
 import { IStayPreview } from '../../../../interfaces/stay'
 import GoogleMapReact from 'google-map-react'
-import { forwardRef, HTMLAttributes, MutableRefObject, useMemo, useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { StayPreview } from '../stay.preview'
 import { MapMarker } from './map-marker'
 import { MapPreviewContainer } from './map-preview-container'
@@ -21,17 +21,18 @@ export function StayMap({ stays, onAddToWishlist, onStayClick }: Props) {
         return stays.map((stay, idx) => ({
             lat: stay.loc.lat,
             lng: stay.loc.lng,
-            price: currencySign + stay.price.toLocaleString(),
+            price: CURRENCY_SIGN + stay.price.toLocaleString(),
             _id: stay._id,
             idx,
         }))
     }, [stays])
+
     // Preview stay states and data
     const [stayToPreview, setStayToPreview] = useState<IStayPreview | null>(null)
     const [elSelectedMarker, setElCurrentMarker] = useState<HTMLDivElement | null>(null)
     const elPreviewContainer = useRef<HTMLDivElement>(null)
-    // Preview methods
 
+    // Preview methods
     function onMarkerClick(event: React.MouseEvent<HTMLDivElement>, idx: number) {
         event.stopPropagation()
         const stay = stays[idx]
@@ -46,27 +47,28 @@ export function StayMap({ stays, onAddToWishlist, onStayClick }: Props) {
     }
 
     function previewContainerStyles() {
-        if (!elSelectedMarker) return { left: 0, visibility: Visibility.Hidden }
+        if (!elSelectedMarker) return { visibility: Visibility.Hidden }
 
-        const { left, width } = elSelectedMarker.getBoundingClientRect()
-        if (isNaN(left) || isNaN(width)) return { left: 0, visibility: Visibility.Hidden }
+        const { height } = elSelectedMarker.getBoundingClientRect()
 
         return {
-            left: left + width / 2,
+            top: height + 10,
+            left: `${elSelectedMarker.offsetWidth / 2}px`,
             visibility: stayToPreview ? Visibility.Visible : Visibility.Hidden,
         }
     }
-
+    console.log('stayToPreview:', stayToPreview)
+    console.log('elSelectedMarker:', elSelectedMarker)
     return (
         <div className='index-map full'>
             <GoogleMapReact
-                bootstrapURLKeys={{ key: apiKey }}
-                defaultCenter={defaultProps.center}
-                defaultZoom={defaultProps.zoom}
+                bootstrapURLKeys={{ key: API_KEY }}
+                defaultCenter={DEFAULT_MAP_PROPS.center}
+                defaultZoom={DEFAULT_MAP_PROPS.zoom}
                 options={{
-                    styles: mapStyles,
-                    center: defaultProps.center,
-                    zoom: defaultProps.zoom,
+                    styles: MAP_STYLES,
+                    center: DEFAULT_MAP_PROPS.center,
+                    zoom: DEFAULT_MAP_PROPS.zoom,
                 }}
             >
                 {markers.map((marker, idx) => (
@@ -88,14 +90,12 @@ export function StayMap({ stays, onAddToWishlist, onStayClick }: Props) {
                         ref={elPreviewContainer}
                         containerStyles={previewContainerStyles()}
                     >
-                        <div>
-                            <StayPreview
-                                onAddToWishlist={onAddToWishlist}
-                                stay={stayToPreview}
-                                isMapView={true}
-                                onStayClick={onStayClick}
-                            />
-                        </div>
+                        <StayPreview
+                            onAddToWishlist={onAddToWishlist}
+                            stay={stayToPreview}
+                            isMapView={true}
+                            onStayClick={onStayClick}
+                        />
                     </MapPreviewContainer>
                 ) : null}
             </GoogleMapReact>
@@ -103,17 +103,17 @@ export function StayMap({ stays, onAddToWishlist, onStayClick }: Props) {
     )
 }
 // Map setup and data
-const apiKey = 'AIzaSyAQdtY3afjXx7DgdmDjBYzKoLAVDUFdztw'
-const defaultProps = {
+const API_KEY = 'AIzaSyAQdtY3afjXx7DgdmDjBYzKoLAVDUFdztw'
+const DEFAULT_MAP_PROPS = {
     center: {
-        lat: 37.7749,
-        lng: -122.4194,
+        lat: 0,
+        lng: 0,
     },
     zoom: 2,
 }
-const currencySign = '$'
+const CURRENCY_SIGN = '$'
 
-const mapStyles = [
+const MAP_STYLES = [
     {
         featureType: 'administrative.land_parcel',
         elementType: 'labels',

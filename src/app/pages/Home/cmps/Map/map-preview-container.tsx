@@ -3,7 +3,8 @@ import { forwardRef, HTMLAttributes, MutableRefObject } from 'react'
 type ContainerStyles = {
     [key in keyof React.CSSProperties]?: React.CSSProperties[key]
 } & {
-    left: number
+    top?: number
+    left?: string
     visibility: string
 }
 
@@ -16,13 +17,11 @@ interface IStayContainerProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export const MapPreviewContainer = forwardRef<HTMLDivElement, IStayContainerProps>(
-    ({ containerStyles, children, ...rest }, ref) => (
+    ({ containerStyles, children, lat, lng }, ref) => (
         <div
-            {...rest}
             style={{
                 position: 'absolute',
                 zIndex: 1,
-                top: 0,
                 ...containerStyles,
             }}
             ref={ref}
