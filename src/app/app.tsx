@@ -12,7 +12,7 @@ function App() {
             <AppHeader />
             <main className='main-content'>
                 <Routes>
-                    <Route path='/airbnb-frontend/' element={<Home />} />
+                    <Route path='/' element={<Home />} />
                     <Route path='/stay/:stayId' element={<StayDetails />} />
                 </Routes>
             </main>
