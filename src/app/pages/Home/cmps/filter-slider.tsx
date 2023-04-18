@@ -1,13 +1,14 @@
 import { useState, useRef, useEffect } from 'react'
-import { IFilter } from '../../../interfaces/filter'
+import { IFilter, IFilterBy } from '../../../interfaces/filter'
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa'
 
 interface Props {
     filters: IFilter[]
     onFilterChange: (label: string) => void
+    filterBy: IFilterBy
 }
 
-export function FilterSlider({ filters, onFilterChange }: Props) {
+export function FilterSlider({ filters, onFilterChange, filterBy }: Props) {
     const filterItemsRef = useRef<HTMLDivElement>(null)
     const [isEnd, setIsEnd] = useState(false)
     const [isStart, setIsStart] = useState(true)
@@ -50,12 +51,25 @@ export function FilterSlider({ filters, onFilterChange }: Props) {
                 <FaChevronLeft size={'.75rem'} />
             </button>
             <div className='filter-items flex' ref={filterItemsRef}>
-                {filters.map(filter => (
-                    <div className='filter-widget' onClick={() => onFilterChange(filter.title)} key={filter._id}>
-                        <img src={filter.img} alt={filter.title} />
-                        <p>{filter.title}</p>
-                    </div>
-                ))}
+                {filters.length
+                    ? filters.map(filter => (
+                          <div
+                              className={`filter-widget ${filterBy.labels[0] === filter.title ? 'active' : ''}`}
+                              onClick={() => onFilterChange(filter.title)}
+                              key={filter._id}
+                          >
+                              <img src={filter.img} alt={filter.title} />
+                              <p>{filter.title}</p>
+                          </div>
+                      ))
+                    : Array(20)
+                          .fill(undefined)
+                          .map((_, index) => (
+                              <div key={index} className='filter-widget filter-skeleton-wrapper'>
+                                  <div className='filter-skeleton-img'></div>
+                                  <div className='filter-skeleton-txt'></div>
+                              </div>
+                          ))}
             </div>
             <button
                 onClick={() => onScrollFilters(1)}

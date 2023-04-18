@@ -48,17 +48,12 @@ export function StayMap({ stays, onAddToWishlist, onStayClick }: Props) {
 
     function previewContainerStyles() {
         if (!elSelectedMarker) return { visibility: Visibility.Hidden }
-
-        const { height } = elSelectedMarker.getBoundingClientRect()
-
         return {
-            top: height + 10,
             left: `${elSelectedMarker.offsetWidth / 2}px`,
             visibility: stayToPreview ? Visibility.Visible : Visibility.Hidden,
         }
     }
-    console.log('stayToPreview:', stayToPreview)
-    console.log('elSelectedMarker:', elSelectedMarker)
+
     return (
         <div className='index-map full'>
             <GoogleMapReact

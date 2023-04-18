@@ -8,8 +8,9 @@ interface IListProps {
     isMapView: boolean
     isLoading: boolean
     STAYS_INCREMENT_BY: number
-    loadMore: (pageIndex?: number) => void
+    loadMoreStays: (pageIndex?: number) => void
     onStayClick: (stayId: string) => void
+    totalPages: number | null
 }
 
 export const StayList: React.FC<IListProps> = ({
@@ -18,20 +19,22 @@ export const StayList: React.FC<IListProps> = ({
     isMapView,
     isLoading,
     STAYS_INCREMENT_BY: skeletonNum,
-    loadMore,
+    loadMoreStays,
     onStayClick,
+    totalPages,
 }) => {
     const [lastStayRef, setLastStayRef] = useState<HTMLDivElement | null>(null)
     const pageIdx = useRef<number>(0)
 
     useEffect(() => {
+        if (!totalPages || (totalPages && pageIdx.current >= totalPages)) return
         const observer = new IntersectionObserver(
             entries => {
                 const lastStay = entries[0]
                 if (lastStay.isIntersecting && !isLoading) {
                     // Load the next set of stays
                     pageIdx.current++
-                    loadMore(pageIdx.current)
+                    loadMoreStays(pageIdx.current)
                 }
             },
             { threshold: 0 }
@@ -46,7 +49,7 @@ export const StayList: React.FC<IListProps> = ({
                 observer.unobserve(lastStayRef)
             }
         }
-    }, [lastStayRef, loadMore, isLoading])
+    }, [lastStayRef, loadMoreStays, isLoading])
 
     const skeletonProps = {
         stay: undefined,
@@ -57,7 +60,7 @@ export const StayList: React.FC<IListProps> = ({
     const previewProps = (stay: IStayPreview) => {
         return { stay, onAddToWishlist, isMapView, onStayClick }
     }
-    function getSkeletonArray() {
+    function makeSkeletonArray() {
         return Array.from({ length: skeletonNum }, (_, index) => (
             <StayPreview key={`skp-${index}`} {...skeletonProps} />
         ))
@@ -73,8 +76,8 @@ export const StayList: React.FC<IListProps> = ({
                           )}
                       </div>
                   ))
-                : getSkeletonArray()}
-            {isLoading && getSkeletonArray()}
+                : makeSkeletonArray()}
+            {isLoading && stays.length ? makeSkeletonArray() : null}
         </section>
     )
 }

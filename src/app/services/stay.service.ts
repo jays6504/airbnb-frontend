@@ -2,43 +2,42 @@ import { IFilter, IFilterBy } from '../interfaces/filter'
 import { ISearchBy } from '../interfaces/search'
 import { IReview } from '../interfaces/review'
 import { IStayPreview, IStay } from '../interfaces/stay'
-import { storageService } from './async-storage.service'
 import { utilService } from './util.service'
+import { httpService } from './http.service'
 
-const INCREMENT_BY_AMOUNT = 20
-const STAY_DB_KEY = 'stayDB'
-var gStays: IStay[] = require('../../assets/data/minified-stays.json')
-var gFiltersName: string[] = require('../../assets/data/filter-names.json')
-var gRegionsName: string[] = require('../../assets/data/regions-names.json')
+const API_KEY = 'stay'
 var gFilters: IFilter[] = require('../../assets/data/filters.json')
-_initStays()
 
 export const stayService = {
-    query,
-    get,
+    loadStays,
+    loadStayById,
     getDefaultSearch,
     loadFilters,
     getSearchFromParams,
     calcAvgRate,
     calcAvgRates,
+    getDefaultFilter,
 }
 
-async function query(searchBy: ISearchBy = getDefaultSearch(), filterBy: IFilterBy = getDefaultFilter(), pageIdx = 0) {
+async function loadStays(
+    searchBy: ISearchBy = getDefaultSearch(),
+    filterBy: IFilterBy = getDefaultFilter(),
+    pageIdx = 0
+) {
     try {
-        let stays = (await storageService.query(STAY_DB_KEY)) as IStay[]
-        let filteredStays = _filter(stays, filterBy, searchBy)
-        const startIndex = INCREMENT_BY_AMOUNT * pageIdx
-        const endIndex = startIndex + INCREMENT_BY_AMOUNT
-        let slicedStays = filteredStays.slice(startIndex, endIndex)
-        let stayPreviews: IStayPreview[] = slicedStays.map((stay: IStay) => _arrangePreviewData(stay))
-        return stayPreviews
+        return await httpService.get(API_KEY, { pageIdx, filterBy, searchBy })
     } catch (err) {
         console.log('err:', err)
     }
 }
 
-async function get(stayId: string) {
-    return storageService.get(STAY_DB_KEY, stayId) as Promise<IStay>
+async function loadStayById(stayId: string) {
+    try {
+        return (await httpService.get(API_KEY + `/${stayId}`)) as IStay
+    } catch (err) {
+        console.log('err:', err)
+    }
+    // return storageService.get(STAY_DB_KEY, stayId) as Promise<IStay>
 }
 
 function getSearchFromParams(paramsObj: { [k: string]: string }): ISearchBy {
@@ -75,64 +74,17 @@ function getDefaultFilter() {
     }
 }
 
-function loadFilters(): IFilter[] {
-    let filters = [...gFilters]
-    filters.forEach(filter => {
-        filter._id = utilService.makeId()
-    })
-    return filters
-}
-
-function _filter(stays: IStay[], filterBy: IFilterBy, searchBy: ISearchBy) {
-    let filteredStays = stays
-    if (filterBy.labels.length) {
-        filteredStays = filteredStays.filter(stay => stay.labels.some(label => filterBy.labels.includes(label)))
+async function loadFilters() {
+    try {
+        return (await httpService.get(API_KEY + '/filters')) as IFilter[]
+    } catch (err) {
+        console.log('err:', err)
     }
-    if (searchBy.destination) {
-        const searchTerm = searchBy.destination.toLowerCase()
-        filteredStays = filteredStays.filter(stay => {
-            const { region } = stay
-            return region.toLowerCase() === searchTerm
-        })
-    }
-
-    return filteredStays
-}
-
-function _initStays() {
-    let stays
-    let storeStays = localStorage.getItem(STAY_DB_KEY)
-    stays = storeStays ? JSON.parse(storeStays) : []
-    if (!stays || !stays.length) {
-        stays = [...gStays]
-        stays.forEach(stay => {
-            stay._id = utilService.makeId()
-            stay.filters = [
-                utilService.getRandomItemFromArr(gFiltersName),
-                utilService.getRandomItemFromArr(gFiltersName),
-                utilService.getRandomItemFromArr(gFiltersName),
-                utilService.getRandomItemFromArr(gFiltersName),
-                utilService.getRandomItemFromArr(gFiltersName),
-            ]
-            stay.region = utilService.getRandomItemFromArr(gRegionsName)
-        })
-        localStorage.setItem(STAY_DB_KEY, JSON.stringify(stays))
-    }
-}
-
-function _arrangePreviewData(stay: IStay): IStayPreview {
-    return {
-        _id: stay._id,
-        name: stay.name,
-        price: stay.price,
-        imgUrls: stay.imgUrls,
-        isSuperHost: stay.host.isSuperHost,
-        loc: stay.loc,
-        avgRate: calcAvgRate(stay.reviews),
-        type: stay.type,
-        filters: stay.filters,
-        region: stay.region,
-    }
+    // let filters = [...gFilters]
+    // filters.forEach(filter => {
+    //     filter._id = utilService.makeId()
+    // })
+    // return filters
 }
 
 function calcAvgRates(reviews: IReview[]): { [key: string]: number } {

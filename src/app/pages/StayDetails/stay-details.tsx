@@ -16,7 +16,6 @@ import { StayInfo } from './cmps/stay-info'
 import { StayIntro } from './cmps/stay-intro'
 import { StaySummary } from './cmps/stay-summary'
 import { ReviewTitle } from './cmps/review-title'
-import moment from 'moment'
 import { utilService } from '../../services/util.service'
 
 export function StayDetails() {
@@ -52,11 +51,12 @@ export function StayDetails() {
     async function loadStay() {
         if (!stayId) return
         try {
-            const stay = await stayService.get(stayId)
-            stay.avgRate = stayService.calcAvgRate(stay.reviews)
-            stay.avgRates = stayService.calcAvgRates(stay.reviews)
+            const stay = await stayService.loadStayById(stayId)
+            if (!stay) throw new Error('Couldnt load stay')
             setStay(stay)
         } catch (err) {
+            // TODO: add user message
+            console.log('err:', err)
             navigate('/airbnb-frontend')
         }
     }
@@ -72,7 +72,7 @@ export function StayDetails() {
 
     const buttonText = useMemo(() => {
         return isAvailable ? 'Reserve' : 'Check Availability'
-    }, [searchBy.endDate, searchBy.startDate])
+    }, [isAvailable])
 
     return (
         <section className='stay-details secondary-layout'>

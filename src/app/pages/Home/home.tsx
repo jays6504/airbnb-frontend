@@ -1,41 +1,44 @@
-import { useState, useRef, useEffect, useLayoutEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { FaMap, FaListUl } from 'react-icons/fa'
 
 import { RootState } from '../../store/store'
 import { IStayPreview } from '../../interfaces/stay'
-import { IFilter } from '../../interfaces/filter'
-import { loadMoreStays, loadStays } from '../../store/stay/stay.actions'
+import { IFilter, IFilterBy } from '../../interfaces/filter'
+import { loadStays } from '../../store/stay/stay.actions'
 import { stayService } from '../../services/stay.service'
 import { StayList } from './cmps/stay-list'
 import { StayMap } from './cmps/Map/stay-map'
 import { FilterButton } from './cmps/filter-button'
 import { FilterSlider } from './cmps/filter-slider'
+import { ISearchBy } from '../../interfaces/search'
 interface IChildProps {
     stays: IStayPreview[]
     onAddToWishlist: () => void
     isMapView: boolean
     isLoading: boolean
     STAYS_INCREMENT_BY: number
-    loadMore: (pageIndex?: number) => void
+    loadMoreStays: (pageIndex?: number) => void
     onStayClick: (stayId: string) => void
+    totalPages: number | null
 }
 
 const STAYS_INCREMENT_BY = 20
 
 export function Home() {
-    const { stays, isLoading } = useSelector((storeState: RootState) => storeState.stayModule)
-    const [filters, setFilters] = useState<IFilter[]>(stayService.loadFilters())
-
+    const { stays, isLoading, totalPages } = useSelector((storeState: RootState) => storeState.stayModule)
+    const [filters, setFilters] = useState<IFilter[]>([])
     const [isMapView, setIsMapView] = useState<boolean>(false)
-
+    const [searchBy, setSearchBy] = useState<ISearchBy>(stayService.getDefaultSearch())
+    const [filterBy, setFilterBy] = useState<IFilterBy>(stayService.getDefaultFilter())
     const location = useLocation()
     const navigate = useNavigate()
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         const searchParams = new URLSearchParams(location.search)
         if (searchParams.toString() !== '') return
+        fetchFilters()
         loadStays()
     }, [])
 
@@ -44,11 +47,23 @@ export function Home() {
         if (searchParams.toString() === '') return
         const paramsObj = Object.fromEntries(searchParams.entries())
         loadStaysFromSearchParams(paramsObj)
+        fetchFilters()
     }, [location.search])
+
+    async function fetchFilters() {
+        try {
+            const filters = await stayService.loadFilters()
+            if (!filters) throw new Error('Couldnt load filters')
+            setFilters(filters)
+        } catch (err) {
+            console.log('err:', err)
+        }
+    }
 
     function loadStaysFromSearchParams(params: Record<string, string>) {
         const searchObj = stayService.getSearchFromParams(params)
-        loadStays(searchObj)
+        setSearchBy(searchObj)
+        loadStays(0, searchObj)
     }
 
     function onStayClick(stayId: string) {
@@ -59,10 +74,11 @@ export function Home() {
     function onAddToWishlist(): void {
         console.log('Todo:add to wishlist')
     }
-
-    function loadMore(pageIndex = 0) {
+    console.log('totalPages,stays:', totalPages, stays)
+    function loadMoreStays(pageIndex = 0) {
+        if (!totalPages || (totalPages && pageIndex >= totalPages)) return
         if (isLoading) return
-        loadMoreStays(pageIndex)
+        loadStays(pageIndex, searchBy, filterBy, true)
     }
 
     const childProps: IChildProps = {
@@ -71,23 +87,25 @@ export function Home() {
         isMapView,
         isLoading,
         STAYS_INCREMENT_BY,
-        loadMore,
+        loadMoreStays,
         onStayClick,
+        totalPages,
     }
 
     function toggleMapView() {
         setIsMapView(prev => !prev)
     }
 
-    function onFilterChange(label: string) {
-        console.log('label:', label)
+    function onFilterWidgetClick(label: string) {
+        loadStays(0, searchBy, { ...filterBy, labels: [label] })
+        setFilterBy(prev => ({ ...prev, labels: [label] }))
     }
 
     return (
         <div className='home'>
             <div className='filters main-layout'>
                 <div className='wrapper'>
-                    <FilterSlider filters={filters} onFilterChange={onFilterChange} />
+                    <FilterSlider filterBy={filterBy} filters={filters} onFilterChange={onFilterWidgetClick} />
                     <FilterButton />
                 </div>
             </div>

@@ -3,7 +3,6 @@ import { forwardRef, HTMLAttributes, MutableRefObject } from 'react'
 type ContainerStyles = {
     [key in keyof React.CSSProperties]?: React.CSSProperties[key]
 } & {
-    top?: number
     left?: string
     visibility: string
 }
