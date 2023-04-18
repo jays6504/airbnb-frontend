@@ -49,7 +49,7 @@ export const StayList: React.FC<IListProps> = ({
                 observer.unobserve(lastStayRef)
             }
         }
-    }, [lastStayRef, loadMoreStays, isLoading])
+    }, [lastStayRef, loadMoreStays, isLoading, totalPages])
 
     const skeletonProps = {
         stay: undefined,

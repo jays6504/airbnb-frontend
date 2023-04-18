@@ -1,12 +1,11 @@
 import { IFilter, IFilterBy } from '../interfaces/filter'
 import { ISearchBy } from '../interfaces/search'
 import { IReview } from '../interfaces/review'
-import { IStayPreview, IStay } from '../interfaces/stay'
+import { IStay } from '../interfaces/stay'
 import { utilService } from './util.service'
 import { httpService } from './http.service'
 
 const API_KEY = 'stay'
-var gFilters: IFilter[] = require('../../assets/data/filters.json')
 
 export const stayService = {
     loadStays,

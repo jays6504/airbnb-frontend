@@ -35,15 +35,14 @@ export function Home() {
     const location = useLocation()
     const navigate = useNavigate()
 
+    const searchParams = new URLSearchParams(location.search)
     useEffect(() => {
-        const searchParams = new URLSearchParams(location.search)
         if (searchParams.toString() !== '') return
         fetchFilters()
         loadStays()
     }, [])
 
     useEffect(() => {
-        const searchParams = new URLSearchParams(location.search)
         if (searchParams.toString() === '') return
         const paramsObj = Object.fromEntries(searchParams.entries())
         loadStaysFromSearchParams(paramsObj)
