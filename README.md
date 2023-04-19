@@ -46,7 +46,7 @@ Follow the instructions below to run the app localy:
 
 - #### Navigate to http://localhost:3000 in your web browser to view the application
 
-or [View the app in GithubPages](https://boydem.github.io/airbnb-frontend/)
+or [View deployed app on Render](https://airbnb-frontend-y5qm.onrender.com/)
 
 ## Conclusion
 
