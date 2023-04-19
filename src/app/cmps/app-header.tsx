@@ -94,7 +94,7 @@ export function AppHeader() {
     }
 
     function onBackHome() {
-        navigate('/airbnb-frontend/')
+        navigate('/')
         setSearchBy(stayService.getDefaultSearch())
         setActiveModule(null)
         setIsExpanded(false)
