@@ -12,7 +12,7 @@ function MapMarker(props: MarkerProps) {
     return <div className='map-marker'>📍</div>
 }
 // Map setup and data
-const apiKey = 'AIzaSyAQdtY3afjXx7DgdmDjBYzKoLAVDUFdztw'
+const apiKey = process.env.REACT_APP_GOOGLE_MAP_API
 
 export function MapSection({ stayLoc, staySummary }: { stayLoc: ILocation; staySummary: string }) {
     let center = { lat: 0, lng: 0 }

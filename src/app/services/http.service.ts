@@ -1,4 +1,4 @@
-import Axios from 'axios'
+import Axios, { Method } from 'axios'
 
 const BASE_URL =
     process.env.NODE_ENV === 'production' ? 'https://airbnb-backend-8iks.onrender.com/api/' : '//localhost:3030/api/'
@@ -23,7 +23,7 @@ export const httpService = {
     },
 }
 
-async function ajax(endpoint: string, method = 'GET', data = null) {
+async function ajax(endpoint: string, method: Method, data = null) {
     try {
         const res = await axios({
             url: `${BASE_URL}${endpoint}`,

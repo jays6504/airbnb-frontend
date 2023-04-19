@@ -98,7 +98,7 @@ export function StayMap({ stays, onAddToWishlist, onStayClick }: Props) {
     )
 }
 // Map setup and data
-const API_KEY = 'AIzaSyAQdtY3afjXx7DgdmDjBYzKoLAVDUFdztw'
+const API_KEY = process.env.REACT_APP_GOOGLE_MAP_API
 const DEFAULT_MAP_PROPS = {
     center: {
         lat: 0,
